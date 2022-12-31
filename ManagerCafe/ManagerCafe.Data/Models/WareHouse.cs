@@ -12,7 +12,7 @@ namespace ManagerCafe.Data.Models
         public string Name { get; set; }
         [NotMapped]
         public string Code { get; set; }
-        public DateTime CreateTime { get; set; } = DateTime.Now;
+        public DateTime CreateTime { get; set; }
         public DateTime? DeletetionTime { get; set; }
         public DateTime? LastModificationTime { get; set; }
         public bool IsDeleted { get; set; }

@@ -14,11 +14,10 @@ namespace ManagerCafe.Data.Models
         public string Code { get; set; }
         public decimal PriceBuy { get; set; }
         public decimal PriceSell { get; set; }
-        public DateTime CreateTime { get; set; } = DateTime.Now;
+        public DateTime CreateTime { get; set; } 
         public DateTime? DeletetionTime { get; set; }
         public DateTime? LastModificationTime { get; set; }
         public bool IsDeleted { get; set; }
-        //public int CodeIdentity { get; set; }
         public List<Invetory> Invetories { get; set; }
     }
 }
