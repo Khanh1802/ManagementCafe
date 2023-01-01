@@ -1,6 +1,6 @@
 ﻿namespace ManagerCafe.Enums
 {
-    public enum EnumFilter
+    public enum EnumProductFilter
     {
         GiaTangDan = 0,
         GiaGiamDan = 1,

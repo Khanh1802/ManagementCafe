@@ -34,7 +34,7 @@ namespace ManagerCafe.Data.Data
             base.OnModelCreating(modelBuilder);
         
             new ProductEntityTypeConfigurations().Configure(modelBuilder.Entity<Product>());
-            new InvetoryEntityTypeConfiguration().Configure(modelBuilder.Entity<Invetory>());
+            new InvetoryEntityTypeConfiguration().Configure(modelBuilder.Entity<Inventory>());
             new WareHouseEntityTypeConfiguration().Configure(modelBuilder.Entity<WareHouse>());
         }
         public override void Dispose()
@@ -48,7 +48,7 @@ namespace ManagerCafe.Data.Data
             await base.DisposeAsync();
             await _logStream.DisposeAsync();
         }
-        public DbSet<Invetory> Invetories { get; set; }
+        public DbSet<Inventory> Invetories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<WareHouse> WareHouses { get; set; }
     }

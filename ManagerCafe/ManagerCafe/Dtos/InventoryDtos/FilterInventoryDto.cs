@@ -1,7 +1,8 @@
-﻿namespace ManagerCafe.Dtos.InventoryDto.InventoryDtos
+﻿namespace ManagerCafe.Dtos.InventoryDtos
 {
-    public class CreateInventoryDto
+    public class FilterInventoryDto
     {
+        public Guid Id { get; set; }
         public Guid ProductId { get; set; }
         public Guid WareHouseId { get; set; }
         public int Quatity { get; set; }

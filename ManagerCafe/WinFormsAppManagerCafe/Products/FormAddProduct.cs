@@ -6,6 +6,7 @@ namespace WinFormsAppManagerCafe.Products
     public partial class FormAddProduct : Form
     {
         private readonly IProductService _productService;
+        public bool IsDeleted = false;
         public FormAddProduct(IProductService productService)
         {
             InitializeComponent();
@@ -34,6 +35,7 @@ namespace WinFormsAppManagerCafe.Products
                     };
                     await _productService.AddAsync(createProduct);
                     MessageBox.Show("Create new product success", "Done", MessageBoxButtons.OK);
+                    IsDeleted = true;
                     this.Close();
                 }
             }

@@ -7,7 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WinFormsAppManagerCafe.Inventories;
 using WinFormsAppManagerCafe.Products;
+using WinFormsAppManagerCafe.WareHouses;
 
 namespace WinFormsAppManagerCafe
 {
@@ -41,10 +43,19 @@ namespace WinFormsAppManagerCafe
                });
                services.AddTransient<IProductRepository, ProductRepository>();
                services.AddTransient<IProductService, ProductService>();
+               services.AddTransient<IWareHouseRepository, WareHouseRepository>();
+               services.AddTransient<IWareHouseService, WareHouseService>();
+               services.AddTransient<IInventoryRepository,IInventoryRepository>();
+               services.AddTransient<IInventoryService, InventoryService>();
                services.AddTransient<HomePage>();
                services.AddTransient<FormProduct>();
                services.AddTransient<FormAddProduct>();
+               services.AddTransient<FormWareHouse>();
+               services.AddTransient<FormAddWareHouse>();
+               services.AddTransient<FormInventory>();
                services.AddAutoMapper(typeof(ProductProfile));
+               services.AddAutoMapper(typeof(WareHouseProfile));
+               services.AddAutoMapper(typeof(InventoryProfile));
            });
         }
     }

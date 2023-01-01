@@ -13,7 +13,7 @@ namespace ManagerCafe.Repositories
             _context = context;
         }
 
-        public async Task<Invetory> AddAsync(Invetory entity)
+        public async Task<Inventory> AddAsync(Inventory entity)
         {
             await _context.Invetories.AddAsync(entity);
             entity.CreateTime = DateTime.Now;
@@ -21,30 +21,30 @@ namespace ManagerCafe.Repositories
             return entity;
         }
 
-        public async Task Delete(Invetory entity)
+        public async Task Delete(Inventory entity)
         {
             entity.IsDeleted = true;
             entity.DeletetionTime = DateTime.Now;
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Invetory>> GetAllAsync()
+        public async Task<List<Inventory>> GetAllAsync()
         {
             return await _context.Invetories.Where(x => !x.IsDeleted).ToListAsync();
         }
 
-        public async Task<Invetory> GetById<TKey>(TKey key)
+        public async Task<Inventory> GetByIdAsync<TKey>(TKey key)
         {
             var entity = await _context.Invetories.FindAsync(key);
             return entity;
         }
 
-        public async Task<IQueryable<Invetory>> GetQueryableAsync()
+        public async Task<IQueryable<Inventory>> GetQueryableAsync()
         {
             return await Task.FromResult(_context.Invetories.AsQueryable().Where(x => !x.IsDeleted));
         }
 
-        public async Task<Invetory> UpdateAsync(Invetory entity)
+        public async Task<Inventory> UpdateAsync(Inventory entity)
         {
             _context.Invetories.Update(entity);
             await _context.SaveChangesAsync();
