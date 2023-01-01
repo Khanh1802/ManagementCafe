@@ -40,7 +40,7 @@ namespace ManagerCafe.Repositories
 
         public async Task<IQueryable<Product>> GetQueryableAsync()
         {
-            return await Task.FromResult(_context.Products.AsQueryable());
+            return await Task.FromResult(_context.Products.Where (x => !x.IsDeleted).AsQueryable());
         }
 
         public async Task<Product> UpdateAsync(Product entity)
