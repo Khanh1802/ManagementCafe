@@ -45,7 +45,7 @@ namespace WinFormsAppManagerCafe
                services.AddTransient<IProductService, ProductService>();
                services.AddTransient<IWareHouseRepository, WareHouseRepository>();
                services.AddTransient<IWareHouseService, WareHouseService>();
-               services.AddTransient<IInventoryRepository,IInventoryRepository>();
+               services.AddTransient<IInventoryRepository, InventoryRepository>();
                services.AddTransient<IInventoryService, InventoryService>();
                services.AddTransient<HomePage>();
                services.AddTransient<FormProduct>();

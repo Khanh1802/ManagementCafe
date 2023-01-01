@@ -1,10 +1,19 @@
-﻿namespace ManagerCafe.Enums
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ManagerCafe.Enums
 {
     public enum EnumProductFilter
     {
-        GiaTangDan = 0,
-        GiaGiamDan = 1,
-        NgayTangDan = 2,
-        NgayGiamDan = 3,
+        [Display(Name = "Giá tăng dần")]
+        PriceAsc = 0,
+
+        [Display(Name = "Giá giảm dần")]
+        PriceDesc = 1,
+
+        [Display(Name = "Ngày tăng dần")]
+        DateAsc = 2,
+
+        [Display(Name = "Ngày giảm dần")]
+        DateDesc = 3,
     }
 }

@@ -25,7 +25,7 @@ namespace ManagerCafe.Services
             return _mapper.Map<Product, ProductDto>(entity);
         }
 
-        public async Task DeleteAsync<Tkey>(Tkey key)
+        public async Task DeleteAsync<TKey>(TKey key)
         {
             var entity = await _productRepository.GetByIdAsync(key);
             if (entity is null)
@@ -37,10 +37,28 @@ namespace ManagerCafe.Services
 
         public async Task<List<ProductDto>> FilterAsync(FilterProductDto item)
         {
-            var filters = await (await _productRepository.GetQueryableAsync())
-             .Where(x => EF.Functions.Like(x.Name, $"%{item.Name}%"))
-             .ToListAsync();
-            return _mapper.Map<List<Product>, List<ProductDto>>(filters);
+            //var filters = await (await _productRepository.GetQueryableAsync())
+            // .Where(x => EF.Functions.Like(x.Name, $"%{item.Name}%"))
+            // .ToListAsync();
+
+            var filters = await _productRepository.GetQueryableAsync();
+
+            if (!string.IsNullOrEmpty(item.Name))
+            {
+                filters = filters.Where(x => EF.Functions.Like(x.Name, $"%{item.Name}%"));
+            }
+
+            if (item.PriceBuy > 0)
+            {
+                filters = filters.Where(x => x.PriceBuy == item.PriceBuy);
+            }
+
+            if (item.PriceSell > 0)
+            {
+                filters = filters.Where(x => x.PriceSell == item.PriceSell);
+            }
+
+            return _mapper.Map<List<Product>, List<ProductDto>>(await filters.ToListAsync());
         }
 
         private async Task<List<ProductDto>> FilterDayAsc()
@@ -71,23 +89,21 @@ namespace ManagerCafe.Services
             return _mapper.Map<List<Product>, List<ProductDto>>(products);
         }
 
-        public async Task<List<ProductDto>> FilterChoice(int filter)
+        public async Task<List<ProductDto>> FilterChoice(EnumProductFilter filter)
         {
-            if (Enum.IsDefined(typeof(EnumProductFilter), filter))
+            switch (filter)
             {
-                switch ((EnumProductFilter)filter)
-                {
-                    case EnumProductFilter.GiaTangDan:
-                        return await FilterPriceAcs();
-                    case EnumProductFilter.GiaGiamDan:
-                        return await FilterPriceDesc();
-                    case EnumProductFilter.NgayTangDan:
-                        return await FilterDayAsc();
-                    case EnumProductFilter.NgayGiamDan:
-                        return await FilterDayDesc();
-                }
+                case EnumProductFilter.PriceAsc:
+                    return await FilterPriceAcs();
+                case EnumProductFilter.PriceDesc:
+                    return await FilterPriceDesc();
+                case EnumProductFilter.DateAsc:
+                    return await FilterDayAsc();
+                case EnumProductFilter.DateDesc:
+                    return await FilterDayDesc();
             }
-            return null;
+
+            throw new Exception("Not found filter");
         }
         public async Task<List<ProductDto>> GetAllAsync()
         {
@@ -95,7 +111,7 @@ namespace ManagerCafe.Services
             return _mapper.Map<List<Product>, List<ProductDto>>(entites);
         }
 
-        public async Task<ProductDto> GetByIdAsync<Tkey>(Tkey key)
+        public async Task<ProductDto> GetByIdAsync<TKey>(TKey key)
         {
             var entity = await _productRepository.GetByIdAsync(key);
             return _mapper.Map<Product, ProductDto>(entity);

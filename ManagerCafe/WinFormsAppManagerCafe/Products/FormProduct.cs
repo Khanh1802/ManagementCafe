@@ -1,4 +1,7 @@
-﻿using ManagerCafe.Dtos.ProductDtos;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Reflection;
+using ManagerCafe.Commons;
+using ManagerCafe.Dtos.ProductDtos;
 using ManagerCafe.Enums;
 using ManagerCafe.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +18,13 @@ namespace WinFormsAppManagerCafe
         {
             InitializeComponent();
             _productService = productService;
+
+            //Load data into ComboBox
+
+            //Lấy dữ liệu của Enum map về List<CommonEnumDto>
+            //Trong đó Id chính là Enum, name là thuộc tính Display
+            CbbFilter.DataSource = EnumHelpers.GetEnumList<EnumProductFilter>();
+            CbbFilter.DisplayMember = "Name";
         }
 
         private async void BtAdd_Click(object sender, EventArgs e)
@@ -22,41 +32,34 @@ namespace WinFormsAppManagerCafe
             var pageAddProduct = Program.ServiceProvider.GetService<FormAddProduct>();
             pageAddProduct.ShowDialog();
             if (pageAddProduct.IsDeleted == true)
-            {   
+            {
                 await RefreshDataGirdView();
             }
         }
         private async void BtUpdate_Click(object sender, EventArgs e)
         {
-            if (_isLoadingDone)
+            if (_isLoadingDone && _productId.HasValue && !string.IsNullOrEmpty(TbName.Text))
             {
-                if (!string.IsNullOrEmpty(TbName.Text))
+                var updateProduct = new UpdateProductDto()
                 {
-                    var updateProduct = new UpdateProductDto()
-                    {
-                        Id = (Guid)_productId,
-                        Name = TbName.Text,
-                        PriceBuy = NUDPriceBuy.Value,
-                        PriceSell = NUDPriceSell.Value
-                    };
-                    try
-                    {
-                        _isLoadingDone = false;
-                        await _productService.UpdateAsync(updateProduct);
-                        MessageBox.Show("Update success", "Done", MessageBoxButtons.OK);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    finally
-                    {
-                        await RefreshDataGirdView();
-                    }
+                    Id = (Guid)_productId,
+                    Name = TbName.Text,
+                    PriceBuy = NUDPriceBuy.Value,
+                    PriceSell = NUDPriceSell.Value
+                };
+                try
+                {
+                    _isLoadingDone = false;
+                    await _productService.UpdateAsync(updateProduct);
+                    MessageBox.Show("Update success", "Done", MessageBoxButtons.OK);
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Name is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    await RefreshDataGirdView();
                 }
             }
         }
@@ -96,8 +99,17 @@ namespace WinFormsAppManagerCafe
         private async Task RefreshDataGirdView()
         {
             Dtg.DataSource = await _productService.GetAllAsync();
-            Dtg.Columns["Id"].Visible = false;
-            Dtg.Columns["PriceBuy"].Visible = false;
+
+            if (Dtg?.Columns != null && Dtg.Columns.Contains("Id"))
+            {
+                Dtg.Columns["Id"]!.Visible = false;
+            }
+
+            if (Dtg?.Columns != null && Dtg.Columns.Contains("PriceBuy"))
+            {
+                Dtg.Columns["PriceBuy"]!.Visible = false;
+            }
+
             BtAdd.Enabled = true;
             BtRemove.Enabled = false;
             BtUpdate.Enabled = false;
@@ -173,11 +185,11 @@ namespace WinFormsAppManagerCafe
 
         private async void CbbFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (CbbFilter.SelectedIndex != -1 && _isLoadingDone)
+            if (_isLoadingDone &&
+                CbbFilter.SelectedItem is CommonEnumDto<EnumProductFilter> filter)
             {
-                var filter = CbbFilter.SelectedIndex;
                 _isLoadingDone = false;
-                Dtg.DataSource = await _productService.FilterChoice(filter);
+                Dtg.DataSource = await _productService.FilterChoice(filter.Id);
                 _isLoadingDone = true;
             }
         }
