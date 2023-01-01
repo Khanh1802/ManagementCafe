@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ManagerCafe.Data.Models;
 using ManagerCafe.Dtos.ProductDtos;
+using ManagerCafe.Enums;
 using ManagerCafe.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,7 +27,7 @@ namespace ManagerCafe.Services
 
         public async Task DeleteAsync<Tkey>(Tkey key)
         {
-            var entity = await _productRepository.GetById(key);
+            var entity = await _productRepository.GetByIdAsync(key);
             if (entity is null)
             {
                 throw new Exception("Not found Product to delete");
@@ -37,45 +38,57 @@ namespace ManagerCafe.Services
         public async Task<List<ProductDto>> FilterAsync(FilterProductDto item)
         {
             var filters = await (await _productRepository.GetQueryableAsync())
-             .Where(x => EF.Functions.Like(x.Name, $"{item.Name}%"))
+             .Where(x => EF.Functions.Like(x.Name, $"%{item.Name}%"))
              .ToListAsync();
-            if (filters.Count == 0)
-            {
-                filters = await (await _productRepository.GetQueryableAsync())
-               .Where(x => x.Name.Contains(item.Name))
-              .ToListAsync();
-            }
             return _mapper.Map<List<Product>, List<ProductDto>>(filters);
         }
 
-        public async Task<List<ProductDto>> FilterDayAsc()
+        private async Task<List<ProductDto>> FilterDayAsc()
         {
             var products = await (await _productRepository.GetQueryableAsync())
               .OrderBy(x => x.CreateTime).ToListAsync();
             return _mapper.Map<List<Product>, List<ProductDto>>(products);
         }
 
-        public async Task<List<ProductDto>> FilterDayDesc()
+        private async Task<List<ProductDto>> FilterDayDesc()
         {
             var products = await (await _productRepository.GetQueryableAsync())
               .OrderByDescending(x => x.CreateTime).ToListAsync();
             return _mapper.Map<List<Product>, List<ProductDto>>(products);
         }
 
-        public async Task<List<ProductDto>> FilterPriceAcs()
+        private async Task<List<ProductDto>> FilterPriceAcs()
         {
             var products = await (await _productRepository.GetQueryableAsync())
                 .OrderBy(x => x.PriceSell).ToListAsync();
             return _mapper.Map<List<Product>, List<ProductDto>>(products);
         }
 
-        public async Task<List<ProductDto>> FilterPriceDesc()
+        private async Task<List<ProductDto>> FilterPriceDesc()
         {
             var products = await (await _productRepository.GetQueryableAsync())
                  .OrderByDescending(x => x.PriceSell).ToListAsync();
             return _mapper.Map<List<Product>, List<ProductDto>>(products);
         }
 
+        public async Task<List<ProductDto>> FilterChoice(int filter)
+        {
+            if (Enum.IsDefined(typeof(EnumProductFilter), filter))
+            {
+                switch ((EnumProductFilter)filter)
+                {
+                    case EnumProductFilter.GiaTangDan:
+                        return await FilterPriceAcs();
+                    case EnumProductFilter.GiaGiamDan:
+                        return await FilterPriceDesc();
+                    case EnumProductFilter.NgayTangDan:
+                        return await FilterDayAsc();
+                    case EnumProductFilter.NgayGiamDan:
+                        return await FilterDayDesc();
+                }
+            }
+            return null;
+        }
         public async Task<List<ProductDto>> GetAllAsync()
         {
             var entites = await _productRepository.GetAllAsync();
@@ -84,13 +97,13 @@ namespace ManagerCafe.Services
 
         public async Task<ProductDto> GetByIdAsync<Tkey>(Tkey key)
         {
-            var entity = await _productRepository.GetById(key);
+            var entity = await _productRepository.GetByIdAsync(key);
             return _mapper.Map<Product, ProductDto>(entity);
         }
 
         public async Task<ProductDto> UpdateAsync(UpdateProductDto item)
         {
-            var entity = await _productRepository.GetById(item.Id);
+            var entity = await _productRepository.GetByIdAsync(item.Id);
             if (entity is null)
             {
                 throw new Exception("Not found Product to update");

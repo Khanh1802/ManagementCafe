@@ -4,7 +4,7 @@ using ManagerCafe.Data.Interface;
 
 namespace ManagerCafe.Data.Models
 {
-    public class Invetory : IAutoEntity
+    public class Inventory : IAutoEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

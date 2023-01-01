@@ -18,6 +18,6 @@ namespace ManagerCafe.Data.Models
         public bool IsDeleted { get; set; }
         // Con thieu
         //public int CodeIdentity { get; set; }
-        public List<Invetory> Invetories { get; set; }
+        public List<Inventory> Invetories { get; set; }
     }
 }

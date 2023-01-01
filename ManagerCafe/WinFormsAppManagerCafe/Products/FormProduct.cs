@@ -21,7 +21,10 @@ namespace WinFormsAppManagerCafe
         {
             var pageAddProduct = Program.ServiceProvider.GetService<FormAddProduct>();
             pageAddProduct.ShowDialog();
-            await RefreshDataGirdView();
+            if (pageAddProduct.IsDeleted == true)
+            {   
+                await RefreshDataGirdView();
+            }
         }
         private async void BtUpdate_Click(object sender, EventArgs e)
         {
@@ -102,6 +105,9 @@ namespace WinFormsAppManagerCafe
             NUDPriceBuy.Value = 0;
             NUDPriceSell.Value = 0;
             _productId = null;
+            TbName.Enabled = false;
+            NUDPriceBuy.Enabled = false;
+            NUDPriceSell.Enabled = false;
             _isLoadingDone = true;
         }
 
@@ -141,6 +147,9 @@ namespace WinFormsAppManagerCafe
                 NUDPriceBuy.Value = 0;
                 NUDPriceSell.Value = 0;
                 _productId = null;
+                TbName.Enabled = false;
+                NUDPriceBuy.Enabled = false;
+                NUDPriceSell.Enabled = false;
             }
             else
             {
@@ -154,6 +163,9 @@ namespace WinFormsAppManagerCafe
                     TbName.Text = productDto.Name;
                     NUDPriceBuy.Value = productDto.PriceBuy;
                     NUDPriceSell.Value = productDto.PriceSell;
+                    TbName.Enabled = true;
+                    NUDPriceBuy.Enabled = true;
+                    NUDPriceSell.Enabled = true;
                 }
             }
         }
@@ -164,29 +176,9 @@ namespace WinFormsAppManagerCafe
             if (CbbFilter.SelectedIndex != -1 && _isLoadingDone)
             {
                 var filter = CbbFilter.SelectedIndex;
-                if (Enum.IsDefined(typeof(EnumFilter), filter))
-                {
-                    _isLoadingDone = false;
-                    switch ((EnumFilter)filter)
-                    {
-                        case EnumFilter.GiaTangDan:
-                            Dtg.DataSource = await _productService.FilterPriceAcs();
-                            _isLoadingDone = true;
-                            break;
-                        case EnumFilter.GiaGiamDan:
-                            Dtg.DataSource = await _productService.FilterPriceDesc();
-                            _isLoadingDone = true;
-                            break;
-                        case EnumFilter.NgayTangDan:
-                            Dtg.DataSource = await _productService.FilterDayAsc();
-                            _isLoadingDone = true;
-                            break;
-                        case EnumFilter.NgayGiamDan:
-                            Dtg.DataSource = await _productService.FilterDayDesc();
-                            _isLoadingDone = true;
-                            break;
-                    }
-                }
+                _isLoadingDone = false;
+                Dtg.DataSource = await _productService.FilterChoice(filter);
+                _isLoadingDone = true;
             }
         }
     }

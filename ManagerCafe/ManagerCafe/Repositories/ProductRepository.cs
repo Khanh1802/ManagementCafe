@@ -33,7 +33,7 @@ namespace ManagerCafe.Repositories
             return await _context.Products.Where(x => !x.IsDeleted).ToListAsync();
         }
 
-        public async Task<Product> GetById<TKey>(TKey key)
+        public async Task<Product> GetByIdAsync<TKey>(TKey key)
         {
             return await _context.Products.FindAsync(key);
         }

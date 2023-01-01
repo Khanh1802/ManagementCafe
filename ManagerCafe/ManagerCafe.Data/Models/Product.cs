@@ -18,6 +18,6 @@ namespace ManagerCafe.Data.Models
         public DateTime? DeletetionTime { get; set; }
         public DateTime? LastModificationTime { get; set; }
         public bool IsDeleted { get; set; }
-        public List<Invetory> Invetories { get; set; }
+        public List<Inventory> Invetories { get; set; }
     }
 }

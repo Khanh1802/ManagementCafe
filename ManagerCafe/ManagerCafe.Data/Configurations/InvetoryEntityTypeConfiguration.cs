@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ManagerCafe.Data.Configurations
 {
-    public class InvetoryEntityTypeConfiguration : IEntityTypeConfiguration<Invetory>
+    public class InvetoryEntityTypeConfiguration : IEntityTypeConfiguration<Inventory>
     {
-        public void Configure(EntityTypeBuilder<Invetory> builder)
+        public void Configure(EntityTypeBuilder<Inventory> builder)
         {
             builder.ToTable("Inventory");
             builder.Property(x => x.Quatity).IsRequired();

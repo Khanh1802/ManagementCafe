@@ -33,7 +33,7 @@ namespace ManagerCafe.Repositories
             return await _context.WareHouses.Where(x => !x.IsDeleted).ToListAsync();
         }
 
-        public async Task<WareHouse> GetById<TKey>(TKey key)
+        public async Task<WareHouse> GetByIdAsync<TKey>(TKey key)
         {
             return await _context.WareHouses.FindAsync(key);
         }
