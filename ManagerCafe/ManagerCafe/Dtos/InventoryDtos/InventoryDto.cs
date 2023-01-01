@@ -1,13 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using ManagerCafe.Data.Interface;
+﻿using ManagerCafe.Data.Models;
 
-namespace ManagerCafe.Data.Models
+namespace ManagerCafe.Dtos.InventoryDtos
 {
-    public class Invetory : IAutoEntity
+    public class InventoryDto
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         public Guid ProductId { get; set; }
         public Guid WareHouseId { get; set; }

@@ -4,5 +4,6 @@ namespace ManagerCafe.Repositories
 {
     public interface IWareHouseRepository : IGenericRepository<WareHouse>
     {
+
     }
 }
