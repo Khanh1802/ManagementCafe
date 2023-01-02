@@ -3,6 +3,7 @@ using ManagerCafe.Data.Models;
 using ManagerCafe.Dtos.InventoryDto.InventoryDtos;
 using ManagerCafe.Dtos.InventoryDtos;
 using ManagerCafe.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace ManagerCafe.Services
 {
@@ -34,9 +35,25 @@ namespace ManagerCafe.Services
             await _inventoryRepository.Delete(entity);
         }
 
-        public Task<List<InventoryDto>> FilterAsync(FilterInventoryDto item)
+        public async Task<List<InventoryDto>> FilterAsync(FilterInventoryDto item)
         {
-            throw new NotImplementedException();
+            var filter = await _inventoryRepository.GetQueryableAsync();
+
+
+            if (item.ProductId != null)
+            {
+                filter = filter.Where(x => x.WareHouseId == item.WareHouseId);
+            }
+            if (item.WareHouseId != null)
+            {
+                filter = filter.Where(x => x.ProductId == item.ProductId);
+            }
+
+            var inventories = await filter
+                      //.Include(x => x.WareHouse)
+                      //.Include(x => x.Product)
+                      .ToListAsync();
+            return _mapper.Map<List<Inventory>, List<InventoryDto>>(inventories);
         }
 
         public async Task<List<InventoryDto>> GetAllAsync()

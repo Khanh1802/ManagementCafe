@@ -37,10 +37,12 @@ namespace ManagerCafe.Services
 
         public async Task<List<WareHouseDto>> FilterAsync(FilterWareHouseDto item)
         {
-            var entites = await (await _wareHouseRepository.GetQueryableAsync())
-                .Where(x => x.Name.Contains(item.Name))
-                .ToListAsync();
-            return _mapper.Map<List<WareHouse>, List<WareHouseDto>>(entites);
+            var filters = await _wareHouseRepository.GetQueryableAsync();
+            if(!string.IsNullOrEmpty(item.Name))
+            {
+                filters = filters.Where(x => EF.Functions.Like(x.Name, $"%{item.Name}%"));
+            }
+            return _mapper.Map<List<WareHouse>, List<WareHouseDto>>(await filters.ToListAsync());
         }
         private async Task<List<WareHouseDto>> FilterDayAsc()
         {
@@ -58,17 +60,17 @@ namespace ManagerCafe.Services
 
         public async Task<List<WareHouseDto>> FilterChoice(int filter)
         {
-            if (Enum.IsDefined(typeof(EnumFilterWareHouse), filter))
+            if (Enum.IsDefined(typeof(EnumWareHouseFilter), filter))
             {
-                switch ((EnumFilterWareHouse)filter)
+                switch ((EnumWareHouseFilter)filter)
                 {
-                    case EnumFilterWareHouse.NgayTangDan:
+                    case EnumWareHouseFilter.DateAsc:
                         return await FilterDayAsc();
-                    case EnumFilterWareHouse.NgayGiamDan:
+                    case EnumWareHouseFilter.DateDesc:
                         return await FilterDayDesc();
                 }
             }
-            return null;
+            throw new Exception("Not found filter Product");
         }
 
         public async Task<List<WareHouseDto>> GetAllAsync()

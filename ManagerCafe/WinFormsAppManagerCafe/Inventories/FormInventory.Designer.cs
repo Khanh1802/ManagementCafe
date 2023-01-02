@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.NUDQuaity = new System.Windows.Forms.NumericUpDown();
+            this.TbQuatity = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.Dtg = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
@@ -43,39 +43,26 @@
             this.CbbProduct = new System.Windows.Forms.ComboBox();
             this.CbbWareHouse = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUDQuaity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Dtg)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.panel1.Controls.Add(this.NUDQuaity);
+            this.panel1.Controls.Add(this.TbQuatity);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Location = new System.Drawing.Point(260, 102);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(545, 63);
             this.panel1.TabIndex = 77;
             // 
-            // NUDQuaity
+            // TbQuatity
             // 
-            this.NUDQuaity.Enabled = false;
-            this.NUDQuaity.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.NUDQuaity.Increment = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-            this.NUDQuaity.Location = new System.Drawing.Point(192, 18);
-            this.NUDQuaity.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.NUDQuaity.Name = "NUDQuaity";
-            this.NUDQuaity.Size = new System.Drawing.Size(290, 27);
-            this.NUDQuaity.TabIndex = 62;
-            this.NUDQuaity.ThousandsSeparator = true;
+            this.TbQuatity.Enabled = false;
+            this.TbQuatity.Location = new System.Drawing.Point(125, 22);
+            this.TbQuatity.Name = "TbQuatity";
+            this.TbQuatity.Size = new System.Drawing.Size(290, 27);
+            this.TbQuatity.TabIndex = 65;
             // 
             // label2
             // 
@@ -99,6 +86,7 @@
             this.Dtg.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.Dtg.Size = new System.Drawing.Size(755, 372);
             this.Dtg.TabIndex = 73;
+            this.Dtg.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dtg_CellClick);
             // 
             // label1
             // 
@@ -137,6 +125,7 @@
             this.BtUpdate.TabIndex = 71;
             this.BtUpdate.Text = "Update";
             this.BtUpdate.UseVisualStyleBackColor = false;
+            this.BtUpdate.Click += new System.EventHandler(this.BtUpdate_Click);
             // 
             // BtAdd
             // 
@@ -151,6 +140,7 @@
             this.BtAdd.TabIndex = 70;
             this.BtAdd.Text = "Add";
             this.BtAdd.UseVisualStyleBackColor = false;
+            this.BtAdd.Click += new System.EventHandler(this.BtAdd_Click);
             // 
             // label3
             // 
@@ -205,6 +195,7 @@
             this.CbbProduct.Name = "CbbProduct";
             this.CbbProduct.Size = new System.Drawing.Size(151, 28);
             this.CbbProduct.TabIndex = 79;
+            this.CbbProduct.SelectedIndexChanged += new System.EventHandler(this.CbbProduct_SelectedIndexChanged);
             // 
             // CbbWareHouse
             // 
@@ -238,10 +229,11 @@
             this.Controls.Add(this.TbFind);
             this.Controls.Add(this.CbbFilter);
             this.Name = "FormInventory";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormInventory";
+            this.Load += new System.EventHandler(this.FormInventory_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUDQuaity)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Dtg)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -251,7 +243,6 @@
         #endregion
 
         private Panel panel1;
-        private NumericUpDown NUDQuaity;
         private Label label2;
         private DataGridView Dtg;
         private Label label1;
@@ -264,5 +255,6 @@
         private ComboBox CbbFilter;
         private ComboBox CbbProduct;
         private ComboBox CbbWareHouse;
+        private TextBox TbQuatity;
     }
 }

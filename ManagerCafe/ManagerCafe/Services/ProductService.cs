@@ -103,7 +103,7 @@ namespace ManagerCafe.Services
                     return await FilterDayDesc();
             }
 
-            throw new Exception("Not found filter");
+            throw new Exception("Not found filter Product");
         }
         public async Task<List<ProductDto>> GetAllAsync()
         {
