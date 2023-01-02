@@ -1,5 +1,6 @@
 ﻿using ManagerCafe.Data.Data;
 using ManagerCafe.Data.Models;
+using ManagerCafe.Dtos.InventoryDtos;
 using Microsoft.EntityFrameworkCore;
 
 namespace ManagerCafe.Repositories
@@ -19,6 +20,14 @@ namespace ManagerCafe.Repositories
             entity.CreateTime = DateTime.Now;
             await _context.SaveChangesAsync();
             return entity;
+        }
+
+        public async Task<List<Inventory>> DataGirdView(Product product, WareHouse warehouse)
+        {
+            return await _context.Invetories
+                .Include(x => x.WareHouse.Id == warehouse.Id)
+                .Include(x => x.Product.Id == product.Id)
+                .ToListAsync();
         }
 
         public async Task Delete(Inventory entity)
@@ -51,5 +60,6 @@ namespace ManagerCafe.Repositories
             entity.LastModificationTime = DateTime.Now;
             return entity;
         }
+
     }
 }

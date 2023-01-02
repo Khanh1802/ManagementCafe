@@ -53,6 +53,7 @@ namespace WinFormsAppManagerCafe
                services.AddTransient<FormWareHouse>();
                services.AddTransient<FormAddWareHouse>();
                services.AddTransient<FormInventory>();
+               services.AddTransient<FormAddInventory>();
                services.AddAutoMapper(typeof(ProductProfile));
                services.AddAutoMapper(typeof(WareHouseProfile));
                services.AddAutoMapper(typeof(InventoryProfile));

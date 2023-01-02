@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using ManagerCafe.Dtos.WareHouseDtos;
+﻿using ManagerCafe.Dtos.WareHouseDtos;
+using ManagerCafe.Enums;
 using ManagerCafe.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,21 +8,21 @@ namespace WinFormsAppManagerCafe.WareHouses
     public partial class FormWareHouse : Form
     {
         private IWareHouseService _wareHouseService;
-        private IMapper _mapper;
         private Guid? _wareHouseId;
         private bool _isLoadingDone = false;
-        public FormWareHouse(IWareHouseService wareHouseService, IMapper mapper)
+        public FormWareHouse(IWareHouseService wareHouseService)
         {
             InitializeComponent();
             _wareHouseService = wareHouseService;
-            _mapper = mapper;
+            CbbFilter.DataSource = EnumHelpers.GetEnumList<EnumWareHouseFilter>();
+            CbbFilter.DisplayMember = "Name";
         }
 
         private async void BtAdd_Click(object sender, EventArgs e)
         {
-            var pageWareHouse = Program.ServiceProvider.GetService<FormAddWareHouse>();
-            pageWareHouse.ShowDialog();
-            if (pageWareHouse.IsDeleted == true)
+            var pageAddWareHouse = Program.ServiceProvider.GetService<FormAddWareHouse>();
+            pageAddWareHouse.ShowDialog();
+            if (pageAddWareHouse.IsDeleted == true)
             {
                 await RefreshDataGirdView();
             }
@@ -157,7 +157,10 @@ namespace WinFormsAppManagerCafe.WareHouses
         private async Task RefreshDataGirdView()
         {
             Dtg.DataSource = await _wareHouseService.GetAllAsync();
-            Dtg.Columns["Id"].Visible = false;
+            if(Dtg?.Columns != null && Dtg.Columns.Contains("Id"))
+            {
+                Dtg.Columns["Id"]!.Visible = false;
+            }
             BtAdd.Enabled = true;
             BtRemove.Enabled = false;
             BtUpdate.Enabled = false;

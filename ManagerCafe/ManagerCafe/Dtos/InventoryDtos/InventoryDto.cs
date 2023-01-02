@@ -1,4 +1,6 @@
 ﻿using ManagerCafe.Data.Models;
+using ManagerCafe.Dtos.ProductDtos;
+using ManagerCafe.Dtos.WareHouseDtos;
 
 namespace ManagerCafe.Dtos.InventoryDtos
 {
@@ -12,7 +14,9 @@ namespace ManagerCafe.Dtos.InventoryDtos
         public DateTime? LastModificationTime { get; set; }
         public bool IsDeleted { get; set; }
         public int Quatity { get; set; }
-        public Product Product { get; set; }
-        public WareHouse WareHouse { get; set; }
+        public ProductDto Product { get; set; }
+        public WareHouseDto WareHouse { get; set; }
+        public string ProductName { get; set; }
+        public string WareHouseName { get; set; }
     }
 }

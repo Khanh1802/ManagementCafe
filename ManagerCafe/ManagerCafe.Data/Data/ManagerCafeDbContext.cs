@@ -11,11 +11,9 @@ namespace ManagerCafe.Data.Data
         private readonly StreamWriter _logStream = new StreamWriter("log.txt", append: true);
         public ManagerCafeDbContext(DbContextOptions options) : base(options)
         {
-
         }
         public ManagerCafeDbContext()
         {
-
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -36,6 +34,8 @@ namespace ManagerCafe.Data.Data
             new ProductEntityTypeConfigurations().Configure(modelBuilder.Entity<Product>());
             new InvetoryEntityTypeConfiguration().Configure(modelBuilder.Entity<Inventory>());
             new WareHouseEntityTypeConfiguration().Configure(modelBuilder.Entity<WareHouse>());
+
+         
         }
         public override void Dispose()
         {
