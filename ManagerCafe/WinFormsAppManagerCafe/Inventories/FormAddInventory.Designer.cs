@@ -29,24 +29,24 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.CbbWarehouse = new System.Windows.Forms.ComboBox();
+            this.CbbProduct = new System.Windows.Forms.ComboBox();
+            this.NUDQuatity = new System.Windows.Forms.NumericUpDown();
+            this.label5 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.BtAdd = new System.Windows.Forms.Button();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.label5 = new System.Windows.Forms.Label();
-            this.CbbProduct = new System.Windows.Forms.ComboBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUDQuatity)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.panel1.Controls.Add(this.comboBox1);
+            this.panel1.Controls.Add(this.CbbWarehouse);
             this.panel1.Controls.Add(this.CbbProduct);
-            this.panel1.Controls.Add(this.numericUpDown1);
+            this.panel1.Controls.Add(this.NUDQuatity);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
@@ -54,6 +54,55 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(545, 158);
             this.panel1.TabIndex = 63;
+            // 
+            // CbbWarehouse
+            // 
+            this.CbbWarehouse.FormattingEnabled = true;
+            this.CbbWarehouse.Items.AddRange(new object[] {
+            "Giá tăng dần",
+            "Giá giảm dần",
+            "Ngày tăng dần",
+            "Ngày giảm dần"});
+            this.CbbWarehouse.Location = new System.Drawing.Point(188, 21);
+            this.CbbWarehouse.Name = "CbbWarehouse";
+            this.CbbWarehouse.Size = new System.Drawing.Size(290, 28);
+            this.CbbWarehouse.TabIndex = 81;
+            // 
+            // CbbProduct
+            // 
+            this.CbbProduct.FormattingEnabled = true;
+            this.CbbProduct.Items.AddRange(new object[] {
+            "Giá tăng dần",
+            "Giá giảm dần",
+            "Ngày tăng dần",
+            "Ngày giảm dần"});
+            this.CbbProduct.Location = new System.Drawing.Point(188, 69);
+            this.CbbProduct.Name = "CbbProduct";
+            this.CbbProduct.Size = new System.Drawing.Size(290, 28);
+            this.CbbProduct.TabIndex = 80;
+            // 
+            // NUDQuatity
+            // 
+            this.NUDQuatity.Location = new System.Drawing.Point(188, 110);
+            this.NUDQuatity.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.NUDQuatity.Name = "NUDQuatity";
+            this.NUDQuatity.Size = new System.Drawing.Size(290, 27);
+            this.NUDQuatity.TabIndex = 65;
+            this.NUDQuatity.ThousandsSeparator = true;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label5.Location = new System.Drawing.Point(16, 108);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(77, 28);
+            this.label5.TabIndex = 64;
+            this.label5.Text = "Quatity";
             // 
             // label2
             // 
@@ -98,57 +147,7 @@
             this.BtAdd.TabIndex = 64;
             this.BtAdd.Text = "Add";
             this.BtAdd.UseVisualStyleBackColor = false;
-            // 
-            // numericUpDown1
-            // 
-            this.numericUpDown1.Location = new System.Drawing.Point(188, 110);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(290, 27);
-            this.numericUpDown1.TabIndex = 65;
-            this.numericUpDown1.ThousandsSeparator = true;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label5.Location = new System.Drawing.Point(16, 108);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(77, 28);
-            this.label5.TabIndex = 64;
-            this.label5.Text = "Quatity";
-            // 
-            // CbbProduct
-            // 
-            this.CbbProduct.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CbbProduct.FormattingEnabled = true;
-            this.CbbProduct.Items.AddRange(new object[] {
-            "Giá tăng dần",
-            "Giá giảm dần",
-            "Ngày tăng dần",
-            "Ngày giảm dần"});
-            this.CbbProduct.Location = new System.Drawing.Point(188, 69);
-            this.CbbProduct.Name = "CbbProduct";
-            this.CbbProduct.Size = new System.Drawing.Size(290, 28);
-            this.CbbProduct.TabIndex = 80;
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "Giá tăng dần",
-            "Giá giảm dần",
-            "Ngày tăng dần",
-            "Ngày giảm dần"});
-            this.comboBox1.Location = new System.Drawing.Point(188, 21);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(290, 28);
-            this.comboBox1.TabIndex = 81;
+            this.BtAdd.Click += new System.EventHandler(this.BtAdd_Click);
             // 
             // FormAddInventory
             // 
@@ -161,9 +160,10 @@
             this.Name = "FormAddInventory";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormAddInventory";
+            this.Load += new System.EventHandler(this.FormAddInventory_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUDQuatity)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -176,9 +176,9 @@
         private Label label1;
         private Label label3;
         private Button BtAdd;
-        private NumericUpDown numericUpDown1;
+        private NumericUpDown NUDQuatity;
         private Label label5;
-        private ComboBox comboBox1;
+        private ComboBox CbbWarehouse;
         private ComboBox CbbProduct;
     }
 }

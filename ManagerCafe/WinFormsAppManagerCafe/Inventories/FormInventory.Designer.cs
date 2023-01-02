@@ -184,7 +184,6 @@
             // 
             // CbbProduct
             // 
-            this.CbbProduct.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CbbProduct.FormattingEnabled = true;
             this.CbbProduct.Items.AddRange(new object[] {
             "Giá tăng dần",
@@ -199,7 +198,6 @@
             // 
             // CbbWareHouse
             // 
-            this.CbbWareHouse.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CbbWareHouse.FormattingEnabled = true;
             this.CbbWareHouse.Items.AddRange(new object[] {
             "Giá tăng dần",

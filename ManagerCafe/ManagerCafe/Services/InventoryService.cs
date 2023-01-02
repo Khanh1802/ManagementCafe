@@ -20,8 +20,28 @@ namespace ManagerCafe.Services
 
         public async Task<InventoryDto> AddAsync(CreatenInvetoryDto item)
         {
-            var createInventory = _mapper.Map<CreatenInvetoryDto, Inventory>(item);
-            var entity = await _inventoryRepository.AddAsync(createInventory);
+            var entity = new Inventory();
+            var filter = await this.FilterAsync(new FilterInventoryDto()
+            {
+                ProductId = item.ProductId,
+                WareHouseId = item.WareHouseId,
+            });
+            if (filter.Count > 0)
+            {
+                var inventory = filter.FirstOrDefault();
+                if (inventory == null)
+                {
+                    throw new Exception("Not found Inventory to delete");
+                }
+                inventory.Quatity += item.Quatity;
+                var update = _mapper.Map<InventoryDto, UpdateInventoryDto>(inventory);
+                await this.UpdateAsync(update);
+            }
+            else
+            {
+                var createInventory = _mapper.Map<CreatenInvetoryDto, Inventory>(item);
+                entity = await _inventoryRepository.AddAsync(createInventory);
+            }
             return _mapper.Map<Inventory, InventoryDto>(entity);
         }
 
@@ -75,7 +95,8 @@ namespace ManagerCafe.Services
             {
                 throw new Exception("Not found Inventory to delete");
             }
-            await _inventoryRepository.UpdateAsync(entity);
+            var update = _mapper.Map<UpdateInventoryDto,Inventory>(item,entity);    
+            await _inventoryRepository.UpdateAsync(update);
             return _mapper.Map<Inventory, InventoryDto>(entity);
         }
     }
