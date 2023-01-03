@@ -91,7 +91,6 @@ namespace WinFormsAppManagerCafe.Inventories
                     var updateWareHouse = new UpdateInventoryDto()
                     {
                         Id = (Guid)_InventoryId,
-
                     };
                     try
                     {
