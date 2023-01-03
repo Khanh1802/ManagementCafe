@@ -14,6 +14,9 @@ namespace WinFormsAppManagerCafe
         private Guid? _productId = null;
         private readonly IProductService _productService;
         private bool _isLoadingDone = false;
+        private bool _reversePage = false;
+        private bool _nextPage = false;
+        private int _skipCount = 0;
         public FormProduct(IProductService productService)
         {
             InitializeComponent();
@@ -98,7 +101,25 @@ namespace WinFormsAppManagerCafe
 
         private async Task RefreshDataGirdView()
         {
-            Dtg.DataSource = await _productService.GetAllAsync();
+            var data = await _productService.GetPagedListAsync(new FilterProductDto()
+            {
+                SkipCount = _skipCount
+            });
+            TbCurrentPage.Text = $"{data.CurrentPage}/{Convert.ToString(data.TotalPage)}";
+            _reversePage = data.HasReversePage;
+            _nextPage = data.HasNextPage;
+            BtReversePage.Enabled = false;
+            BtNextPage.Enabled = false;
+            if (_reversePage)
+            {
+                BtReversePage.Enabled = true;
+            }
+            if (_nextPage)
+            {
+                BtNextPage.Enabled = true;
+            }
+
+            Dtg.DataSource = data.Data;
 
             if (Dtg?.Columns != null && Dtg.Columns.Contains("Id"))
             {
@@ -191,6 +212,34 @@ namespace WinFormsAppManagerCafe
                 _isLoadingDone = false;
                 Dtg.DataSource = await _productService.FilterChoice(filter.Id);
                 _isLoadingDone = true;
+            }
+        }
+
+        private async void BtNextPage_Click(object sender, EventArgs e)
+        {
+            if (_isLoadingDone)
+            {
+                _isLoadingDone = false;
+                _skipCount += 10;
+                await RefreshDataGirdView();
+            }
+        }
+
+        private async void BtReversePage_Click(object sender, EventArgs e)
+        {
+            if (_isLoadingDone)
+            {
+                _isLoadingDone = false;
+                _skipCount -= 10;
+                await RefreshDataGirdView();
+            }
+        }
+
+        private void CbbIndexPage_SelectedValueChanged(object sender, EventArgs e)
+        {
+            if (_isLoadingDone && CbbIndexPage.SelectedIndex > 0)
+            {
+
             }
         }
     }

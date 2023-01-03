@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ManagerCafe.Commons;
 using ManagerCafe.Data.Models;
 using ManagerCafe.Dtos.InventoryDto.InventoryDtos;
 using ManagerCafe.Dtos.InventoryDtos;
@@ -86,6 +87,11 @@ namespace ManagerCafe.Services
         {
             var entity = await _inventoryRepository.GetByIdAsync(key);
             return _mapper.Map<Inventory, InventoryDto>(entity);
+        }
+
+        public Task<CommonPageDto<InventoryDto>> GetPagedListAsync(FilterInventoryDto item)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<InventoryDto> UpdateAsync(UpdateInventoryDto item)

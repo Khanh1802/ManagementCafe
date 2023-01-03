@@ -1,6 +1,8 @@
-﻿namespace ManagerCafe.Dtos.ProductDtos
+﻿using ManagerCafe.Commons;
+
+namespace ManagerCafe.Dtos.ProductDtos
 {
-    public class FilterProductDto
+    public class FilterProductDto : PaginationDto
     {
         public string Name { get; set; }
         public decimal PriceBuy { get; set; }

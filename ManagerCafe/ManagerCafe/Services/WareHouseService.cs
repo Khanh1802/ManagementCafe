@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ManagerCafe.Commons;
 using ManagerCafe.Data.Models;
 using ManagerCafe.Dtos.WareHouseDtos;
 using ManagerCafe.Enums;
@@ -95,6 +96,11 @@ namespace ManagerCafe.Services
             var update = _mapper.Map<UpdateWareHouseDto, WareHouse>(item, entity);
             await _wareHouseRepository.UpdateAsync(update);
             return _mapper.Map<WareHouse, WareHouseDto>(update);
+        }
+
+        public Task<CommonPageDto<WareHouseDto>> GetPagedListAsync(FilterWareHouseDto item)
+        {
+            throw new NotImplementedException();
         }
     }
 }

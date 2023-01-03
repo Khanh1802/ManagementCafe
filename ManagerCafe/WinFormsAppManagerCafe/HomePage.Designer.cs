@@ -35,7 +35,7 @@
             // 
             // BtPageProduct
             // 
-            this.BtPageProduct.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.BtPageProduct.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
             this.BtPageProduct.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtPageProduct.Location = new System.Drawing.Point(419, 26);
             this.BtPageProduct.Name = "BtPageProduct";
@@ -47,7 +47,7 @@
             // 
             // BtPageWareHouse
             // 
-            this.BtPageWareHouse.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.BtPageWareHouse.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
             this.BtPageWareHouse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtPageWareHouse.Location = new System.Drawing.Point(419, 156);
             this.BtPageWareHouse.Name = "BtPageWareHouse";
@@ -59,7 +59,7 @@
             // 
             // button1
             // 
-            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Location = new System.Drawing.Point(419, 286);
             this.button1.Name = "button1";

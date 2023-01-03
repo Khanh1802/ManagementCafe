@@ -1,9 +1,6 @@
 ﻿namespace ManagerCafe.Commons
 {
-    public class CommonEnumDto<T>
+    public enum CommonEnumPageDto
     {
-        public T Id { get; set; }
-
-        public string Name { get; set; }
     }
 }
