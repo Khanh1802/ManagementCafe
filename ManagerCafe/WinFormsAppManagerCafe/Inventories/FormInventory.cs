@@ -29,12 +29,17 @@ namespace WinFormsAppManagerCafe.Inventories
 
         private async void BtAdd_Click(object sender, EventArgs e)
         {
-            var pageAddInventory = Program.ServiceProvider.GetService<FormAddInventory>();
-            pageAddInventory.ShowDialog();
-            if (pageAddInventory.IsDeleted)
+            if(_isLoadingDone)
             {
-                await RefreshDataGirdView();
-            }
+                _isLoadingDone = false;
+                var pageAddInventory = Program.ServiceProvider.GetService<FormAddInventory>();
+                pageAddInventory.ShowDialog();
+                if (pageAddInventory.IsDeleted)
+                {
+                    await RefreshDataGirdView();
+                }
+                _isLoadingDone = true;
+            }           
         }
 
         private void Dtg_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -86,7 +91,6 @@ namespace WinFormsAppManagerCafe.Inventories
                     var updateWareHouse = new UpdateInventoryDto()
                     {
                         Id = (Guid)_InventoryId,
-
                     };
                     try
                     {

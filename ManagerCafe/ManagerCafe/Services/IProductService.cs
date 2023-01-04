@@ -1,4 +1,5 @@
-﻿using ManagerCafe.Dtos.ProductDtos;
+﻿using ManagerCafe.Commons;
+using ManagerCafe.Dtos.ProductDtos;
 using ManagerCafe.Enums;
 
 namespace ManagerCafe.Services
@@ -9,6 +10,7 @@ namespace ManagerCafe.Services
         //Task<List<ProductDto>> FilterPriceAcs();
         //Task<List<ProductDto>> FilterDayDesc();
         //Task<List<ProductDto>> FilterDayAsc();
+        Task<int> AllCountAsync();
         Task<List<ProductDto>> FilterChoice(EnumProductFilter filter);
     }
 }
