@@ -208,6 +208,7 @@
             this.CbbWareHouse.Name = "CbbWareHouse";
             this.CbbWareHouse.Size = new System.Drawing.Size(151, 28);
             this.CbbWareHouse.TabIndex = 80;
+            this.CbbWareHouse.SelectedIndexChanged += new System.EventHandler(this.CbbWareHouse_SelectedIndexChanged);
             // 
             // FormInventory
             // 
