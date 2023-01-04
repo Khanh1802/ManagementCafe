@@ -71,6 +71,7 @@ namespace WinFormsAppManagerCafe.Inventories
         private async void FormInventory_Load(object sender, EventArgs e)
         {
             await RefreshDataGirdView();
+            await OnFilterInventoryAsync();
         }
 
         private async Task RefreshDataGirdView()
@@ -119,7 +120,6 @@ namespace WinFormsAppManagerCafe.Inventories
             if (_isLoadingDone && CbbProduct.SelectedIndex >= 0)
             {
                 _isLoadingDone = false;
-                // await RefreshDataGirdView();
                 await OnFilterInventoryAsync();
                 _isLoadingDone = true;
             }
@@ -177,6 +177,17 @@ namespace WinFormsAppManagerCafe.Inventories
             TbQuatity.Enabled = false;
             _InventoryId = null;
             _isLoadingDone = true;
+        }
+
+        private async void CbbWareHouse_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_isLoadingDone && CbbWareHouse.SelectedIndex >= 0)
+            {
+                _isLoadingDone = false;
+                // await RefreshDataGirdView();
+                await OnFilterInventoryAsync();
+                _isLoadingDone = true;
+            }
         }
     }
 }
