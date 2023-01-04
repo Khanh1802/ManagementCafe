@@ -1,12 +1,9 @@
-﻿using ManagerCafe.Commons;
-using ManagerCafe.Data.Models;
-using ManagerCafe.Dtos.InventoryDtos;
+﻿using ManagerCafe.Dtos.InventoryDtos;
 using ManagerCafe.Dtos.ProductDtos;
 using ManagerCafe.Dtos.WareHouseDtos;
 using ManagerCafe.Enums;
 using ManagerCafe.Services;
 using Microsoft.Extensions.DependencyInjection;
-using System.Xml.Linq;
 
 namespace WinFormsAppManagerCafe.Inventories
 {
@@ -29,7 +26,7 @@ namespace WinFormsAppManagerCafe.Inventories
 
         private async void BtAdd_Click(object sender, EventArgs e)
         {
-            if(_isLoadingDone)
+            if (_isLoadingDone)
             {
                 _isLoadingDone = false;
                 var pageAddInventory = Program.ServiceProvider.GetService<FormAddInventory>();
@@ -39,7 +36,7 @@ namespace WinFormsAppManagerCafe.Inventories
                     await RefreshDataGirdView();
                 }
                 _isLoadingDone = true;
-            }           
+            }
         }
 
         private void Dtg_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -169,7 +166,6 @@ namespace WinFormsAppManagerCafe.Inventories
                 Dtg.Columns["DeletetionTime"]!.Visible = false;
             }
 
-
             BtAdd.Enabled = true;
             BtRemove.Enabled = false;
             BtUpdate.Enabled = false;
@@ -187,6 +183,35 @@ namespace WinFormsAppManagerCafe.Inventories
                 // await RefreshDataGirdView();
                 await OnFilterInventoryAsync();
                 _isLoadingDone = true;
+            }
+        }
+
+        private async void CbAllResult_CheckedChanged(object sender, EventArgs e)
+        {
+            if (_isLoadingDone)
+            {
+                if (CbAllResult.Checked)
+                {
+                    var filter = new FilterInventoryDto();
+                    var inventories = new List<InventoryDto>();
+                    var products = await _productService.GetAllAsync();
+                    var warehouses = await _wareHouseService.GetAllAsync();
+                    foreach (var product in products)
+                    {
+                        foreach (var warehouse in warehouses)
+                        {
+                            filter.ProductId = product.Id;
+                            filter.WareHouseId = warehouse.Id;
+                            var a = await _inventoryService.FilterAsync(filter);
+                            inventories.AddRange(a);
+                        }
+                    }
+                    Dtg.DataSource = inventories;
+                }
+                else
+                {
+                    await OnFilterInventoryAsync();
+                }
             }
         }
     }

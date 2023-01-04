@@ -39,7 +39,7 @@ namespace ManagerCafe.Services
         public async Task<List<WareHouseDto>> FilterAsync(FilterWareHouseDto item)
         {
             var filters = await _wareHouseRepository.GetQueryableAsync();
-            if(!string.IsNullOrEmpty(item.Name))
+            if (!string.IsNullOrEmpty(item.Name))
             {
                 filters = filters.Where(x => EF.Functions.Like(x.Name, $"%{item.Name}%"));
             }
@@ -101,6 +101,11 @@ namespace ManagerCafe.Services
         public Task<CommonPageDto<WareHouseDto>> GetPagedListAsync(FilterWareHouseDto item)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<int> AllCountAsync()
+        {
+            return await (await _wareHouseRepository.GetQueryableAsync()).CountAsync();
         }
     }
 }
