@@ -2,8 +2,8 @@
 {
     public class PaginationDto
     {
-        public int MaxResultCount { get; set; } = 10;
-
-        public int SkipCount { get; set; } = 0;
+        public int MaxResultCount { get; set; } 
+        public int SkipCount { get; set; } 
+        public int CurrentPage { get; set; }
     }
 }

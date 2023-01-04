@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Reflection;
-using ManagerCafe.Commons;
+﻿using ManagerCafe.Commons;
 using ManagerCafe.Dtos.ProductDtos;
 using ManagerCafe.Enums;
 using ManagerCafe.Services;
@@ -14,9 +12,9 @@ namespace WinFormsAppManagerCafe
         private Guid? _productId = null;
         private readonly IProductService _productService;
         private bool _isLoadingDone = false;
-        private bool _reversePage = false;
-        private bool _nextPage = false;
         private int _skipCount = 0;
+        private int _maxResultCount = 10;
+        private int _currentPage = 1;
         public FormProduct(IProductService productService)
         {
             InitializeComponent();
@@ -103,18 +101,18 @@ namespace WinFormsAppManagerCafe
         {
             var data = await _productService.GetPagedListAsync(new FilterProductDto()
             {
-                SkipCount = _skipCount
+                SkipCount = _skipCount,
+                MaxResultCount = _maxResultCount,
+                CurrentPage = _currentPage,
             });
             TbCurrentPage.Text = $"{data.CurrentPage}/{Convert.ToString(data.TotalPage)}";
-            _reversePage = data.HasReversePage;
-            _nextPage = data.HasNextPage;
             BtReversePage.Enabled = false;
             BtNextPage.Enabled = false;
-            if (_reversePage)
+            if (data.HasReversePage)
             {
                 BtReversePage.Enabled = true;
             }
-            if (_nextPage)
+            if (data.HasNextPage)
             {
                 BtNextPage.Enabled = true;
             }
@@ -206,8 +204,7 @@ namespace WinFormsAppManagerCafe
 
         private async void CbbFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (_isLoadingDone &&
-                CbbFilter.SelectedItem is CommonEnumDto<EnumProductFilter> filter)
+            if (_isLoadingDone && CbbFilter.SelectedItem is CommonEnumDto<EnumProductFilter> filter)
             {
                 _isLoadingDone = false;
                 Dtg.DataSource = await _productService.FilterChoice(filter.Id);
@@ -220,7 +217,15 @@ namespace WinFormsAppManagerCafe
             if (_isLoadingDone)
             {
                 _isLoadingDone = false;
-                _skipCount += 10;
+                _currentPage++;
+                if (CbbIndexPage.SelectedIndex > -1)
+                {
+                    _skipCount += Convert.ToInt32(CbbIndexPage.SelectedItem);
+                }
+                else
+                {
+                    _skipCount += 10;
+                }
                 await RefreshDataGirdView();
             }
         }
@@ -230,16 +235,28 @@ namespace WinFormsAppManagerCafe
             if (_isLoadingDone)
             {
                 _isLoadingDone = false;
-                _skipCount -= 10;
+                _currentPage--;
+                if (CbbIndexPage.SelectedIndex > -1)
+                {
+                    _skipCount -= Convert.ToInt32(CbbIndexPage.SelectedItem);
+                }
+                else
+                {
+                    _skipCount -= 10;
+                }
                 await RefreshDataGirdView();
+
             }
         }
 
-        private void CbbIndexPage_SelectedValueChanged(object sender, EventArgs e)
+        private async void CbbIndexPage_SelectedValueChanged(object sender, EventArgs e)
         {
-            if (_isLoadingDone && CbbIndexPage.SelectedIndex > 0)
+            if (_isLoadingDone && CbbIndexPage.SelectedIndex > -1)
             {
-
+                _skipCount = 0;
+                _currentPage = 1;
+                _maxResultCount = Convert.ToInt32(CbbIndexPage.SelectedItem);
+                await RefreshDataGirdView();
             }
         }
     }

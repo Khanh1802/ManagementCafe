@@ -3,7 +3,6 @@
     public class CommonPageDto<T> : PaginationDto where T : class
     {
         public int Total { get; set; }
-        public int CurrentPage { get; set; }
         public int TakeCount { get; set; }
         public bool HasReversePage { get; set; }
         public bool HasNextPage { get; set; }
@@ -18,14 +17,7 @@
             Total = total;
             MaxResultCount = pagination.MaxResultCount;
             SkipCount = pagination.SkipCount;
-            if (SkipCount > 0)
-            {
-                CurrentPage = (int)Math.Ceiling((double)(total / SkipCount)) + 1;
-            }
-            else
-            {
-                CurrentPage = 1;
-            }
+            CurrentPage = pagination.CurrentPage;
             TotalPage = (int)Math.Ceiling((double)Total / MaxResultCount);
             HasReversePage = CurrentPage > 1;
             HasNextPage = CurrentPage < TotalPage;
