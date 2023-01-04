@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ManagerCafe.Commons;
 using ManagerCafe.Data.Models;
 using ManagerCafe.Dtos.WareHouseDtos;
 using ManagerCafe.Enums;
@@ -38,7 +39,7 @@ namespace ManagerCafe.Services
         public async Task<List<WareHouseDto>> FilterAsync(FilterWareHouseDto item)
         {
             var filters = await _wareHouseRepository.GetQueryableAsync();
-            if(!string.IsNullOrEmpty(item.Name))
+            if (!string.IsNullOrEmpty(item.Name))
             {
                 filters = filters.Where(x => EF.Functions.Like(x.Name, $"%{item.Name}%"));
             }
@@ -95,6 +96,16 @@ namespace ManagerCafe.Services
             var update = _mapper.Map<UpdateWareHouseDto, WareHouse>(item, entity);
             await _wareHouseRepository.UpdateAsync(update);
             return _mapper.Map<WareHouse, WareHouseDto>(update);
+        }
+
+        public Task<CommonPageDto<WareHouseDto>> GetPagedListAsync(FilterWareHouseDto item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<int> AllCountAsync()
+        {
+            return await (await _wareHouseRepository.GetQueryableAsync()).CountAsync();
         }
     }
 }

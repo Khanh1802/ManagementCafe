@@ -42,6 +42,7 @@
             this.CbbFilter = new System.Windows.Forms.ComboBox();
             this.CbbProduct = new System.Windows.Forms.ComboBox();
             this.CbbWareHouse = new System.Windows.Forms.ComboBox();
+            this.CbAllResult = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Dtg)).BeginInit();
             this.SuspendLayout();
@@ -184,7 +185,6 @@
             // 
             // CbbProduct
             // 
-            this.CbbProduct.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CbbProduct.FormattingEnabled = true;
             this.CbbProduct.Items.AddRange(new object[] {
             "Giá tăng dần",
@@ -199,7 +199,6 @@
             // 
             // CbbWareHouse
             // 
-            this.CbbWareHouse.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CbbWareHouse.FormattingEnabled = true;
             this.CbbWareHouse.Items.AddRange(new object[] {
             "Giá tăng dần",
@@ -210,12 +209,25 @@
             this.CbbWareHouse.Name = "CbbWareHouse";
             this.CbbWareHouse.Size = new System.Drawing.Size(151, 28);
             this.CbbWareHouse.TabIndex = 80;
+            this.CbbWareHouse.SelectedIndexChanged += new System.EventHandler(this.CbbWareHouse_SelectedIndexChanged);
+            // 
+            // CbAllResult
+            // 
+            this.CbAllResult.AutoSize = true;
+            this.CbAllResult.Location = new System.Drawing.Point(989, 102);
+            this.CbAllResult.Name = "CbAllResult";
+            this.CbAllResult.Size = new System.Drawing.Size(71, 24);
+            this.CbAllResult.TabIndex = 81;
+            this.CbAllResult.Text = "Tất cả";
+            this.CbAllResult.UseVisualStyleBackColor = true;
+            this.CbAllResult.CheckedChanged += new System.EventHandler(this.CbAllResult_CheckedChanged);
             // 
             // FormInventory
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1103, 608);
+            this.Controls.Add(this.CbAllResult);
             this.Controls.Add(this.CbbWareHouse);
             this.Controls.Add(this.CbbProduct);
             this.Controls.Add(this.panel1);
@@ -256,5 +268,6 @@
         private ComboBox CbbProduct;
         private ComboBox CbbWareHouse;
         private TextBox TbQuatity;
+        private CheckBox CbAllResult;
     }
 }

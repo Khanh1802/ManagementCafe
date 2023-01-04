@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ManagerCafe.Commons;
 using ManagerCafe.Data.Models;
 using ManagerCafe.Dtos.ProductDtos;
 using ManagerCafe.Enums;
@@ -127,6 +128,21 @@ namespace ManagerCafe.Services
             var update = _mapper.Map<UpdateProductDto, Product>(item, entity);
             await _productRepository.UpdateAsync(update);
             return _mapper.Map<Product, ProductDto>(update);
+        }
+
+        public async Task<CommonPageDto<ProductDto>> GetPagedListAsync(FilterProductDto item)
+        {
+            var productQueryable = await _productRepository.GetQueryableAsync();
+            //Xu ly du lieu filter
+            var count = await productQueryable.CountAsync();
+            var product = await productQueryable.Skip(item.SkipCount).Take(item.MaxResultCount).ToListAsync();
+            return new CommonPageDto<ProductDto>(
+                count, item, _mapper.Map<List<Product>, List<ProductDto>>(product));
+        }
+
+        public async Task<int> AllCountAsync()
+        {
+            return await (await _productRepository.GetQueryableAsync()).CountAsync();
         }
     }
 }

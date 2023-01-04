@@ -1,12 +1,9 @@
-﻿using ManagerCafe.Commons;
-using ManagerCafe.Data.Models;
-using ManagerCafe.Dtos.InventoryDtos;
+﻿using ManagerCafe.Dtos.InventoryDtos;
 using ManagerCafe.Dtos.ProductDtos;
 using ManagerCafe.Dtos.WareHouseDtos;
 using ManagerCafe.Enums;
 using ManagerCafe.Services;
 using Microsoft.Extensions.DependencyInjection;
-using System.Xml.Linq;
 
 namespace WinFormsAppManagerCafe.Inventories
 {
@@ -29,11 +26,16 @@ namespace WinFormsAppManagerCafe.Inventories
 
         private async void BtAdd_Click(object sender, EventArgs e)
         {
-            var pageAddInventory = Program.ServiceProvider.GetService<FormAddInventory>();
-            pageAddInventory.ShowDialog();
-            if (pageAddInventory.IsDeleted)
+            if (_isLoadingDone)
             {
-                await RefreshDataGirdView();
+                _isLoadingDone = false;
+                var pageAddInventory = Program.ServiceProvider.GetService<FormAddInventory>();
+                pageAddInventory.ShowDialog();
+                if (pageAddInventory.IsDeleted)
+                {
+                    await RefreshDataGirdView();
+                }
+                _isLoadingDone = true;
             }
         }
 
@@ -66,6 +68,7 @@ namespace WinFormsAppManagerCafe.Inventories
         private async void FormInventory_Load(object sender, EventArgs e)
         {
             await RefreshDataGirdView();
+            await OnFilterInventoryAsync();
         }
 
         private async Task RefreshDataGirdView()
@@ -86,7 +89,6 @@ namespace WinFormsAppManagerCafe.Inventories
                     var updateWareHouse = new UpdateInventoryDto()
                     {
                         Id = (Guid)_InventoryId,
-
                     };
                     try
                     {
@@ -115,7 +117,6 @@ namespace WinFormsAppManagerCafe.Inventories
             if (_isLoadingDone && CbbProduct.SelectedIndex >= 0)
             {
                 _isLoadingDone = false;
-                // await RefreshDataGirdView();
                 await OnFilterInventoryAsync();
                 _isLoadingDone = true;
             }
@@ -165,7 +166,6 @@ namespace WinFormsAppManagerCafe.Inventories
                 Dtg.Columns["DeletetionTime"]!.Visible = false;
             }
 
-
             BtAdd.Enabled = true;
             BtRemove.Enabled = false;
             BtUpdate.Enabled = false;
@@ -173,6 +173,46 @@ namespace WinFormsAppManagerCafe.Inventories
             TbQuatity.Enabled = false;
             _InventoryId = null;
             _isLoadingDone = true;
+        }
+
+        private async void CbbWareHouse_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_isLoadingDone && CbbWareHouse.SelectedIndex >= 0)
+            {
+                _isLoadingDone = false;
+                // await RefreshDataGirdView();
+                await OnFilterInventoryAsync();
+                _isLoadingDone = true;
+            }
+        }
+
+        private async void CbAllResult_CheckedChanged(object sender, EventArgs e)
+        {
+            if (_isLoadingDone)
+            {
+                if (CbAllResult.Checked)
+                {
+                    var filter = new FilterInventoryDto();
+                    var inventories = new List<InventoryDto>();
+                    var products = await _productService.GetAllAsync();
+                    var warehouses = await _wareHouseService.GetAllAsync();
+                    foreach (var product in products)
+                    {
+                        foreach (var warehouse in warehouses)
+                        {
+                            filter.ProductId = product.Id;
+                            filter.WareHouseId = warehouse.Id;
+                            var a = await _inventoryService.FilterAsync(filter);
+                            inventories.AddRange(a);
+                        }
+                    }
+                    Dtg.DataSource = inventories;
+                }
+                else
+                {
+                    await OnFilterInventoryAsync();
+                }
+            }
         }
     }
 }

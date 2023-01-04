@@ -1,4 +1,6 @@
-﻿namespace ManagerCafe.Services
+﻿using ManagerCafe.Commons;
+
+namespace ManagerCafe.Services
 {
     public interface IGenericService<TEntityDto, TCreateaDto, UpdateDto, FilterDto> where TEntityDto : class
     {
@@ -8,5 +10,6 @@
         Task DeleteAsync<Tkey>(Tkey key);
         Task<TEntityDto> GetByIdAsync<Tkey>(Tkey key);
         Task<List<TEntityDto>> FilterAsync(FilterDto item);
+        Task<CommonPageDto<TEntityDto>> GetPagedListAsync(FilterDto item);
     }
 }
