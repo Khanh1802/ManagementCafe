@@ -173,11 +173,6 @@
             // 
             this.CbbFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CbbFilter.FormattingEnabled = true;
-            this.CbbFilter.Items.AddRange(new object[] {
-            "Giá tăng dần",
-            "Giá giảm dần",
-            "Ngày tăng dần",
-            "Ngày giảm dần"});
             this.CbbFilter.Location = new System.Drawing.Point(931, 171);
             this.CbbFilter.Name = "CbbFilter";
             this.CbbFilter.Size = new System.Drawing.Size(151, 28);
@@ -186,11 +181,6 @@
             // CbbProduct
             // 
             this.CbbProduct.FormattingEnabled = true;
-            this.CbbProduct.Items.AddRange(new object[] {
-            "Giá tăng dần",
-            "Giá giảm dần",
-            "Ngày tăng dần",
-            "Ngày giảm dần"});
             this.CbbProduct.Location = new System.Drawing.Point(819, 102);
             this.CbbProduct.Name = "CbbProduct";
             this.CbbProduct.Size = new System.Drawing.Size(151, 28);
@@ -200,11 +190,6 @@
             // CbbWareHouse
             // 
             this.CbbWareHouse.FormattingEnabled = true;
-            this.CbbWareHouse.Items.AddRange(new object[] {
-            "Giá tăng dần",
-            "Giá giảm dần",
-            "Ngày tăng dần",
-            "Ngày giảm dần"});
             this.CbbWareHouse.Location = new System.Drawing.Point(819, 137);
             this.CbbWareHouse.Name = "CbbWareHouse";
             this.CbbWareHouse.Size = new System.Drawing.Size(151, 28);

@@ -71,8 +71,9 @@ namespace ManagerCafe.Services
             }
 
             var inventories = await filter
-                      //.Include(x => x.WareHouse)
-                      //.Include(x => x.Product)
+                      .OrderBy(x => x.Product.CreateTime)
+                      .Include(x => x.WareHouse).Where(x => x.WareHouse.IsDeleted == false)
+                      .Include(x => x.Product).Where(x => x.Product.IsDeleted == false)
                       .ToListAsync();
             return _mapper.Map<List<Inventory>, List<InventoryDto>>(inventories);
         }
@@ -101,7 +102,7 @@ namespace ManagerCafe.Services
             {
                 throw new Exception("Not found Inventory to delete");
             }
-            var update = _mapper.Map<UpdateInventoryDto,Inventory>(item,entity);    
+            var update = _mapper.Map<UpdateInventoryDto, Inventory>(item, entity);
             await _inventoryRepository.UpdateAsync(update);
             return _mapper.Map<Inventory, InventoryDto>(entity);
         }

@@ -20,9 +20,19 @@ namespace WinFormsAppManagerCafe.Inventories
             _inventoryService = inventoryService;
             _productService = productService;
             _wareHouseService = wareHouseService;
-            CbbFilter.DataSource = EnumHelpers.GetEnumList<EnumInventoryFilter>();
-            CbbFilter.DisplayMember = "Name";
+            //ReloadInit();
         }
+
+        private void ReloadInit()
+        {
+            //CbbFilter.DataSource = EnumHelpers.GetEnumList<EnumInventoryFilter>();
+            //CbbFilter.DisplayMember = "Name";
+            //CbbProduct.DataSource = EnumHelpers.GetEnumList<EnumProductFilter>();
+            //CbbProduct.DisplayMember = "Name";
+            //CbbWareHouse.DataSource = EnumHelpers.GetEnumList<EnumWareHouseFilter>();
+            //CbbWareHouse.DisplayMember = "Name";
+        }
+
 
         private async void BtAdd_Click(object sender, EventArgs e)
         {
@@ -33,7 +43,7 @@ namespace WinFormsAppManagerCafe.Inventories
                 pageAddInventory.ShowDialog();
                 if (pageAddInventory.IsDeleted)
                 {
-                    await RefreshDataGirdView();
+                    await OnFilterInventoryAsync();
                 }
                 _isLoadingDone = true;
             }
@@ -67,17 +77,16 @@ namespace WinFormsAppManagerCafe.Inventories
 
         private async void FormInventory_Load(object sender, EventArgs e)
         {
-            await RefreshDataGirdView();
+            await RefreshCbb();
             await OnFilterInventoryAsync();
         }
 
-        private async Task RefreshDataGirdView()
+        private async Task RefreshCbb()
         {
             CbbProduct.DataSource = await _productService.GetAllAsync();
             CbbProduct.DisplayMember = "Name";
             CbbWareHouse.DataSource = await _wareHouseService.GetAllAsync();
             CbbWareHouse.DisplayMember = "Name";
-            _isLoadingDone = true;
         }
 
         private async void BtUpdate_Click(object sender, EventArgs e)
@@ -102,7 +111,7 @@ namespace WinFormsAppManagerCafe.Inventories
                     }
                     finally
                     {
-                        await RefreshDataGirdView();
+                        await OnFilterInventoryAsync();
                     }
                 }
                 else
@@ -180,7 +189,6 @@ namespace WinFormsAppManagerCafe.Inventories
             if (_isLoadingDone && CbbWareHouse.SelectedIndex >= 0)
             {
                 _isLoadingDone = false;
-                // await RefreshDataGirdView();
                 await OnFilterInventoryAsync();
                 _isLoadingDone = true;
             }
@@ -194,18 +202,7 @@ namespace WinFormsAppManagerCafe.Inventories
                 {
                     var filter = new FilterInventoryDto();
                     var inventories = new List<InventoryDto>();
-                    var products = await _productService.GetAllAsync();
-                    var warehouses = await _wareHouseService.GetAllAsync();
-                    foreach (var product in products)
-                    {
-                        foreach (var warehouse in warehouses)
-                        {
-                            filter.ProductId = product.Id;
-                            filter.WareHouseId = warehouse.Id;
-                            var a = await _inventoryService.FilterAsync(filter);
-                            inventories.AddRange(a);
-                        }
-                    }
+                    inventories = await _inventoryService.FilterAsync(filter);
                     Dtg.DataSource = inventories;
                 }
                 else

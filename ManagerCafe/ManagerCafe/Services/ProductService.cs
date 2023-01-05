@@ -135,7 +135,8 @@ namespace ManagerCafe.Services
             var productQueryable = await _productRepository.GetQueryableAsync();
             //Xu ly du lieu filter
             var count = await productQueryable.CountAsync();
-            var product = await productQueryable.Skip(item.SkipCount).Take(item.MaxResultCount).ToListAsync();
+            var product = await productQueryable.OrderBy(x => x.CreateTime).Skip(item.SkipCount).Take(item.MaxResultCount).ToListAsync();
+            // thieu oder
             return new CommonPageDto<ProductDto>(
                 count, item, _mapper.Map<List<Product>, List<ProductDto>>(product));
         }
