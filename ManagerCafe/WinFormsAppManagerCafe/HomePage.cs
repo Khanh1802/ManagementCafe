@@ -23,16 +23,16 @@ namespace WinFormsAppManagerCafe
             pageWareHouse.ShowDialog();
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            var pageInventory = Program.ServiceProvider.GetService<FormInventory>();
-            pageInventory.ShowDialog();
-        }
-
         private void BtHistory_Click(object sender, EventArgs e)
         {
             var pageInventoryTransaction = Program.ServiceProvider.GetService<FormInventoryTransaction>();
             pageInventoryTransaction.ShowDialog();
+        }
+
+        private void BtPageInventory_Click(object sender, EventArgs e)
+        {
+            var pageInventory = Program.ServiceProvider.GetService<FormInventory>();
+            pageInventory.ShowDialog();
         }
     }
 }

@@ -17,6 +17,7 @@ namespace ManagerCafe.Repositories
         {
             item.CreateTime = DateTime.Now;
             await _context.InventoryTransactions.AddAsync(item);
+            await _context.SaveChangesAsync();
         }
 
         public Task<List<InventoryTransaction>> GetAll()

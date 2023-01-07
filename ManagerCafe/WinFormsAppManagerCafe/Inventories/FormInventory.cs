@@ -40,53 +40,48 @@ namespace WinFormsAppManagerCafe.Inventories
         {
             if (_isLoadingDone)
             {
-                var inventory = await _inventoryService.GetByIdAsync(_InventoryId);
-                if (inventory != null)
+                if (!string.IsNullOrEmpty(TbQuatity.Text))
                 {
-                    inventory.Quatity += Convert.ToInt32(TbQuatity.Text);
-                    var itemInventory = new UpdateInventoryDto()
+                    if (CbbWareHouse.SelectedIndex >= 0 && CbbWareHouse.SelectedIndex >= 0
+                        && CbbProduct.SelectedItem is ProductDto product && CbbWareHouse.SelectedItem is WareHouseDto warehouse)
                     {
-                        Id = inventory.Id,
-                        Quatity = inventory.Quatity,
-                        ProductId = inventory.ProductId,
-                        WareHouseId = inventory.WareHouseId,
-                    };
-                    await _inventoryService.UpdateAsync(itemInventory);
-                    MessageBox.Show("Update success", "Done", MessageBoxButtons.OK);
-                    await OnFilterInventoryAsync();
-                }
-                else
-                {
-                    if (CbbWareHouse.SelectedIndex >= 0 && CbbWareHouse.SelectedIndex >= 0)
-                    {
-                        if (!string.IsNullOrEmpty(TbQuatity.Text))
+                        var quatity = Convert.ToInt32(TbQuatity.Text);
+                        if (_InventoryId != null)
                         {
-                            if (CbbProduct.SelectedItem is ProductDto product && CbbWareHouse.SelectedItem is WareHouseDto warehouse)
+                            var entity = await _inventoryService.GetByIdAsync(_InventoryId);
+                            if (entity != null)
                             {
-                                //var itemInventory = new CreatenInvetoryDto()
-                                //{
-                                //    ProductId = product.Id,
-                                //    WareHouseId = warehouse.Id,
-                                //    Quatity = Convert.ToInt32(TbQuatity.Text)
-                                //};
-                                var filterInventory = new FilterInventoryDto()
+                                var updateInventory = new UpdateInventoryDto()
                                 {
-                                    ProductId = product.Id,
-                                    WareHouseId = warehouse.Id,
+                                    Id = entity.Id,
+                                    Quatity = entity.Quatity,
+                                    ProductId = entity.ProductId,
+                                    WareHouseId = entity.WareHouseId,
                                 };
-                                var inventories = await _inventoryService.FilterAsync(filterInventory);
-                                if(inventories.Count > 0)
-                                {
-                                    await _inventoryService.UpdateAsync();
-                                }
-                                //await _inventoryService.AddAsync(itemInventory);
-                                MessageBox.Show("Create success", "Done", MessageBoxButtons.OK);
+                                updateInventory.Quatity += quatity;
+                                await _inventoryService.UpdateAsync(updateInventory);
+                                MessageBox.Show("Update success", "Done", MessageBoxButtons.OK);
                                 await OnFilterInventoryAsync();
                             }
                         }
                         else
                         {
-                            MessageBox.Show("Quantity is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            try
+                            {
+                                var createInventory = new CreatenInvetoryDto()
+                                {
+                                    ProductId = product.Id,
+                                    WareHouseId = warehouse.Id,
+                                    Quatity = quatity
+                                };
+                                await _inventoryService.AddAsync(createInventory);
+                                MessageBox.Show("Create success", "Done", MessageBoxButtons.OK);
+                                await OnFilterInventoryAsync();
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
                         }
                     }
                     else
@@ -94,6 +89,65 @@ namespace WinFormsAppManagerCafe.Inventories
                         MessageBox.Show("Product or Warehouse is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
+                else
+                {
+                    MessageBox.Show("Quantity is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                //            
+                //    var inventory = await _inventoryService.GetByIdAsync(_InventoryId);
+                //    if (inventory != null)
+                //    {
+                //        inventory.Quatity += Convert.ToInt32(TbQuatity.Text);
+                //        var updateInventory = new UpdateInventoryDto()
+                //        {
+                //            Id = inventory.Id,
+                //            Quatity = inventory.Quatity,
+                //            ProductId = inventory.ProductId,
+                //            WareHouseId = inventory.WareHouseId,
+                //        };
+                //        await _inventoryService.UpdateAsync(updateInventory);
+                //        MessageBox.Show("Update success", "Done", MessageBoxButtons.OK);
+                //        await OnFilterInventoryAsync();
+                //    }
+                //    else
+                //    {
+                //        if (CbbWareHouse.SelectedIndex >= 0 && CbbWareHouse.SelectedIndex >= 0)
+                //        {
+                //            if (!string.IsNullOrEmpty(TbQuatity.Text))
+                //            {
+                //                if (CbbProduct.SelectedItem is ProductDto product && CbbWareHouse.SelectedItem is WareHouseDto warehouse)
+                //                {
+                //                    //var updateInventory = new CreatenInvetoryDto()
+                //                    //{
+                //                    //    ProductId = product.Id,
+                //                    //    WareHouseId = warehouse.Id,
+                //                    //    Quatity = Convert.ToInt32(TbQuatity.Text)
+                //                    //};
+                //                    var filterInventory = new FilterInventoryDto()
+                //                    {
+                //                        ProductId = product.Id,
+                //                        WareHouseId = warehouse.Id,
+                //                    };
+                //                    var inventories = await _inventoryService.FilterAsync(filterInventory);
+                //                    if(inventories.Count > 0)
+                //                    {
+                //                        await _inventoryService.UpdateAsync();
+                //                    }
+                //                    //await _inventoryService.AddAsync(updateInventory);
+                //                    MessageBox.Show("Create success", "Done", MessageBoxButtons.OK);
+                //                    await OnFilterInventoryAsync();
+                //                }
+                //            }
+                //            else
+                //            {
+                //                MessageBox.Show("Quantity is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //            }
+                //        }
+                //        else
+                //        {
+                //            MessageBox.Show("Product or Warehouse is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //        }
+                //    }
             }
         }
 

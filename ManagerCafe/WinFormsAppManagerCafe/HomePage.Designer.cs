@@ -30,7 +30,7 @@
         {
             this.BtPageProduct = new System.Windows.Forms.Button();
             this.BtPageWareHouse = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.BtPageInventory = new System.Windows.Forms.Button();
             this.BtHistory = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -58,17 +58,17 @@
             this.BtPageWareHouse.UseVisualStyleBackColor = true;
             this.BtPageWareHouse.Click += new System.EventHandler(this.BtPageWareHouse_Click);
             // 
-            // button1
+            // BtPageInventory
             // 
-            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(419, 264);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(250, 71);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Inventory";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.BtPageInventory.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.BtPageInventory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtPageInventory.Location = new System.Drawing.Point(419, 264);
+            this.BtPageInventory.Name = "BtPageInventory";
+            this.BtPageInventory.Size = new System.Drawing.Size(250, 71);
+            this.BtPageInventory.TabIndex = 2;
+            this.BtPageInventory.Text = "Inventory";
+            this.BtPageInventory.UseVisualStyleBackColor = true;
+            this.BtPageInventory.Click += new System.EventHandler(this.BtPageInventory_Click);
             // 
             // BtHistory
             // 
@@ -88,7 +88,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1103, 608);
             this.Controls.Add(this.BtHistory);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.BtPageInventory);
             this.Controls.Add(this.BtPageWareHouse);
             this.Controls.Add(this.BtPageProduct);
             this.Name = "HomePage";
@@ -102,7 +102,7 @@
 
         private Button BtPageProduct;
         private Button BtPageWareHouse;
-        private Button button1;
+        private Button BtPageInventory;
         private Button BtHistory;
     }
 }
