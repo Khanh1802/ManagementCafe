@@ -58,20 +58,22 @@ namespace WinFormsAppManagerCafe.Inventories
                 }
                 else
                 {
-                    
-                    //if (CbbWareHouse.SelectedIndex >= 0 && CbbWareHouse.SelectedIndex >= 0)
-                    //{
-                    //    if (CbbProduct.SelectedItem is ProductDto product && CbbWareHouse.SelectedItem is WareHouseDto warehouse)
-                    //    {
-                    //        var itemInventory = new CreatenInvetoryDto()
-                    //        {
-                    //            ProductId = product.Id,
-                    //            WareHouseId = warehouse.Id,
-                    //            Quatity = Convert.ToInt32(TbQuatity.Text)
-                    //        };
-                    //        await _inventoryService.AddAsync(itemInventory);
-                    //    }
-                    //}
+                    if (CbbWareHouse.SelectedIndex >= 0 && CbbWareHouse.SelectedIndex >= 0)
+                    {
+
+                        if (CbbProduct.SelectedItem is ProductDto product && CbbWareHouse.SelectedItem is WareHouseDto warehouse)
+                        {
+                            var itemInventory = new CreatenInvetoryDto()
+                            {
+                                ProductId = product.Id,
+                                WareHouseId = warehouse.Id,
+                                Quatity = Convert.ToInt32(TbQuatity.Text)
+                            };
+                            await _inventoryService.AddAsync(itemInventory);
+                            MessageBox.Show("Create success", "Done", MessageBoxButtons.OK);
+                            await OnFilterInventoryAsync();
+                        }
+                    }
                 }
             }
         }
@@ -84,7 +86,6 @@ namespace WinFormsAppManagerCafe.Inventories
                 BtRemove.Enabled = false;
                 TbQuatity.Text = string.Empty;
                 _InventoryId = null;
-                TbQuatity.Enabled = false;
             }
             else
             {
@@ -208,7 +209,6 @@ namespace WinFormsAppManagerCafe.Inventories
 
             BtRemove.Enabled = false;
             TbQuatity.Text = string.Empty;
-            TbQuatity.Enabled = false;
             _InventoryId = null;
             _isLoadingDone = true;
         }

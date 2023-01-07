@@ -1,4 +1,5 @@
 ﻿using ManagerCafe.Commons;
+using ManagerCafe.Datas.Enums;
 using ManagerCafe.Dtos.ProductDtos;
 using ManagerCafe.Enums;
 using ManagerCafe.Services;

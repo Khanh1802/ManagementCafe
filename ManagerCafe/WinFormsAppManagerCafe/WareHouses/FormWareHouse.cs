@@ -1,4 +1,5 @@
-﻿using ManagerCafe.Dtos.WareHouseDtos;
+﻿using ManagerCafe.Datas.Enums;
+using ManagerCafe.Dtos.WareHouseDtos;
 using ManagerCafe.Enums;
 using ManagerCafe.Services;
 using Microsoft.Extensions.DependencyInjection;

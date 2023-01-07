@@ -58,7 +58,6 @@
             // 
             // TbQuatity
             // 
-            this.TbQuatity.Enabled = false;
             this.TbQuatity.Location = new System.Drawing.Point(125, 22);
             this.TbQuatity.Name = "TbQuatity";
             this.TbQuatity.Size = new System.Drawing.Size(290, 27);

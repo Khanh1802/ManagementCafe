@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ManagerCafe.Commons;
+using System.ComponentModel.DataAnnotations;
 using System.Reflection;
-using ManagerCafe.Commons;
 
-namespace ManagerCafe.Enums
+namespace ManagerCafe.Datas.Enums
 {
     public static class EnumHelpers
     {

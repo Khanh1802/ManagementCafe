@@ -12,11 +12,11 @@ namespace ManagerCafe.Services
 {
     public class InventoryService : IInventoryService
     {
-        private readonly IInventoryRepository _inventoryRepository;
+        private readonly IInventoryTransactionRepository _inventoryRepository;
         private readonly IMapper _mapper;
         private readonly ManagerCafeDbContext _context;
 
-        public InventoryService(IInventoryRepository inventoryRepository, IMapper mapper, ManagerCafeDbContext context)
+        public InventoryService(IInventoryTransactionRepository inventoryRepository, IMapper mapper, ManagerCafeDbContext context)
         {
             _inventoryRepository = inventoryRepository;
             _mapper = mapper;
@@ -25,32 +25,29 @@ namespace ManagerCafe.Services
 
         public async Task<InventoryDto> AddAsync(CreatenInvetoryDto item)
         {
-            //var entity = new Inventory();
-            //var filter = await this.FilterAsync(new FilterInventoryDto()
-            //{
-            //    ProductId = item.ProductId,
-            //    WareHouseId = item.WareHouseId,
-            //});
-            //if (filter.Count > 0)
-            //{
-            //    var inventory = filter.FirstOrDefault();
-            //    if (inventory == null)
-            //    {
-            //        throw new Exception("Not found Inventory to delete");
-            //    }
-            //    inventory.Quatity += item.Quatity;
-            //    var update = _mapper.Map<InventoryDto, UpdateInventoryDto>(inventory);
-            //    await this.UpdateAsync(update);
-            //}
-            //else
-            //{
-            //    var createInventory = _mapper.Map<CreatenInvetoryDto, Inventory>(item);
-            //    entity = await _inventoryRepository.AddAsync(createInventory);
-            //}
-            //return _mapper.Map<Inventory, InventoryDto>(entity);
-            var createInventory = _mapper.Map<CreatenInvetoryDto, Inventory>(item);
-            await _inventoryRepository.AddAsync(createInventory);
-            return _mapper.Map<Inventory, InventoryDto>(createInventory);
+            var entity = new Inventory();
+            var filter = await this.FilterAsync(new FilterInventoryDto()
+            {
+                ProductId = item.ProductId,
+                WareHouseId = item.WareHouseId,
+            });
+            if (filter.Count > 0)
+            {
+                var inventory = filter.FirstOrDefault();
+                if (inventory == null)
+                {
+                    throw new Exception("Not found Inventory to delete");
+                }
+                inventory.Quatity += item.Quatity;
+                var update = _mapper.Map<InventoryDto, UpdateInventoryDto>(inventory);
+                await this.UpdateAsync(update);
+            }
+            else
+            {
+                var createInventory = _mapper.Map<CreatenInvetoryDto, Inventory>(item);
+                entity = await _inventoryRepository.AddAsync(createInventory);
+            }
+            return _mapper.Map<Inventory, InventoryDto>(entity);
         }
 
         public async Task DeleteAsync<Tkey>(Tkey key)
@@ -99,12 +96,6 @@ namespace ManagerCafe.Services
 
         public Task<CommonPageDto<InventoryDto>> GetPagedListAsync(FilterInventoryDto item)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<InventoryDto>> IventoryTransation(InventoryTransationDto transation)
-        {
-
             throw new NotImplementedException();
         }
 
