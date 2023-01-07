@@ -12,11 +12,11 @@ namespace ManagerCafe.Services
 {
     public class InventoryService : IInventoryService
     {
-        private readonly IInventoryTransactionRepository _inventoryRepository;
+        private readonly IInventoryRepository _inventoryRepository;
         private readonly IMapper _mapper;
         private readonly ManagerCafeDbContext _context;
 
-        public InventoryService(IInventoryTransactionRepository inventoryRepository, IMapper mapper, ManagerCafeDbContext context)
+        public InventoryService(IInventoryRepository inventoryRepository, IMapper mapper, ManagerCafeDbContext context)
         {
             _inventoryRepository = inventoryRepository;
             _mapper = mapper;
@@ -79,7 +79,6 @@ namespace ManagerCafe.Services
                       .Include(x => x.Product).Where(x => x.Product.IsDeleted == false)
                       .ToListAsync();
             return _mapper.Map<List<Inventory>, List<InventoryDto>>(inventories);
-
         }
 
         public async Task<List<InventoryDto>> GetAllAsync()
