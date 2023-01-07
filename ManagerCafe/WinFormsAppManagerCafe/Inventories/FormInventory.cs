@@ -63,12 +63,23 @@ namespace WinFormsAppManagerCafe.Inventories
                         {
                             if (CbbProduct.SelectedItem is ProductDto product && CbbWareHouse.SelectedItem is WareHouseDto warehouse)
                             {
-                                var itemInventory = new CreatenInvetoryDto()
+                                //var itemInventory = new CreatenInvetoryDto()
+                                //{
+                                //    ProductId = product.Id,
+                                //    WareHouseId = warehouse.Id,
+                                //    Quatity = Convert.ToInt32(TbQuatity.Text)
+                                //};
+                                var filterInventory = new FilterInventoryDto()
                                 {
                                     ProductId = product.Id,
                                     WareHouseId = warehouse.Id,
-                                    Quatity = Convert.ToInt32(TbQuatity.Text)
                                 };
+                                var inventories = await _inventoryService.FilterAsync(filterInventory);
+                                if(inventories.Count > 0)
+                                {
+                                    await _inventoryService.UpdateAsync();
+                                }
+                                //await _inventoryService.AddAsync(itemInventory);
                                 MessageBox.Show("Create success", "Done", MessageBoxButtons.OK);
                                 await OnFilterInventoryAsync();
                             }
