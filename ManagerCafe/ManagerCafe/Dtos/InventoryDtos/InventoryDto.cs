@@ -18,5 +18,6 @@ namespace ManagerCafe.Dtos.InventoryDtos
         public WareHouseDto WareHouse { get; set; }
         public string ProductName { get; set; }
         public string WareHouseName { get; set; }
+        public string Type { get; set; }
     }
 }

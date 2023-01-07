@@ -95,6 +95,12 @@ namespace ManagerCafe.Services
             throw new NotImplementedException();
         }
 
+        public Task<List<InventoryDto>> IventoryTransation(InventoryTransationDto transation)
+        {
+
+            throw new NotImplementedException();
+        }
+
         public async Task<InventoryDto> UpdateAsync(UpdateInventoryDto item)
         {
             var entity = await _inventoryRepository.GetByIdAsync(item.Id);
