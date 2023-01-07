@@ -245,7 +245,6 @@ namespace WinFormsAppManagerCafe
                     _skipCount -= 10;
                 }
                 await RefreshDataGirdView();
-
             }
         }
 

@@ -45,13 +45,12 @@ namespace ManagerCafe.Data.Migrations
                     b.Property<int>("Quatity")
                         .HasColumnType("int");
 
-                    b.Property<string>("TypeName")
-                        .HasColumnType("longtext");
-
                     b.Property<Guid>("WareHouseId")
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
 
                     b.HasIndex("ProductId");
 
@@ -95,6 +94,11 @@ namespace ManagerCafe.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("Name")
+                        .HasAnnotation("MySql:FullTextIndex", true);
+
                     b.ToTable("Product", (string)null);
                 });
 
@@ -124,6 +128,11 @@ namespace ManagerCafe.Data.Migrations
                         .HasColumnType("varchar(300)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("Name")
+                        .HasAnnotation("MySql:FullTextIndex", true);
 
                     b.ToTable("WareHouse", (string)null);
                 });

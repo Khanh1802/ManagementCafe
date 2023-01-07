@@ -34,7 +34,6 @@
             this.Dtg = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.BtRemove = new System.Windows.Forms.Button();
-            this.BtUpdate = new System.Windows.Forms.Button();
             this.BtAdd = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.BtFind = new System.Windows.Forms.Button();
@@ -102,7 +101,6 @@
             // BtRemove
             // 
             this.BtRemove.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.BtRemove.Enabled = false;
             this.BtRemove.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.BtRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtRemove.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -112,21 +110,6 @@
             this.BtRemove.TabIndex = 72;
             this.BtRemove.Text = "Delete";
             this.BtRemove.UseVisualStyleBackColor = false;
-            // 
-            // BtUpdate
-            // 
-            this.BtUpdate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.BtUpdate.Enabled = false;
-            this.BtUpdate.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.BtUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtUpdate.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.BtUpdate.Location = new System.Drawing.Point(490, 549);
-            this.BtUpdate.Name = "BtUpdate";
-            this.BtUpdate.Size = new System.Drawing.Size(123, 53);
-            this.BtUpdate.TabIndex = 71;
-            this.BtUpdate.Text = "Update";
-            this.BtUpdate.UseVisualStyleBackColor = false;
-            this.BtUpdate.Click += new System.EventHandler(this.BtUpdate_Click);
             // 
             // BtAdd
             // 
@@ -219,7 +202,6 @@
             this.Controls.Add(this.Dtg);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.BtRemove);
-            this.Controls.Add(this.BtUpdate);
             this.Controls.Add(this.BtAdd);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.BtFind);
@@ -244,7 +226,6 @@
         private DataGridView Dtg;
         private Label label1;
         private Button BtRemove;
-        private Button BtUpdate;
         private Button BtAdd;
         private Label label3;
         private Button BtFind;

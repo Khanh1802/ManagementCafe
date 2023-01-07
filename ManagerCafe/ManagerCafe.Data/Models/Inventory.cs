@@ -18,6 +18,5 @@ namespace ManagerCafe.Data.Models
         public int Quatity { get; set; }
         public Product Product { get; set; }
         public WareHouse WareHouse { get; set; }
-        public string TypeName { get; set; }
     }
 }

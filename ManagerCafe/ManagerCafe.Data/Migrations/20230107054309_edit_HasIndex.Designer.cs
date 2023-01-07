@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ManagerCafe.Data.Migrations
 {
     [DbContext(typeof(ManagerCafeDbContext))]
-    [Migration("20230106180021_edit_InventoryEntity")]
-    partial class edit_InventoryEntity
+    [Migration("20230107054309_edit_HasIndex")]
+    partial class edit_HasIndex
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,13 +47,12 @@ namespace ManagerCafe.Data.Migrations
                     b.Property<int>("Quatity")
                         .HasColumnType("int");
 
-                    b.Property<string>("TypeName")
-                        .HasColumnType("longtext");
-
                     b.Property<Guid>("WareHouseId")
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
 
                     b.HasIndex("ProductId");
 
@@ -97,6 +96,11 @@ namespace ManagerCafe.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("Name")
+                        .HasAnnotation("MySql:FullTextIndex", true);
+
                     b.ToTable("Product", (string)null);
                 });
 
@@ -126,6 +130,11 @@ namespace ManagerCafe.Data.Migrations
                         .HasColumnType("varchar(300)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("Name")
+                        .HasAnnotation("MySql:FullTextIndex", true);
 
                     b.ToTable("WareHouse", (string)null);
                 });

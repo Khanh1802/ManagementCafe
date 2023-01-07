@@ -13,6 +13,13 @@ namespace ManagerCafe.Data.Configurations
             builder.Property(x => x.IsDeleted).HasDefaultValue(false);
             builder.HasOne(x => x.Product).WithMany(x => x.Invetories).HasForeignKey(x => x.ProductId);
             builder.HasOne(x => x.WareHouse).WithMany(x => x.Invetories).HasForeignKey(x => x.WareHouseId);
+
+            //Chỉ đánh Index Unique cho trường ProductId với điều kiện IsDeleted = 0 (Chưa xóa)
+            //builder.HasIndex(x => x.ProductId).IsUnique().HasFilter("[IsDeleted] <> 1");
+            //builder.HasIndex(x => x.WareHouseId).IsUnique().HasFilter("[IsDeleted] <> 1");
+            builder.HasIndex(x => x.ProductId);
+            builder.HasIndex(x => x.WareHouseId);
+            builder.HasIndex(x => x.IsDeleted);
         }
     }
 }
