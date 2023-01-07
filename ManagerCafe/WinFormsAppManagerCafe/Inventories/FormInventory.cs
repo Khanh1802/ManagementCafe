@@ -95,9 +95,14 @@ namespace WinFormsAppManagerCafe.Inventories
             {
                 if (!string.IsNullOrEmpty(TbQuatity.Text))
                 {
+                    var id = (Guid)_InventoryId;
+                    var inventory = await _inventoryService.GetByIdAsync(id);
                     var updateWareHouse = new UpdateInventoryDto()
                     {
                         Id = (Guid)_InventoryId,
+                        Quatity = Convert.ToInt32(TbQuatity.Text),
+                        ProductId = inventory.ProductId,
+                        WareHouseId = inventory.WareHouseId
                     };
                     try
                     {

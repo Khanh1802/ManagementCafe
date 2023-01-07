@@ -56,8 +56,8 @@ namespace ManagerCafe.Repositories
         public async Task<Inventory> UpdateAsync(Inventory entity)
         {
             _context.Invetories.Update(entity);
-            await _context.SaveChangesAsync();
             entity.LastModificationTime = DateTime.Now;
+            await _context.SaveChangesAsync();
             return entity;
         }
 
