@@ -20,7 +20,7 @@ namespace ManagerCafe.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public Task<List<InventoryTransaction>> GetAll()
+        public Task<List<InventoryTransaction>> GetAllAsync()
         {
             return _context.InventoryTransactions.ToListAsync();
         }

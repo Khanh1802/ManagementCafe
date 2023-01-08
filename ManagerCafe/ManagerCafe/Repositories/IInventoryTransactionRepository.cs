@@ -4,7 +4,7 @@ namespace ManagerCafe
 {
     public interface IInventoryTransactionRepository
     {
-        Task<List<InventoryTransaction>> GetAll();
+        Task<List<InventoryTransaction>> GetAllAsync();
         Task AddAsync(InventoryTransaction item);
     }
 }

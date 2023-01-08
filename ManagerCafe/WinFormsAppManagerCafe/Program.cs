@@ -61,6 +61,7 @@ namespace WinFormsAppManagerCafe
                services.AddAutoMapper(typeof(ProductProfile));
                services.AddAutoMapper(typeof(WareHouseProfile));
                services.AddAutoMapper(typeof(InventoryProfile));
+               services.AddAutoMapper(typeof(InventoryTransactionProfile));
            });
         }
     }

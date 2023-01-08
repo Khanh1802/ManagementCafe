@@ -98,6 +98,7 @@
             this.Name = "FormInventoryTransaction";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "InventoryTransaction";
+            this.Load += new System.EventHandler(this.FormInventoryTransaction_Load);
             ((System.ComponentModel.ISupportInitialize)(this.Dtg)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

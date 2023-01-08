@@ -4,6 +4,7 @@ using ManagerCafe.Data.Data;
 using ManagerCafe.Data.Models;
 using ManagerCafe.Dtos.InventoryDto.InventoryDtos;
 using ManagerCafe.Dtos.InventoryDtos;
+using ManagerCafe.Dtos.InventoryTransactionDtos;
 using ManagerCafe.Enums;
 using ManagerCafe.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -47,13 +48,11 @@ namespace ManagerCafe.Services
                     var update = _mapper.Map<InventoryDto, UpdateInventoryDto>(inventory);
                     await this.UpdateAsync(update);
 
-                    var inventoryTransaction = new InventoryTransaction();
+                    var inventoryTransaction = new CreateInventoryTransactionDto();
 
                     inventoryTransaction.Quatity = item.Quatity;
                     inventoryTransaction.InventoryId = inventory.Id;
                     inventoryTransaction.Type = EnumInventoryTransation.Import;
-
-
                     await _inventoryTransactionService.AddAsync(inventoryTransaction);
                 }
                 else
@@ -61,7 +60,7 @@ namespace ManagerCafe.Services
                     var createInventory = _mapper.Map<CreatenInvetoryDto, Inventory>(item);
                     entity = await _inventoryRepository.AddAsync(createInventory);
 
-                    var inventoryTransaction = new InventoryTransaction()
+                    var inventoryTransaction = new CreateInventoryTransactionDto()
                     {
                         Quatity = entity.Quatity,
                         InventoryId = entity.Id,
