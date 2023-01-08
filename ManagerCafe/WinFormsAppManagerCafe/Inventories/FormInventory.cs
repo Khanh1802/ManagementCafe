@@ -94,7 +94,7 @@ namespace WinFormsAppManagerCafe.Inventories
                     MessageBox.Show("Quantity is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 //            
-                //    var inventory = await _inventoryService.GetByIdAsync(_InventoryId);
+                //    var inventory = await _inventoryService.FilterAsync(_InventoryId);
                 //    if (inventory != null)
                 //    {
                 //        inventory.Quatity += Convert.ToInt32(TbQuatity.Text);

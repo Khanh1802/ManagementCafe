@@ -24,7 +24,7 @@ namespace WinFormsAppManagerCafe
             //Load data into ComboBox
 
             //Lấy dữ liệu của Enum map về List<CommonEnumDto>
-            //Trong đó Id chính là Enum, name là thuộc tính Display
+            //Trong đó Id chính là Enum, name là thuộc tính DisplayTypeInventoryTransaction
             CbbFilter.DataSource = EnumHelpers.GetEnumList<EnumProductFilter>();
             CbbFilter.DisplayMember = "Name";
         }

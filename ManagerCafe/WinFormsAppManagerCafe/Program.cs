@@ -37,6 +37,9 @@ namespace WinFormsAppManagerCafe
             return Host.CreateDefaultBuilder()
            .ConfigureServices((context, services) =>
            {
+               services.AddMemoryCache(option =>
+               {
+               });
                services.AddDbContext<ManagerCafeDbContext>(opts =>
                {
                    var config = context.Configuration.GetConnectionString("ManagerCafe");

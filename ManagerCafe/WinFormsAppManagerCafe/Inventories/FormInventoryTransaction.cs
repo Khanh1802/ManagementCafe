@@ -1,4 +1,8 @@
-﻿using ManagerCafe.Data.Models;
+﻿using ManagerCafe.Commons;
+using ManagerCafe.Data.Models;
+using ManagerCafe.Datas.Enums;
+using ManagerCafe.Dtos.InventoryTransactionDtos;
+using ManagerCafe.Enums;
 using ManagerCafe.Services;
 
 namespace WinFormsAppManagerCafe.Inventories
@@ -10,6 +14,13 @@ namespace WinFormsAppManagerCafe.Inventories
         {
             InitializeComponent();
             _inventoryTransactionService = inventoryTransactionService;
+            LoadComboboxData();
+        }
+
+        private void LoadComboboxData()
+        {
+            CbbType.DataSource = EnumHelpers.GetEnumList<EnumInventoryTransation>();
+            CbbType.DisplayMember = "Name";
         }
 
         private async void FormInventoryTransaction_Load(object sender, EventArgs e)
@@ -19,20 +30,31 @@ namespace WinFormsAppManagerCafe.Inventories
 
         private async Task RefershDataGirdView()
         {
-            Dtg.DataSource = await _inventoryTransactionService.GetAll();
+            var filterCbbType = new FilterInventoryTransactionDto();
+            if (CbbType.SelectedItem is CommonEnumDto<EnumInventoryTransation> transation)
+            {
+                filterCbbType.Type = transation.Id;
+            }
+            var filters = await _inventoryTransactionService.FilterAsync(filterCbbType);
+            Dtg.DataSource = filters;
 
             if (Dtg?.Columns != null && Dtg.Columns.Contains("Id"))
             {
                 Dtg.Columns["Id"]!.Visible = false;
             }
+            if (Dtg?.Columns != null && Dtg.Columns.Contains("InventoryId"))
+            {
+                Dtg.Columns["InventoryId"]!.Visible = false;
+            }
             if (Dtg?.Columns != null && Dtg.Columns.Contains("Inventory"))
             {
                 Dtg.Columns["Inventory"]!.Visible = false;
             }
-            if (Dtg?.Columns != null && Dtg.Columns.Contains("InventoryId"))
-            {
-                Dtg.Columns["InventoryId"]!.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            }
+        }
+
+        private async void BtFind_Click(object sender, EventArgs e)
+        {
+            await RefershDataGirdView();
         }
     }
 }

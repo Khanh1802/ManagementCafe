@@ -33,6 +33,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.BtFind = new System.Windows.Forms.Button();
             this.TbFind = new System.Windows.Forms.TextBox();
+            this.CbbType = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.Dtg)).BeginInit();
             this.SuspendLayout();
             // 
@@ -40,13 +41,13 @@
             // 
             this.Dtg.BackgroundColor = System.Drawing.Color.White;
             this.Dtg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.Dtg.Location = new System.Drawing.Point(165, 224);
+            this.Dtg.Location = new System.Drawing.Point(12, 134);
             this.Dtg.Name = "Dtg";
             this.Dtg.ReadOnly = true;
             this.Dtg.RowHeadersWidth = 51;
             this.Dtg.RowTemplate.Height = 29;
             this.Dtg.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.Dtg.Size = new System.Drawing.Size(755, 372);
+            this.Dtg.Size = new System.Drawing.Size(910, 389);
             this.Dtg.TabIndex = 74;
             // 
             // label1
@@ -77,6 +78,7 @@
             this.BtFind.TabIndex = 79;
             this.BtFind.Text = "Find";
             this.BtFind.UseVisualStyleBackColor = true;
+            this.BtFind.Click += new System.EventHandler(this.BtFind_Click);
             // 
             // TbFind
             // 
@@ -85,11 +87,20 @@
             this.TbFind.Size = new System.Drawing.Size(545, 27);
             this.TbFind.TabIndex = 78;
             // 
+            // CbbType
+            // 
+            this.CbbType.FormattingEnabled = true;
+            this.CbbType.Location = new System.Drawing.Point(940, 134);
+            this.CbbType.Name = "CbbType";
+            this.CbbType.Size = new System.Drawing.Size(151, 28);
+            this.CbbType.TabIndex = 81;
+            // 
             // FormInventoryTransaction
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1103, 608);
+            this.Controls.Add(this.CbbType);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.BtFind);
@@ -112,5 +123,6 @@
         private Label label3;
         private Button BtFind;
         private TextBox TbFind;
+        private ComboBox CbbType;
     }
 }
