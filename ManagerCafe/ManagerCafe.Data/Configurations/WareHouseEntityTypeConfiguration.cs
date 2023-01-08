@@ -12,6 +12,8 @@ namespace ManagerCafe.Data.Configurations
             builder.ToTable("WareHouse");
             builder.Property(x => x.Name).HasMaxLength(300).IsRequired();
             builder.Property(x => x.IsDeleted).HasDefaultValue(false);
+            builder.HasIndex(x => x.Name).IsFullText();
+            builder.HasIndex(x => x.IsDeleted);
         }
     }
 }

@@ -34,7 +34,6 @@
             this.Dtg = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.BtRemove = new System.Windows.Forms.Button();
-            this.BtUpdate = new System.Windows.Forms.Button();
             this.BtAdd = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.BtFind = new System.Windows.Forms.Button();
@@ -42,6 +41,7 @@
             this.CbbFilter = new System.Windows.Forms.ComboBox();
             this.CbbProduct = new System.Windows.Forms.ComboBox();
             this.CbbWareHouse = new System.Windows.Forms.ComboBox();
+            this.CbAllResult = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Dtg)).BeginInit();
             this.SuspendLayout();
@@ -58,7 +58,6 @@
             // 
             // TbQuatity
             // 
-            this.TbQuatity.Enabled = false;
             this.TbQuatity.Location = new System.Drawing.Point(125, 22);
             this.TbQuatity.Name = "TbQuatity";
             this.TbQuatity.Size = new System.Drawing.Size(290, 27);
@@ -101,7 +100,6 @@
             // BtRemove
             // 
             this.BtRemove.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.BtRemove.Enabled = false;
             this.BtRemove.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.BtRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtRemove.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -111,21 +109,6 @@
             this.BtRemove.TabIndex = 72;
             this.BtRemove.Text = "Delete";
             this.BtRemove.UseVisualStyleBackColor = false;
-            // 
-            // BtUpdate
-            // 
-            this.BtUpdate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.BtUpdate.Enabled = false;
-            this.BtUpdate.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.BtUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtUpdate.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.BtUpdate.Location = new System.Drawing.Point(490, 549);
-            this.BtUpdate.Name = "BtUpdate";
-            this.BtUpdate.Size = new System.Drawing.Size(123, 53);
-            this.BtUpdate.TabIndex = 71;
-            this.BtUpdate.Text = "Update";
-            this.BtUpdate.UseVisualStyleBackColor = false;
-            this.BtUpdate.Click += new System.EventHandler(this.BtUpdate_Click);
             // 
             // BtAdd
             // 
@@ -172,11 +155,6 @@
             // 
             this.CbbFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CbbFilter.FormattingEnabled = true;
-            this.CbbFilter.Items.AddRange(new object[] {
-            "Giá tăng dần",
-            "Giá giảm dần",
-            "Ngày tăng dần",
-            "Ngày giảm dần"});
             this.CbbFilter.Location = new System.Drawing.Point(931, 171);
             this.CbbFilter.Name = "CbbFilter";
             this.CbbFilter.Size = new System.Drawing.Size(151, 28);
@@ -185,11 +163,6 @@
             // CbbProduct
             // 
             this.CbbProduct.FormattingEnabled = true;
-            this.CbbProduct.Items.AddRange(new object[] {
-            "Giá tăng dần",
-            "Giá giảm dần",
-            "Ngày tăng dần",
-            "Ngày giảm dần"});
             this.CbbProduct.Location = new System.Drawing.Point(819, 102);
             this.CbbProduct.Name = "CbbProduct";
             this.CbbProduct.Size = new System.Drawing.Size(151, 28);
@@ -199,29 +172,35 @@
             // CbbWareHouse
             // 
             this.CbbWareHouse.FormattingEnabled = true;
-            this.CbbWareHouse.Items.AddRange(new object[] {
-            "Giá tăng dần",
-            "Giá giảm dần",
-            "Ngày tăng dần",
-            "Ngày giảm dần"});
             this.CbbWareHouse.Location = new System.Drawing.Point(819, 137);
             this.CbbWareHouse.Name = "CbbWareHouse";
             this.CbbWareHouse.Size = new System.Drawing.Size(151, 28);
             this.CbbWareHouse.TabIndex = 80;
             this.CbbWareHouse.SelectedIndexChanged += new System.EventHandler(this.CbbWareHouse_SelectedIndexChanged);
             // 
+            // CbAllResult
+            // 
+            this.CbAllResult.AutoSize = true;
+            this.CbAllResult.Location = new System.Drawing.Point(989, 102);
+            this.CbAllResult.Name = "CbAllResult";
+            this.CbAllResult.Size = new System.Drawing.Size(71, 24);
+            this.CbAllResult.TabIndex = 81;
+            this.CbAllResult.Text = "Tất cả";
+            this.CbAllResult.UseVisualStyleBackColor = true;
+            this.CbAllResult.CheckedChanged += new System.EventHandler(this.CbAllResult_CheckedChanged);
+            // 
             // FormInventory
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1103, 608);
+            this.Controls.Add(this.CbAllResult);
             this.Controls.Add(this.CbbWareHouse);
             this.Controls.Add(this.CbbProduct);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.Dtg);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.BtRemove);
-            this.Controls.Add(this.BtUpdate);
             this.Controls.Add(this.BtAdd);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.BtFind);
@@ -246,7 +225,6 @@
         private DataGridView Dtg;
         private Label label1;
         private Button BtRemove;
-        private Button BtUpdate;
         private Button BtAdd;
         private Label label3;
         private Button BtFind;
@@ -255,5 +233,6 @@
         private ComboBox CbbProduct;
         private ComboBox CbbWareHouse;
         private TextBox TbQuatity;
+        private CheckBox CbAllResult;
     }
 }

@@ -46,7 +46,7 @@ namespace ManagerCafe.Services
 
             if (!string.IsNullOrEmpty(item.Name))
             {
-                filters = filters.Where(x => EF.Functions.Like(x.Name, $"%{item.Name}%"));
+                filters = filters.Where(x => EF.Functions.Match(x.Name, $"*{item.Name}*", MySqlMatchSearchMode.Boolean));
             }
 
             if (item.PriceBuy > 0)
@@ -58,7 +58,8 @@ namespace ManagerCafe.Services
             {
                 filters = filters.Where(x => x.PriceSell == item.PriceSell);
             }
-
+            // Hướng vẫn cách xem query
+            //var query = filters.ToQueryString();
             return _mapper.Map<List<Product>, List<ProductDto>>(await filters.ToListAsync());
         }
 
@@ -135,7 +136,8 @@ namespace ManagerCafe.Services
             var productQueryable = await _productRepository.GetQueryableAsync();
             //Xu ly du lieu filter
             var count = await productQueryable.CountAsync();
-            var product = await productQueryable.Skip(item.SkipCount).Take(item.MaxResultCount).ToListAsync();
+            var product = await productQueryable.OrderBy(x => x.CreateTime).Skip(item.SkipCount).Take(item.MaxResultCount).ToListAsync();
+            // thieu oder
             return new CommonPageDto<ProductDto>(
                 count, item, _mapper.Map<List<Product>, List<ProductDto>>(product));
         }

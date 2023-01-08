@@ -17,6 +17,9 @@ namespace ManagerCafe.Data.Configurations
             builder.Property(x => x.PriceBuy).IsRequired().HasPrecision(18, 2);
             builder.Property(x => x.PriceSell).IsRequired().HasPrecision(18, 2);
             builder.Property(x => x.IsDeleted).HasDefaultValue(false);
+            //Tìm kiếm theo tên như like nhưng nhanh hơn
+            builder.HasIndex(x => x.Name).IsFullText();
+            builder.HasIndex(x => x.IsDeleted);
         }
     }
 }

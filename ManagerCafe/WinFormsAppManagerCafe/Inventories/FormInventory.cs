@@ -1,12 +1,11 @@
-﻿using ManagerCafe.Commons;
-using ManagerCafe.Data.Models;
+﻿using ManagerCafe.Data.Models;
+using ManagerCafe.Dtos.InventoryDto.InventoryDtos;
 using ManagerCafe.Dtos.InventoryDtos;
 using ManagerCafe.Dtos.ProductDtos;
 using ManagerCafe.Dtos.WareHouseDtos;
 using ManagerCafe.Enums;
 using ManagerCafe.Services;
 using Microsoft.Extensions.DependencyInjection;
-using System.Xml.Linq;
 
 namespace WinFormsAppManagerCafe.Inventories
 {
@@ -23,41 +22,147 @@ namespace WinFormsAppManagerCafe.Inventories
             _inventoryService = inventoryService;
             _productService = productService;
             _wareHouseService = wareHouseService;
-            CbbFilter.DataSource = EnumHelpers.GetEnumList<EnumInventoryFilter>();
-            CbbFilter.DisplayMember = "Name";
+            //ReloadInit();
         }
+
+        private void ReloadInit()
+        {
+            //CbbFilter.DataSource = EnumHelpers.GetEnumList<EnumInventoryFilter>();
+            //CbbFilter.DisplayMember = "Name";
+            //CbbProduct.DataSource = EnumHelpers.GetEnumList<EnumProductFilter>();
+            //CbbProduct.DisplayMember = "Name";
+            //CbbWareHouse.DataSource = EnumHelpers.GetEnumList<EnumWareHouseFilter>();
+            //CbbWareHouse.DisplayMember = "Name";
+        }
+
 
         private async void BtAdd_Click(object sender, EventArgs e)
         {
-            if(_isLoadingDone)
+            if (_isLoadingDone)
             {
-                _isLoadingDone = false;
-                var pageAddInventory = Program.ServiceProvider.GetService<FormAddInventory>();
-                pageAddInventory.ShowDialog();
-                if (pageAddInventory.IsDeleted)
+                if (!string.IsNullOrEmpty(TbQuatity.Text))
                 {
-                    await RefreshDataGirdView();
+                    if (CbbWareHouse.SelectedIndex >= 0 && CbbWareHouse.SelectedIndex >= 0
+                        && CbbProduct.SelectedItem is ProductDto product && CbbWareHouse.SelectedItem is WareHouseDto warehouse)
+                    {
+                        var quatity = Convert.ToInt32(TbQuatity.Text);
+                        if (_InventoryId != null)
+                        {
+                            var entity = await _inventoryService.GetByIdAsync(_InventoryId);
+                            if (entity != null)
+                            {
+                                var updateInventory = new UpdateInventoryDto()
+                                {
+                                    Id = entity.Id,
+                                    Quatity = entity.Quatity,
+                                    ProductId = entity.ProductId,
+                                    WareHouseId = entity.WareHouseId,
+                                };
+                                updateInventory.Quatity += quatity;
+                                await _inventoryService.UpdateAsync(updateInventory);
+                                MessageBox.Show("Update success", "Done", MessageBoxButtons.OK);
+                                await OnFilterInventoryAsync();
+                            }
+                        }
+                        else
+                        {
+                            try
+                            {
+                                var createInventory = new CreatenInvetoryDto()
+                                {
+                                    ProductId = product.Id,
+                                    WareHouseId = warehouse.Id,
+                                    Quatity = quatity
+                                };
+                                await _inventoryService.AddAsync(createInventory);
+                                MessageBox.Show("Create success", "Done", MessageBoxButtons.OK);
+                                await OnFilterInventoryAsync();
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Product or Warehouse is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
-                _isLoadingDone = true;
-            }           
+                else
+                {
+                    MessageBox.Show("Quantity is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                //            
+                //    var inventory = await _inventoryService.GetByIdAsync(_InventoryId);
+                //    if (inventory != null)
+                //    {
+                //        inventory.Quatity += Convert.ToInt32(TbQuatity.Text);
+                //        var updateInventory = new UpdateInventoryDto()
+                //        {
+                //            Id = inventory.Id,
+                //            Quatity = inventory.Quatity,
+                //            ProductId = inventory.ProductId,
+                //            WareHouseId = inventory.WareHouseId,
+                //        };
+                //        await _inventoryService.UpdateAsync(updateInventory);
+                //        MessageBox.Show("Update success", "Done", MessageBoxButtons.OK);
+                //        await OnFilterInventoryAsync();
+                //    }
+                //    else
+                //    {
+                //        if (CbbWareHouse.SelectedIndex >= 0 && CbbWareHouse.SelectedIndex >= 0)
+                //        {
+                //            if (!string.IsNullOrEmpty(TbQuatity.Text))
+                //            {
+                //                if (CbbProduct.SelectedItem is ProductDto product && CbbWareHouse.SelectedItem is WareHouseDto warehouse)
+                //                {
+                //                    //var updateInventory = new CreatenInvetoryDto()
+                //                    //{
+                //                    //    ProductId = product.Id,
+                //                    //    WareHouseId = warehouse.Id,
+                //                    //    Quatity = Convert.ToInt32(TbQuatity.Text)
+                //                    //};
+                //                    var filterInventory = new FilterInventoryDto()
+                //                    {
+                //                        ProductId = product.Id,
+                //                        WareHouseId = warehouse.Id,
+                //                    };
+                //                    var inventories = await _inventoryService.FilterAsync(filterInventory);
+                //                    if(inventories.Count > 0)
+                //                    {
+                //                        await _inventoryService.UpdateAsync();
+                //                    }
+                //                    //await _inventoryService.AddAsync(updateInventory);
+                //                    MessageBox.Show("Create success", "Done", MessageBoxButtons.OK);
+                //                    await OnFilterInventoryAsync();
+                //                }
+                //            }
+                //            else
+                //            {
+                //                MessageBox.Show("Quantity is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //            }
+                //        }
+                //        else
+                //        {
+                //            MessageBox.Show("Product or Warehouse is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //        }
+                //    }
+            }
         }
 
         private void Dtg_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex == -1)
             {
-                BtAdd.Enabled = true;
                 BtRemove.Enabled = false;
-                BtUpdate.Enabled = false;
                 TbQuatity.Text = string.Empty;
                 _InventoryId = null;
-                TbQuatity.Enabled = false;
             }
             else
             {
-                BtAdd.Enabled = false;
                 BtRemove.Enabled = true;
-                BtUpdate.Enabled = true;
+
                 if (Dtg.Rows[e.RowIndex].DataBoundItem is InventoryDto)
                 {
                     var inventory = Dtg.Rows[e.RowIndex].DataBoundItem as InventoryDto;
@@ -70,49 +175,16 @@ namespace WinFormsAppManagerCafe.Inventories
 
         private async void FormInventory_Load(object sender, EventArgs e)
         {
-            await RefreshDataGirdView();
+            await RefreshCbb();
             await OnFilterInventoryAsync();
         }
 
-        private async Task RefreshDataGirdView()
+        private async Task RefreshCbb()
         {
             CbbProduct.DataSource = await _productService.GetAllAsync();
             CbbProduct.DisplayMember = "Name";
             CbbWareHouse.DataSource = await _wareHouseService.GetAllAsync();
             CbbWareHouse.DisplayMember = "Name";
-            _isLoadingDone = true;
-        }
-
-        private async void BtUpdate_Click(object sender, EventArgs e)
-        {
-            if (_isLoadingDone)
-            {
-                if (!string.IsNullOrEmpty(TbQuatity.Text))
-                {
-                    var updateWareHouse = new UpdateInventoryDto()
-                    {
-                        Id = (Guid)_InventoryId,
-                    };
-                    try
-                    {
-                        _isLoadingDone = false;
-                        await _inventoryService.UpdateAsync(updateWareHouse);
-                        MessageBox.Show("Update success", "Done", MessageBoxButtons.OK);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    finally
-                    {
-                        await RefreshDataGirdView();
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Name is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
         }
 
         private async void CbbProduct_SelectedIndexChanged(object sender, EventArgs e)
@@ -169,12 +241,8 @@ namespace WinFormsAppManagerCafe.Inventories
                 Dtg.Columns["DeletetionTime"]!.Visible = false;
             }
 
-
-            BtAdd.Enabled = true;
             BtRemove.Enabled = false;
-            BtUpdate.Enabled = false;
             TbQuatity.Text = string.Empty;
-            TbQuatity.Enabled = false;
             _InventoryId = null;
             _isLoadingDone = true;
         }
@@ -184,9 +252,26 @@ namespace WinFormsAppManagerCafe.Inventories
             if (_isLoadingDone && CbbWareHouse.SelectedIndex >= 0)
             {
                 _isLoadingDone = false;
-                // await RefreshDataGirdView();
                 await OnFilterInventoryAsync();
                 _isLoadingDone = true;
+            }
+        }
+
+        private async void CbAllResult_CheckedChanged(object sender, EventArgs e)
+        {
+            if (_isLoadingDone)
+            {
+                if (CbAllResult.Checked)
+                {
+                    var filter = new FilterInventoryDto();
+                    var inventories = new List<InventoryDto>();
+                    inventories = await _inventoryService.FilterAsync(filter);
+                    Dtg.DataSource = inventories;
+                }
+                else
+                {
+                    await OnFilterInventoryAsync();
+                }
             }
         }
     }

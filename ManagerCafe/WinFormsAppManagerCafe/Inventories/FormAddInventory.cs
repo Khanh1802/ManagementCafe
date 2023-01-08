@@ -47,7 +47,8 @@ namespace WinFormsAppManagerCafe.Inventories
                     if (create.ProductId != null && create.WareHouseId != null)
                     {
                         await _inventoryService.AddAsync(create);
-
+                        MessageBox.Show("Create new inventory success", "Done", MessageBoxButtons.OK);
+                        this.Close();
                     }
                 }
                 else

@@ -1,4 +1,5 @@
-﻿using ManagerCafe.Data.Data;
+﻿using ManagerCafe;
+using ManagerCafe.Data.Data;
 using ManagerCafe.Data.Models;
 using ManagerCafe.Profiles;
 using ManagerCafe.Repositories;
@@ -47,6 +48,8 @@ namespace WinFormsAppManagerCafe
                services.AddTransient<IWareHouseService, WareHouseService>();
                services.AddTransient<IInventoryRepository, InventoryRepository>();
                services.AddTransient<IInventoryService, InventoryService>();
+               services.AddTransient<IInventoryTransactionRepository, InventoryTransactionRepository>();
+               services.AddTransient<IInventoryTransactionService, InventoryTransactionService>();
                services.AddTransient<HomePage>();
                services.AddTransient<FormProduct>();
                services.AddTransient<FormAddProduct>();
@@ -54,6 +57,7 @@ namespace WinFormsAppManagerCafe
                services.AddTransient<FormAddWareHouse>();
                services.AddTransient<FormInventory>();
                services.AddTransient<FormAddInventory>();
+               services.AddTransient<FormInventoryTransaction>();
                services.AddAutoMapper(typeof(ProductProfile));
                services.AddAutoMapper(typeof(WareHouseProfile));
                services.AddAutoMapper(typeof(InventoryProfile));

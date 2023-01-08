@@ -18,5 +18,6 @@ namespace ManagerCafe.Data.Models
         public int Quatity { get; set; }
         public Product Product { get; set; }
         public WareHouse WareHouse { get; set; }
+        public List<InventoryTransaction> InventoryTransactions { get; set; }
     }
 }

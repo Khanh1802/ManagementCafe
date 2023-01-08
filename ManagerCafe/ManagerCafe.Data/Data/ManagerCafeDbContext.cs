@@ -34,8 +34,7 @@ namespace ManagerCafe.Data.Data
             new ProductEntityTypeConfigurations().Configure(modelBuilder.Entity<Product>());
             new InvetoryEntityTypeConfiguration().Configure(modelBuilder.Entity<Inventory>());
             new WareHouseEntityTypeConfiguration().Configure(modelBuilder.Entity<WareHouse>());
-
-         
+            new InventoryTransactionEntityTypeConfiguration().Configure(modelBuilder.Entity<InventoryTransaction>());
         }
         public override void Dispose()
         {
@@ -51,5 +50,6 @@ namespace ManagerCafe.Data.Data
         public DbSet<Inventory> Invetories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<WareHouse> WareHouses { get; set; }
+        public DbSet<InventoryTransaction> InventoryTransactions { get; set; }
     }
 }

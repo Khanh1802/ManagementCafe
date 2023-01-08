@@ -3,6 +3,7 @@ using System;
 using ManagerCafe.Data.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ManagerCafe.Data.Migrations
 {
     [DbContext(typeof(ManagerCafeDbContext))]
-    partial class ManagerCafeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230107054309_edit_HasIndex")]
+    partial class edit_HasIndex
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,31 +59,6 @@ namespace ManagerCafe.Data.Migrations
                     b.HasIndex("WareHouseId");
 
                     b.ToTable("Inventory", (string)null);
-                });
-
-            modelBuilder.Entity("ManagerCafe.Data.Models.InventoryTransaction", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTime?>("CreateTime")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<Guid>("InventoryId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<int>("Quatity")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("InventoryId");
-
-                    b.ToTable("InventoryTransaction", (string)null);
                 });
 
             modelBuilder.Entity("ManagerCafe.Data.Models.Product", b =>
@@ -179,22 +156,6 @@ namespace ManagerCafe.Data.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("WareHouse");
-                });
-
-            modelBuilder.Entity("ManagerCafe.Data.Models.InventoryTransaction", b =>
-                {
-                    b.HasOne("ManagerCafe.Data.Models.Inventory", "Inventory")
-                        .WithMany("InventoryTransactions")
-                        .HasForeignKey("InventoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Inventory");
-                });
-
-            modelBuilder.Entity("ManagerCafe.Data.Models.Inventory", b =>
-                {
-                    b.Navigation("InventoryTransactions");
                 });
 
             modelBuilder.Entity("ManagerCafe.Data.Models.Product", b =>
