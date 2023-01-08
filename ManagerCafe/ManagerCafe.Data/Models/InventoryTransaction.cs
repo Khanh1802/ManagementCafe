@@ -13,7 +13,7 @@ namespace ManagerCafe.Data.Models
 
         public int Quatity { get; set; }
         public EnumInventoryTransation Type { get; set; }
-        public DateTime? CreateTime { get; set; }
+        public DateTime CreateTime { get; set; }
         public Inventory Inventory { get; set; }
     }
 }
