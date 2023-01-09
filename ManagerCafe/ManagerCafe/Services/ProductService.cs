@@ -160,12 +160,22 @@ namespace ManagerCafe.Services
         public async Task<CommonPageDto<ProductDto>> GetPagedListAsync(FilterProductDto item)
         {
             var productQueryable = await _productRepository.GetQueryableAsync();
-            //Xu ly du lieu filter
             var count = await productQueryable.CountAsync();
+            //if (_memoryCache.TryGetValue<List<Product>>(ProductCacheKey.ProductAllKey, out var products))
+            //{
+            //    return new CommonPageDto<ProductDto>(
+            //   count, item, _mapper.Map<List<Product>, List<ProductDto>>(products));
+            //}
+            //Xu ly du lieu filter
             var product = await productQueryable.OrderBy(x => x.CreateTime).Skip(item.SkipCount).Take(item.MaxResultCount).ToListAsync();
-            // thieu oder
-            return new CommonPageDto<ProductDto>(
+            var produts = new CommonPageDto<ProductDto>(
                 count, item, _mapper.Map<List<Product>, List<ProductDto>>(product));
+
+            //_memoryCache.Set<List<Product>>(ProductCacheKey.ProductAllKey, product, new MemoryCacheEntryOptions
+            //{
+            //    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(2)
+            //});
+            return produts;
         }
 
         public async Task<int> AllCountAsync()

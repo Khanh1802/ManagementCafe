@@ -10,7 +10,7 @@ namespace WinFormsAppManagerCafe.WareHouses
     {
         private IWareHouseService _wareHouseService;
         private Guid? _wareHouseId;
-        private bool _isLoadingDone = false;
+        internal bool _isLoadingDone = false;
         public FormWareHouse(IWareHouseService wareHouseService)
         {
             InitializeComponent();

@@ -37,15 +37,15 @@ namespace ManagerCafe.Services
         public async Task<List<InventoryTransactionDto>> FilterAsync(FilterInventoryTransactionDto item)
         {
             var inventoryTransactions = await _inventoryTransactionRepository.GetQueryableAsync();
-            var fromDate = DateTime.Now.Date;
-            var toDate = DateTime.Now.Date.AddDays(1).AddSeconds(-1);
-            var codeBanhQuy = Guid.Parse("08daebd8-d83c-46f4-8d97-204459d3e0c9"); 
+            //var fromDate = DateTime.Now.Date;
+            //var toDate = DateTime.Now.Date.AddDays(1).AddSeconds(-1);
+            //var codeBanhQuy = Guid.Parse("08daebd8-d83c-46f4-8d97-204459d3e0c9"); 
             var filter = inventoryTransactions
                 .Include(x => x.Inventory)
                 .ThenInclude(x => x.Product)
                 .Include(x => x.Inventory)
                 .ThenInclude(x => x.WareHouse)
-                .Where(x => x.Type == item.Type && x.CreateTime >= fromDate && x.CreateTime <= toDate && x.Inventory.ProductId == codeBanhQuy )
+                .Where(x => x.Type == item.Type /*&& x.CreateTime >= fromDate && x.CreateTime <= toDate && x.Inventory.ProductId == codeBanhQuy */)
 
                 .GroupBy(x => x.InventoryId).Select(x => new InventoryTransactionDto
                 {

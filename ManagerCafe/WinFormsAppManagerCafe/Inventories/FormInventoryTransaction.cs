@@ -10,6 +10,7 @@ namespace WinFormsAppManagerCafe.Inventories
     public partial class FormInventoryTransaction : Form
     {
         private readonly IInventoryTransactionService _inventoryTransactionService;
+        internal bool _isLoadingDone = false;
         public FormInventoryTransaction(IInventoryTransactionService inventoryTransactionService)
         {
             InitializeComponent();

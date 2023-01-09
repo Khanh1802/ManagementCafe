@@ -5,6 +5,7 @@ using ManagerCafe.Profiles;
 using ManagerCafe.Repositories;
 using ManagerCafe.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

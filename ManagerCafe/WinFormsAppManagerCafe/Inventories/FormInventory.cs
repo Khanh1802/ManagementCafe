@@ -14,7 +14,7 @@ namespace WinFormsAppManagerCafe.Inventories
         private readonly IInventoryService _inventoryService;
         private readonly IProductService _productService;
         private readonly IWareHouseService _wareHouseService;
-        private bool _isLoadingDone = false;
+        internal bool _isLoadingDone = false;
         private Guid? _InventoryId;
         public FormInventory(IInventoryService inventoryService, IProductService productService, IWareHouseService wareHouseService)
         {
@@ -22,17 +22,6 @@ namespace WinFormsAppManagerCafe.Inventories
             _inventoryService = inventoryService;
             _productService = productService;
             _wareHouseService = wareHouseService;
-            //ReloadInit();
-        }
-
-        private void ReloadInit()
-        {
-            //CbbFilter.DataSource = EnumHelpers.GetEnumList<EnumInventoryFilter>();
-            //CbbFilter.DisplayMember = "Name";
-            //CbbProduct.DataSource = EnumHelpers.GetEnumList<EnumProductFilter>();
-            //CbbProduct.DisplayMember = "Name";
-            //CbbWareHouse.DataSource = EnumHelpers.GetEnumList<EnumWareHouseFilter>();
-            //CbbWareHouse.DisplayMember = "Name";
         }
 
 
@@ -93,61 +82,6 @@ namespace WinFormsAppManagerCafe.Inventories
                 {
                     MessageBox.Show("Quantity is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                //            
-                //    var inventory = await _inventoryService.FilterAsync(_InventoryId);
-                //    if (inventory != null)
-                //    {
-                //        inventory.Quatity += Convert.ToInt32(TbQuatity.Text);
-                //        var updateInventory = new UpdateInventoryDto()
-                //        {
-                //            Id = inventory.Id,
-                //            Quatity = inventory.Quatity,
-                //            ProductId = inventory.ProductId,
-                //            WareHouseId = inventory.WareHouseId,
-                //        };
-                //        await _inventoryService.UpdateAsync(updateInventory);
-                //        MessageBox.Show("Update success", "Done", MessageBoxButtons.OK);
-                //        await OnFilterInventoryAsync();
-                //    }
-                //    else
-                //    {
-                //        if (CbbWareHouse.SelectedIndex >= 0 && CbbWareHouse.SelectedIndex >= 0)
-                //        {
-                //            if (!string.IsNullOrEmpty(TbQuatity.Text))
-                //            {
-                //                if (CbbProduct.SelectedItem is ProductDto product && CbbWareHouse.SelectedItem is WareHouseDto warehouse)
-                //                {
-                //                    //var updateInventory = new CreatenInvetoryDto()
-                //                    //{
-                //                    //    ProductId = product.Id,
-                //                    //    WareHouseId = warehouse.Id,
-                //                    //    Quatity = Convert.ToInt32(TbQuatity.Text)
-                //                    //};
-                //                    var filterInventory = new FilterInventoryDto()
-                //                    {
-                //                        ProductId = product.Id,
-                //                        WareHouseId = warehouse.Id,
-                //                    };
-                //                    var inventories = await _inventoryService.FilterAsync(filterInventory);
-                //                    if(inventories.Count > 0)
-                //                    {
-                //                        await _inventoryService.UpdateAsync();
-                //                    }
-                //                    //await _inventoryService.AddAsync(updateInventory);
-                //                    MessageBox.Show("Create success", "Done", MessageBoxButtons.OK);
-                //                    await OnFilterInventoryAsync();
-                //                }
-                //            }
-                //            else
-                //            {
-                //                MessageBox.Show("Quantity is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //            }
-                //        }
-                //        else
-                //        {
-                //            MessageBox.Show("Product or Warehouse is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //        }
-                //    }
             }
         }
 

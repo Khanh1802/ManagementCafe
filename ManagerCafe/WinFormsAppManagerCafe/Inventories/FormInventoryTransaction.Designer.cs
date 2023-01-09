@@ -56,9 +56,9 @@
             this.label1.Font = new System.Drawing.Font("Segoe UI", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label1.Location = new System.Drawing.Point(436, 29);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(213, 38);
+            this.label1.Size = new System.Drawing.Size(197, 38);
             this.label1.TabIndex = 77;
-            this.label1.Text = "PAGE HISTTORY";
+            this.label1.Text = "PAGE HISTORY";
             // 
             // label3
             // 
@@ -89,6 +89,7 @@
             // 
             // CbbType
             // 
+            this.CbbType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CbbType.FormattingEnabled = true;
             this.CbbType.Location = new System.Drawing.Point(940, 134);
             this.CbbType.Name = "CbbType";
