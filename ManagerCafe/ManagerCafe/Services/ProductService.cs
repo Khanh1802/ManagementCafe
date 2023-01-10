@@ -167,7 +167,7 @@ namespace ManagerCafe.Services
             //   count, item, _mapper.Map<List<Product>, List<ProductDto>>(products));
             //}
             //Xu ly du lieu filter
-            var product = await productQueryable.OrderBy(x => x.CreateTime).Skip(item.SkipCount).Take(item.MaxResultCount).ToListAsync();
+            var product = await productQueryable.OrderBy(x => x.CreateTime).Skip(item.SkipCount).Take(item.TakeMaxResultCount).ToListAsync();
             var produts = new CommonPageDto<ProductDto>(
                 count, item, _mapper.Map<List<Product>, List<ProductDto>>(product));
 

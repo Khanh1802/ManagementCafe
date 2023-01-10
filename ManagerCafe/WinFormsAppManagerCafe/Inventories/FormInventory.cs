@@ -1,4 +1,7 @@
-﻿using ManagerCafe.Data.Models;
+﻿using ManagerCafe.Commons;
+using ManagerCafe.Data.Enums;
+using ManagerCafe.Data.Models;
+using ManagerCafe.Datas.Enums;
 using ManagerCafe.Dtos.InventoryDto.InventoryDtos;
 using ManagerCafe.Dtos.InventoryDtos;
 using ManagerCafe.Dtos.ProductDtos;
@@ -15,6 +18,11 @@ namespace WinFormsAppManagerCafe.Inventories
         private readonly IProductService _productService;
         private readonly IWareHouseService _wareHouseService;
         internal bool _isLoadingDone = false;
+        private int _takePage = 0;
+        private int _skipPage = 0;
+        private int _currentPage = 1;
+        private bool _forwardPage = false;
+        private bool _reversePage = false;
         private Guid? _InventoryId;
         public FormInventory(IInventoryService inventoryService, IProductService productService, IWareHouseService wareHouseService)
         {
@@ -22,6 +30,12 @@ namespace WinFormsAppManagerCafe.Inventories
             _inventoryService = inventoryService;
             _productService = productService;
             _wareHouseService = wareHouseService;
+            CbbPage.DataSource = EnumHelpers.GetEnumList<EnumIndexPage>();
+            CbbPage.DisplayMember = "Name";
+            if (CbbPage.SelectedItem is CommonEnumDto<EnumIndexPage> indexPage)
+            {
+                _takePage = Convert.ToInt32(indexPage.Name);
+            }
         }
 
 
@@ -143,7 +157,11 @@ namespace WinFormsAppManagerCafe.Inventories
             {
                 filter.WareHouseId = warehouseDto.Id;
             }
-            var inventories = await _inventoryService.FilterAsync(filter);
+
+            filter.TakeMaxResultCount = _takePage;
+            filter.SkipCount = _skipPage;
+            filter.CurrentPage = _currentPage;  
+            var inventories = await _inventoryService.GetPagedListAsync(filter);
             Dtg.DataSource = inventories;
 
             if (Dtg?.Columns != null && Dtg.Columns.Contains("Id"))
@@ -178,7 +196,6 @@ namespace WinFormsAppManagerCafe.Inventories
             BtRemove.Enabled = false;
             TbQuatity.Text = string.Empty;
             _InventoryId = null;
-            _isLoadingDone = true;
         }
 
         private async void CbbWareHouse_SelectedIndexChanged(object sender, EventArgs e)
@@ -207,6 +224,16 @@ namespace WinFormsAppManagerCafe.Inventories
                     await OnFilterInventoryAsync();
                 }
             }
+        }
+
+        private void BtReversePage_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtNextPage_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

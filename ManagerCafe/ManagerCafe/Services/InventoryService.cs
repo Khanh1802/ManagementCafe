@@ -138,15 +138,18 @@ namespace ManagerCafe.Services
             return _mapper.Map<Inventory, InventoryDto>(entity);
         }
 
-        public Task<CommonPageDto<InventoryDto>> GetPagedListAsync(FilterInventoryDto item)
+        public async Task<CommonPageDto<InventoryDto>> GetPagedListAsync(FilterInventoryDto item)
         {
-            throw new NotImplementedException();
+            var filter = await _inventoryRepository.GetQueryableAsync();
+            var count = await filter.CountAsync();
+
+
         }
 
         public async Task<InventoryDto> UpdateAsync(UpdateInventoryDto item)
         {
             //1 Khởi tạo Init transaction
-           // var transaction = await _context.Database.BeginTransactionAsync();
+            // var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
                 var entity = await _inventoryRepository.GetByIdAsync(item.Id);
@@ -160,7 +163,7 @@ namespace ManagerCafe.Services
                 //var a = await _inventoryRepository.GetAllAsync();
                 // Khi ko bị lỗi thì save tất cả thay đổi xuống Db
                 //1
-               // await transaction.CommitAsync();
+                // await transaction.CommitAsync();
                 return _mapper.Map<Inventory, InventoryDto>(entity);
             }
             catch (Exception ex)

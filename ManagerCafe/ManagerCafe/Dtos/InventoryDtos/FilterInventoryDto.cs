@@ -1,6 +1,8 @@
-﻿namespace ManagerCafe.Dtos.InventoryDtos
+﻿using ManagerCafe.Commons;
+
+namespace ManagerCafe.Dtos.InventoryDtos
 {
-    public class FilterInventoryDto
+    public class FilterInventoryDto : PaginationDto
     {
         public Guid? Id { get; set; }
         public Guid? ProductId { get; set; }

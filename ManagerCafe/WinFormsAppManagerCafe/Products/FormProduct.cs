@@ -109,7 +109,7 @@ namespace WinFormsAppManagerCafe
             var data = await _productService.GetPagedListAsync(new FilterProductDto()
             {
                 SkipCount = _skipCount,
-                MaxResultCount = _maxResultCount,
+                TakeMaxResultCount = _maxResultCount,
                 CurrentPage = _currentPage,
             });
             TbCurrentPage.Text = $"{data.CurrentPage}/{Convert.ToString(data.TotalPage)}";
