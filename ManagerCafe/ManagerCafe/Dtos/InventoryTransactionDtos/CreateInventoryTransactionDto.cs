@@ -1,13 +1,10 @@
-﻿using ManagerCafe.Enums;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using ManagerCafe.Data.Models;
+using ManagerCafe.Enums;
 
-namespace ManagerCafe.Data.Models
+namespace ManagerCafe.Dtos.InventoryTransactionDtos
 {
-    public class InventoryTransaction
+    public class CreateInventoryTransactionDto
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         public Guid InventoryId { get; set; }
 

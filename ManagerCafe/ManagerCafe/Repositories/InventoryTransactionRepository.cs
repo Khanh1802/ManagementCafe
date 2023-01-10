@@ -1,5 +1,6 @@
 ﻿using ManagerCafe.Data.Data;
 using ManagerCafe.Data.Models;
+using ManagerCafe.Dtos.InventoryTransactionDtos;
 using Microsoft.EntityFrameworkCore;
 
 namespace ManagerCafe.Repositories
@@ -20,9 +21,19 @@ namespace ManagerCafe.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public Task<List<InventoryTransaction>> GetAll()
+        public Task<List<InventoryTransaction>> GetAllAsync()
         {
             return _context.InventoryTransactions.ToListAsync();
+        }
+
+        public async Task<InventoryTransaction> GetByIdAsync<T>(T key)
+        {
+            return await _context.InventoryTransactions.FindAsync(key);
+        }
+
+        public Task<IQueryable<InventoryTransaction>> GetQueryableAsync()
+        {
+            return Task.FromResult(_context.InventoryTransactions.AsQueryable());
         }
     }
 }

@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using ManagerCafe.Commons;
 using ManagerCafe.Data.Models;
+using ManagerCafe.Dtos.InventoryDtos;
 using ManagerCafe.Dtos.ProductDtos;
 using ManagerCafe.Enums;
 using ManagerCafe.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace ManagerCafe.Services
 {
@@ -12,11 +14,13 @@ namespace ManagerCafe.Services
     {
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
+        private readonly IMemoryCache _memoryCache;
 
-        public ProductService(IProductRepository productRepository, IMapper mapper)
+        public ProductService(IProductRepository productRepository, IMapper mapper, IMemoryCache memoryCache)
         {
             _productRepository = productRepository;
             _mapper = mapper;
+            _memoryCache = memoryCache;
         }
 
         public async Task<ProductDto> AddAsync(CreateProductDto item)
@@ -109,13 +113,35 @@ namespace ManagerCafe.Services
         }
         public async Task<List<ProductDto>> GetAllAsync()
         {
+            // Get dữ liệu sau khi Set hay còn gọi là cache
+            //Đọc dữ liệu trong cache ra
+            if (_memoryCache.TryGetValue<List<Product>>(ProductCacheKey.ProductAllKey, out var products))
+            {
+                return _mapper.Map<List<Product>, List<ProductDto>>(products);
+            }
+
             var entites = await _productRepository.GetAllAsync();
+
+            //Set lại cache với thời gian hết hạn bắt đầu từ bây giờ 2m
+            // NOTE: Khi add và update nên dùng remove theo Key để build lại cache 
+            _memoryCache.Set<List<Product>>(ProductCacheKey.ProductAllKey, entites, new MemoryCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(2)
+            });
             return _mapper.Map<List<Product>, List<ProductDto>>(entites);
         }
 
         public async Task<ProductDto> GetByIdAsync<TKey>(TKey key)
         {
+            if (_memoryCache.TryGetValue<Product>(key, out var product))
+            {
+                return _mapper.Map<Product, ProductDto>(product);
+            }
             var entity = await _productRepository.GetByIdAsync(key);
+            _memoryCache.Set<Product>(key, entity, new MemoryCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(2)
+            });
             return _mapper.Map<Product, ProductDto>(entity);
         }
 
@@ -134,12 +160,22 @@ namespace ManagerCafe.Services
         public async Task<CommonPageDto<ProductDto>> GetPagedListAsync(FilterProductDto item)
         {
             var productQueryable = await _productRepository.GetQueryableAsync();
-            //Xu ly du lieu filter
             var count = await productQueryable.CountAsync();
+            //if (_memoryCache.TryGetValue<List<Product>>(ProductCacheKey.ProductAllKey, out var products))
+            //{
+            //    return new CommonPageDto<ProductDto>(
+            //   count, item, _mapper.Map<List<Product>, List<ProductDto>>(products));
+            //}
+            //Xu ly du lieu filter
             var product = await productQueryable.OrderBy(x => x.CreateTime).Skip(item.SkipCount).Take(item.MaxResultCount).ToListAsync();
-            // thieu oder
-            return new CommonPageDto<ProductDto>(
+            var produts = new CommonPageDto<ProductDto>(
                 count, item, _mapper.Map<List<Product>, List<ProductDto>>(product));
+
+            //_memoryCache.Set<List<Product>>(ProductCacheKey.ProductAllKey, product, new MemoryCacheEntryOptions
+            //{
+            //    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(2)
+            //});
+            return produts;
         }
 
         public async Task<int> AllCountAsync()

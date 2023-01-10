@@ -4,9 +4,14 @@ using ManagerCafe.Data.Data;
 using ManagerCafe.Data.Models;
 using ManagerCafe.Dtos.InventoryDto.InventoryDtos;
 using ManagerCafe.Dtos.InventoryDtos;
+using ManagerCafe.Dtos.InventoryTransactionDtos;
 using ManagerCafe.Enums;
 using ManagerCafe.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Transactions;
 
 namespace ManagerCafe.Services
@@ -14,20 +19,23 @@ namespace ManagerCafe.Services
     public class InventoryService : IInventoryService
     {
         private readonly IInventoryRepository _inventoryRepository;
+        private readonly IMemoryCache _memoryCache;
         private readonly IMapper _mapper;
         private readonly IInventoryTransactionService _inventoryTransactionService;
         private readonly ManagerCafeDbContext _context;
 
-        public InventoryService(IInventoryRepository inventoryRepository, IMapper mapper, ManagerCafeDbContext context, IInventoryTransactionService inventoryTransactionService)
+        public InventoryService(IInventoryRepository inventoryRepository, IMapper mapper, ManagerCafeDbContext context, IInventoryTransactionService inventoryTransactionService, IMemoryCache memoryCache)
         {
             _inventoryRepository = inventoryRepository;
             _mapper = mapper;
             _context = context;
             _inventoryTransactionService = inventoryTransactionService;
+            _memoryCache = memoryCache;
         }
 
         public async Task<InventoryDto> AddAsync(CreatenInvetoryDto item)
         {
+            var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
                 var entity = new Inventory();
@@ -47,32 +55,32 @@ namespace ManagerCafe.Services
                     var update = _mapper.Map<InventoryDto, UpdateInventoryDto>(inventory);
                     await this.UpdateAsync(update);
 
-                    var inventoryTransaction = new InventoryTransaction();
+                    var inventoryTransaction = new CreateInventoryTransactionDto();
 
                     inventoryTransaction.Quatity = item.Quatity;
                     inventoryTransaction.InventoryId = inventory.Id;
                     inventoryTransaction.Type = EnumInventoryTransation.Import;
-
-
-                    await _inventoryTransactionService.AddAsync(inventoryTransaction);
+                    await _inventoryTransactionService.AddAsync(inventoryTransaction, transaction.GetDbTransaction());
                 }
                 else
                 {
                     var createInventory = _mapper.Map<CreatenInvetoryDto, Inventory>(item);
                     entity = await _inventoryRepository.AddAsync(createInventory);
 
-                    var inventoryTransaction = new InventoryTransaction()
+                    var inventoryTransaction = new CreateInventoryTransactionDto()
                     {
                         Quatity = entity.Quatity,
                         InventoryId = entity.Id,
                         Type = EnumInventoryTransation.Import
                     };
-                    await _inventoryTransactionService.AddAsync(inventoryTransaction);
+                    await _inventoryTransactionService.AddAsync(inventoryTransaction, transaction.GetDbTransaction());
                 }
+                await transaction.CommitAsync();
                 return _mapper.Map<Inventory, InventoryDto>(entity);
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync();
                 throw ex.GetBaseException();
             }
 
@@ -111,7 +119,16 @@ namespace ManagerCafe.Services
 
         public async Task<List<InventoryDto>> GetAllAsync()
         {
+            if (_memoryCache.TryGetValue<List<Inventory>>(InventoryCacheKey.InventoryAllKey, out var inventories))
+            {
+                return _mapper.Map<List<Inventory>, List<InventoryDto>>(inventories);
+            }
+
             var entites = await _inventoryRepository.GetAllAsync();
+            _memoryCache.Set<List<Inventory>>(InventoryCacheKey.InventoryAllKey, entites, new MemoryCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(2)
+            });
             return _mapper.Map<List<Inventory>, List<InventoryDto>>(entites);
         }
 
@@ -129,7 +146,7 @@ namespace ManagerCafe.Services
         public async Task<InventoryDto> UpdateAsync(UpdateInventoryDto item)
         {
             //1 Khởi tạo Init transaction
-            var transaction = await _context.Database.BeginTransactionAsync();
+           // var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
                 var entity = await _inventoryRepository.GetByIdAsync(item.Id);
@@ -143,13 +160,13 @@ namespace ManagerCafe.Services
                 //var a = await _inventoryRepository.GetAllAsync();
                 // Khi ko bị lỗi thì save tất cả thay đổi xuống Db
                 //1
-                await transaction.CommitAsync();
+               // await transaction.CommitAsync();
                 return _mapper.Map<Inventory, InventoryDto>(entity);
             }
             catch (Exception ex)
             {
                 //Nếu có lỗi trong lúc donw xuống db thì trả lại như cũ
-                await transaction.RollbackAsync();
+                //await transaction.RollbackAsync();
                 throw ex.GetBaseException();
             }
         }

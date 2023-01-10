@@ -12,9 +12,7 @@ namespace ManagerCafe.Data.Data
         public ManagerCafeDbContext(DbContextOptions options) : base(options)
         {
         }
-        public ManagerCafeDbContext()
-        {
-        }
+      
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);

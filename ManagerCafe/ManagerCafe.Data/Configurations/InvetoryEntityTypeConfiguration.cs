@@ -11,6 +11,7 @@ namespace ManagerCafe.Data.Configurations
             builder.ToTable("Inventory");
             builder.Property(x => x.Quatity).IsRequired();
             builder.Property(x => x.IsDeleted).HasDefaultValue(false);
+            // Trong table Inventory sẽ có một product hoặc nhiều product trong Inventory
             builder.HasOne(x => x.Product).WithMany(x => x.Invetories).HasForeignKey(x => x.ProductId);
             builder.HasOne(x => x.WareHouse).WithMany(x => x.Invetories).HasForeignKey(x => x.WareHouseId);
             //builder.HasOne(x => x).WithMany(x => x.)

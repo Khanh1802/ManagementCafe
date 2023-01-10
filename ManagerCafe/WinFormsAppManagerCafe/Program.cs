@@ -5,6 +5,7 @@ using ManagerCafe.Profiles;
 using ManagerCafe.Repositories;
 using ManagerCafe.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -37,6 +38,9 @@ namespace WinFormsAppManagerCafe
             return Host.CreateDefaultBuilder()
            .ConfigureServices((context, services) =>
            {
+               services.AddMemoryCache(option =>
+               {
+               });
                services.AddDbContext<ManagerCafeDbContext>(opts =>
                {
                    var config = context.Configuration.GetConnectionString("ManagerCafe");
@@ -61,6 +65,7 @@ namespace WinFormsAppManagerCafe
                services.AddAutoMapper(typeof(ProductProfile));
                services.AddAutoMapper(typeof(WareHouseProfile));
                services.AddAutoMapper(typeof(InventoryProfile));
+               services.AddAutoMapper(typeof(InventoryTransactionProfile));
            });
         }
     }

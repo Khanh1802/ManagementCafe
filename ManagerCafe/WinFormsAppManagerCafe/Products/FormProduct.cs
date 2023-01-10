@@ -1,8 +1,10 @@
 ﻿using ManagerCafe.Commons;
+using ManagerCafe.Data.Enums;
 using ManagerCafe.Datas.Enums;
 using ManagerCafe.Dtos.ProductDtos;
 using ManagerCafe.Enums;
 using ManagerCafe.Services;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using WinFormsAppManagerCafe.Products;
 
@@ -10,13 +12,14 @@ namespace WinFormsAppManagerCafe
 {
     public partial class FormProduct : Form
     {
-        private Guid? _productId = null;
+        private readonly IMemoryCache _memoryCache;
         private readonly IProductService _productService;
-        private bool _isLoadingDone = false;
+        private Guid? _productId = null;
+        internal bool _isLoadingDone = false;
         private int _skipCount = 0;
         private int _maxResultCount = 10;
         private int _currentPage = 1;
-        public FormProduct(IProductService productService)
+        public FormProduct(IProductService productService, IMemoryCache memoryCache)
         {
             InitializeComponent();
             _productService = productService;
@@ -24,9 +27,12 @@ namespace WinFormsAppManagerCafe
             //Load data into ComboBox
 
             //Lấy dữ liệu của Enum map về List<CommonEnumDto>
-            //Trong đó Id chính là Enum, name là thuộc tính Display
+            //Trong đó Id chính là Enum, name là thuộc tính DisplayTypeInventoryTransaction
             CbbFilter.DataSource = EnumHelpers.GetEnumList<EnumProductFilter>();
             CbbFilter.DisplayMember = "Name";
+            CbbIndexPage.DataSource = EnumHelpers.GetEnumList<EnumIndexPage>();
+            CbbIndexPage.DisplayMember = "Name";
+            _memoryCache = memoryCache;
         }
 
         private async void BtAdd_Click(object sender, EventArgs e)
@@ -219,9 +225,9 @@ namespace WinFormsAppManagerCafe
             {
                 _isLoadingDone = false;
                 _currentPage++;
-                if (CbbIndexPage.SelectedIndex > -1)
+                if (CbbIndexPage.SelectedIndex > -1 && CbbIndexPage.SelectedItem is CommonEnumDto<EnumIndexPage> indexPage)
                 {
-                    _skipCount += Convert.ToInt32(CbbIndexPage.SelectedItem);
+                    _skipCount += Convert.ToInt32(indexPage.Name);
                 }
                 else
                 {
@@ -237,9 +243,9 @@ namespace WinFormsAppManagerCafe
             {
                 _isLoadingDone = false;
                 _currentPage--;
-                if (CbbIndexPage.SelectedIndex > -1)
+                if (CbbIndexPage.SelectedIndex > -1 && CbbIndexPage.SelectedItem is CommonEnumDto<EnumIndexPage> indexPage)
                 {
-                    _skipCount -= Convert.ToInt32(CbbIndexPage.SelectedItem);
+                    _skipCount -= Convert.ToInt32(indexPage.Name);
                 }
                 else
                 {
@@ -251,11 +257,12 @@ namespace WinFormsAppManagerCafe
 
         private async void CbbIndexPage_SelectedValueChanged(object sender, EventArgs e)
         {
-            if (_isLoadingDone && CbbIndexPage.SelectedIndex > -1)
+            if (_isLoadingDone && CbbIndexPage.SelectedItem is CommonEnumDto<EnumIndexPage> indexPage)
             {
                 _skipCount = 0;
                 _currentPage = 1;
-                _maxResultCount = Convert.ToInt32(CbbIndexPage.SelectedItem);
+                _maxResultCount = Convert.ToInt32(indexPage.Name);
+                _memoryCache.Remove(ProductCacheKey.ProductAllKey);
                 await RefreshDataGirdView();
             }
         }
