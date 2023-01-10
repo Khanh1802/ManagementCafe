@@ -8,6 +8,6 @@ namespace ManagerCafe.Services
     {
         Task<List<InventoryTransactionDto>> GetAllAsync();
         Task AddAsync(CreateInventoryTransactionDto item, DbTransaction dbTransaction = null);
-        Task<List<InventoryTransactionDto>> FilterAsync(FilterInventoryTransactionDto item);
+        Task<List<InventoryTransactionDto>> FilterAsync(FilterInventoryTransactionDto item,int enums);
     }
 }
