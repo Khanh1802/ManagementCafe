@@ -1,4 +1,6 @@
-﻿using ManagerCafe.Dtos.WareHouseDtos;
+﻿using ManagerCafe.Commons;
+using ManagerCafe.Dtos.ProductDtos;
+using ManagerCafe.Dtos.WareHouseDtos;
 
 namespace ManagerCafe.Services
 {
@@ -6,5 +8,6 @@ namespace ManagerCafe.Services
     {
         Task<int> AllCountAsync();
         Task<List<WareHouseDto>> FilterChoice(int filter);
+        Task<CommonPageDto<WareHouseDto>> GetPagedListAsync(FilterWareHouseDto item);
     }
 }

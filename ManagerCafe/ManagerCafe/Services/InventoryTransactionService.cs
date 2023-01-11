@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ManagerCafe.Commons;
 using ManagerCafe.Data.Data;
 using ManagerCafe.Data.Enums;
 using ManagerCafe.Data.Models;
@@ -222,6 +223,11 @@ namespace ManagerCafe.Services
         {
             var entites = await _inventoryTransactionRepository.GetAllAsync();
             return _mapper.Map<List<InventoryTransaction>, List<InventoryTransactionDto>>(entites);
+        }
+
+        public Task<CommonPageDto<InventoryTransactionDto>> GetPagedListAsync(FilterInventoryTransactionDto item)
+        {
+            throw new NotImplementedException();
         }
     }
 }

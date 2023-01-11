@@ -39,7 +39,7 @@ namespace ManagerCafe.Services
             try
             {
                 var entity = new Inventory();
-                var filter = await this.FilterAsync(new FilterInventoryDto()
+                var filter = await FilterAsync(new FilterInventoryDto()
                 {
                     ProductId = item.ProductId,
                     WareHouseId = item.WareHouseId,
@@ -53,7 +53,7 @@ namespace ManagerCafe.Services
                     }
                     inventory.Quatity += item.Quatity;
                     var update = _mapper.Map<InventoryDto, UpdateInventoryDto>(inventory);
-                    await this.UpdateAsync(update);
+                    await UpdateAsync(update);
 
                     var inventoryTransaction = new CreateInventoryTransactionDto();
 
@@ -100,14 +100,24 @@ namespace ManagerCafe.Services
         {
             var filter = await _inventoryRepository.GetQueryableAsync();
 
+            if (item.ProductId != null)
+            {
+                filter = filter.Where(x => x.WareHouseId == item.WareHouseId);
+            }
+            if (item.WareHouseId != null)
+            {
+                filter = filter.Where(x => x.ProductId == item.ProductId);
+            }
+
+            var inventories = await filter
+                      .OrderBy(x => x.Product.CreateTime)
+                      .Include(x => x.WareHouse).Where(x => x.WareHouse.IsDeleted == false)
+                      .Include(x => x.Product).Where(x => x.Product.IsDeleted == false)
+                      .ToListAsync();
             return _mapper.Map<List<Inventory>, List<InventoryDto>>(inventories);
         }
 
-        //private async Task<List<InventoryDto>> FilterOnIdProductAndWarehouse(FilterInventoryDto item)
-        //{
-        //    var query = await _inventoryRepository.GetQueryableAsync();
-        //    var filter = query
-        //}
+
 
         public async Task<List<InventoryDto>> GetAllAsync()
         {
@@ -130,7 +140,29 @@ namespace ManagerCafe.Services
             return _mapper.Map<Inventory, InventoryDto>(entity);
         }
 
-        public async Task<CommonPageDto<InventoryDto>> GetPagedListAsync(FilterInventoryDto item)
+        public async Task<CommonPageDto<InventoryDto>> GetPagedListAsync(FilterInventoryDto item, int choice)
+        {
+            if (Enum.IsDefined(typeof(EnumInventoryFilter), choice))
+            {
+                switch ((EnumInventoryFilter)choice)
+                {
+                    case EnumInventoryFilter.DateAsc:
+                        return await FilterInventoryDtoDateAsc(item);
+                    case EnumInventoryFilter.DateDesc:
+                        return await FilterInventoryDtoDateDesc(item);
+                    case EnumInventoryFilter.QuatityAsc:
+                        return await FilterInventoryDtoQuatityAsc(item);
+                    case EnumInventoryFilter.QuatytiDesc:
+                        return await FilterInventoryDtoQuaityDesc(item);
+                }
+            }
+            else if (item.ProductId != null && item.WareHouseId != null)
+            {
+                return await FilterInventoryByIdProductAndWarehouse(item);
+            }
+            return new CommonPageDto<InventoryDto>();
+        }
+        private async Task<CommonPageDto<InventoryDto>> FilterInventoryDtoDateAsc(FilterInventoryDto item)
         {
             var filter = await _inventoryRepository.GetQueryableAsync();
             var count = await filter.CountAsync();
@@ -139,6 +171,52 @@ namespace ManagerCafe.Services
                 .Include(x => x.WareHouse).Where(x => !x.IsDeleted)
                 .Skip(item.SkipCount).Take(item.TakeMaxResultCount).ToListAsync();
             return new CommonPageDto<InventoryDto>(count, item, _mapper.Map<List<Inventory>, List<InventoryDto>>(InventoriesDto));
+        }
+
+        private async Task<CommonPageDto<InventoryDto>> FilterInventoryDtoDateDesc(FilterInventoryDto item)
+        {
+            var filter = await _inventoryRepository.GetQueryableAsync();
+            var count = await filter.CountAsync();
+            var InventoriesDto = await filter.OrderByDescending(x => x.CreateTime)
+                .Include(x => x.Product).Where(k => !k.IsDeleted)
+                .Include(x => x.WareHouse).Where(x => !x.IsDeleted)
+                .Skip(item.SkipCount).Take(item.TakeMaxResultCount).ToListAsync();
+            return new CommonPageDto<InventoryDto>(count, item, _mapper.Map<List<Inventory>, List<InventoryDto>>(InventoriesDto));
+        }
+
+        private async Task<CommonPageDto<InventoryDto>> FilterInventoryDtoQuatityAsc(FilterInventoryDto item)
+        {
+            var filter = await _inventoryRepository.GetQueryableAsync();
+            var count = await filter.CountAsync();
+            var InventoriesDto = await filter.OrderBy(x => x.Quatity)
+                .Include(x => x.Product).Where(k => !k.IsDeleted)
+                .Include(x => x.WareHouse).Where(x => !x.IsDeleted)
+                .Skip(item.SkipCount).Take(item.TakeMaxResultCount).ToListAsync();
+            return new CommonPageDto<InventoryDto>(count, item, _mapper.Map<List<Inventory>, List<InventoryDto>>(InventoriesDto));
+        }
+
+        private async Task<CommonPageDto<InventoryDto>> FilterInventoryDtoQuaityDesc(FilterInventoryDto item)
+        {
+            var filter = await _inventoryRepository.GetQueryableAsync();
+            var count = await filter.CountAsync();
+            var InventoriesDto = await filter.OrderByDescending(x => x.Quatity)
+                .Include(x => x.Product).Where(k => !k.IsDeleted)
+                .Include(x => x.WareHouse).Where(x => !x.IsDeleted)
+                .Skip(item.SkipCount).Take(item.TakeMaxResultCount).ToListAsync();
+            return new CommonPageDto<InventoryDto>(count, item, _mapper.Map<List<Inventory>, List<InventoryDto>>(InventoriesDto));
+        }
+
+        private async Task<CommonPageDto<InventoryDto>> FilterInventoryByIdProductAndWarehouse(FilterInventoryDto item)
+        {
+            var filter = await _inventoryRepository.GetQueryableAsync();
+            var count = await filter.CountAsync();
+            var InventoriesDto = filter.OrderByDescending(x => x.Quatity)
+                .Include(x => x.Product).Where(k => !k.IsDeleted)
+                .Include(x => x.WareHouse).Where(x => !x.IsDeleted);
+            var result = await InventoriesDto.Where(x => x.Product.Id == item.ProductId &&
+            x.WareHouse.Id == item.WareHouseId)
+                .ToListAsync();
+            return new CommonPageDto<InventoryDto>(count, item, _mapper.Map<List<Inventory>, List<InventoryDto>>(result));
         }
 
         public async Task<InventoryDto> UpdateAsync(UpdateInventoryDto item)
@@ -172,6 +250,11 @@ namespace ManagerCafe.Services
         public void Teest()
         {
 
+        }
+
+        public Task<CommonPageDto<InventoryDto>> GetPagedListAsync(FilterInventoryDto item)
+        {
+            throw new NotImplementedException();
         }
     }
 }

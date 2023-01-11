@@ -21,8 +21,6 @@ namespace WinFormsAppManagerCafe.Inventories
         private int _takePage = 0;
         private int _skipPage = 0;
         private int _currentPage = 1;
-        private bool _forwardPage = false;
-        private bool _reversePage = false;
         private Guid? _InventoryId;
         public FormInventory(IInventoryService inventoryService, IProductService productService, IWareHouseService wareHouseService)
         {
@@ -149,6 +147,7 @@ namespace WinFormsAppManagerCafe.Inventories
         {
             _isLoadingDone = false;
             var filter = new FilterInventoryDto();
+            var choice = -1;
 
             //if (CbbProduct.SelectedItem is ProductDto productDto)
             //{
@@ -159,10 +158,15 @@ namespace WinFormsAppManagerCafe.Inventories
             //    filter.WareHouseId = warehouseDto.Id;
             //}
 
+            if (CbbInventoryFilter.SelectedItem is CommonEnumDto<EnumInventoryFilter> enumFilter)
+            {
+                choice = (int)enumFilter.Id;
+            }
+
             filter.TakeMaxResultCount = _takePage;
             filter.SkipCount = _skipPage;
             filter.CurrentPage = _currentPage;
-            var inventories = await _inventoryService.GetPagedListAsync(filter);
+            var inventories = await _inventoryService.GetPagedListAsync(filter, choice);
             Dtg.DataSource = inventories.Data;
 
             if (Dtg?.Columns != null && Dtg.Columns.Contains("Id"))
@@ -203,16 +207,6 @@ namespace WinFormsAppManagerCafe.Inventories
             _isLoadingDone = true;
         }
 
-        private async void CbbWareHouse_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (_isLoadingDone && CbbWareHouse.SelectedIndex >= 0)
-            {
-                _isLoadingDone = false;
-                await OnFilterInventoryAsync();
-                _isLoadingDone = true;
-            }
-        }
-
         private async void BtReversePage_Click(object sender, EventArgs e)
         {
             if (_isLoadingDone)
@@ -245,27 +239,45 @@ namespace WinFormsAppManagerCafe.Inventories
         {
             if (_isLoadingDone)
             {
+                if (CbbPage.SelectedItem is CommonEnumDto<EnumIndexPage> indexPage)
+                {
+                    _takePage = Convert.ToInt32(indexPage.Name);
+                    _currentPage = 1;
+                    _skipPage = 0;
+                }
                 await OnFilterInventoryAsync();
             }
         }
 
         private async void BtFind_Click(object sender, EventArgs e)
         {
-            if (!CbAllResult.Checked)
+            if (_isLoadingDone)
             {
-                if (CbbProduct.SelectedItem is ProductDto productDto)
+                if (!CbAllResult.Checked)
                 {
-
+                    var filter = new FilterInventoryDto();
+                    filter.TakeMaxResultCount = _takePage;
+                    filter.SkipCount = 0;
+                    filter.CurrentPage = 1;
+                    int choice = -1;
+                    if (CbbProduct.SelectedItem is ProductDto productDto)
+                    {
+                        filter.ProductId = productDto.Id;
+                    }
+                    if (CbbWareHouse.SelectedItem is WareHouseDto warehouseDto)
+                    {
+                        filter.WareHouseId = warehouseDto.Id;
+                    }
+                    if (filter.ProductId != null && filter.WareHouseId != null)
+                    {
+                        var filters = await _inventoryService.GetPagedListAsync(filter, choice);
+                        Dtg.DataSource = filters.Data;
+                    }
                 }
-                if (CbbWareHouse.SelectedItem is WareHouseDto warehouseDto)
+                else
                 {
-
+                    await OnFilterInventoryAsync();
                 }
-                //Dtg = 
-            }
-            else
-            {
-                await OnFilterInventoryAsync();
             }
         }
 
@@ -273,24 +285,7 @@ namespace WinFormsAppManagerCafe.Inventories
         {
             if (_isLoadingDone)
             {
-                if (CbbInventoryFilter.SelectedItem is CommonEnumDto<EnumInventoryFilter> enumFilter)
-                {
-
-                }
-                _isLoadingDone = false;
-                var filter = new FilterInventoryDto();
-                filter.TakeMaxResultCount = _takePage;
-                filter.SkipCount = _skipPage;
-                filter.CurrentPage = _currentPage;
-                var inventories = await _inventoryService.GetPagedListAsync(filter);
-                Dtg.DataSource = inventories.Data;
-                BtRemove.Enabled = false;
-                TbQuatity.Text = string.Empty;
-                var isToNextPage = inventories.HasNextPage == true ? BtNextPage.Enabled = true : BtNextPage.Enabled = false;
-                var isToReserPage = inventories.HasReversePage == true ? BtReversePage.Enabled = true : BtReversePage.Enabled = false;
-                _InventoryId = null;
-                TbCurrentPage.Text = $"{_currentPage}/{inventories.TotalPage}";
-                _isLoadingDone = true;
+                await OnFilterInventoryAsync();
             }
         }
     }

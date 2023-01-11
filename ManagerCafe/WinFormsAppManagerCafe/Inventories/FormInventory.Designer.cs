@@ -167,7 +167,6 @@
             this.CbbProduct.Name = "CbbProduct";
             this.CbbProduct.Size = new System.Drawing.Size(151, 28);
             this.CbbProduct.TabIndex = 79;
-            this.CbbProduct.SelectedIndexChanged += new System.EventHandler(this.CbbProduct_SelectedIndexChanged);
             // 
             // CbbWareHouse
             // 
@@ -178,7 +177,6 @@
             this.CbbWareHouse.Name = "CbbWareHouse";
             this.CbbWareHouse.Size = new System.Drawing.Size(151, 28);
             this.CbbWareHouse.TabIndex = 80;
-            this.CbbWareHouse.SelectedIndexChanged += new System.EventHandler(this.CbbWareHouse_SelectedIndexChanged);
             // 
             // CbAllResult
             // 
@@ -231,7 +229,7 @@
             this.CbbInventoryFilter.FormattingEnabled = true;
             this.CbbInventoryFilter.Location = new System.Drawing.Point(931, 254);
             this.CbbInventoryFilter.Name = "CbbInventoryFilter";
-            this.CbbInventoryFilter.Size = new System.Drawing.Size(151, 28);
+            this.CbbInventoryFilter.Size = new System.Drawing.Size(198, 28);
             this.CbbInventoryFilter.TabIndex = 85;
             this.CbbInventoryFilter.SelectedValueChanged += new System.EventHandler(this.CbbInventoryFilter_SelectedValueChanged);
             // 
