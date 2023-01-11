@@ -100,22 +100,14 @@ namespace ManagerCafe.Services
         {
             var filter = await _inventoryRepository.GetQueryableAsync();
 
-            if (item.ProductId != null)
-            {
-                filter = filter.Where(x => x.WareHouseId == item.WareHouseId);
-            }
-            if (item.WareHouseId != null)
-            {
-                filter = filter.Where(x => x.ProductId == item.ProductId);
-            }
-
-            var inventories = await filter
-                      .OrderBy(x => x.Product.CreateTime)
-                      .Include(x => x.WareHouse).Where(x => x.WareHouse.IsDeleted == false)
-                      .Include(x => x.Product).Where(x => x.Product.IsDeleted == false)
-                      .ToListAsync();
             return _mapper.Map<List<Inventory>, List<InventoryDto>>(inventories);
         }
+
+        //private async Task<List<InventoryDto>> FilterOnIdProductAndWarehouse(FilterInventoryDto item)
+        //{
+        //    var query = await _inventoryRepository.GetQueryableAsync();
+        //    var filter = query
+        //}
 
         public async Task<List<InventoryDto>> GetAllAsync()
         {
@@ -142,8 +134,11 @@ namespace ManagerCafe.Services
         {
             var filter = await _inventoryRepository.GetQueryableAsync();
             var count = await filter.CountAsync();
-
-
+            var InventoriesDto = await filter.OrderBy(x => x.CreateTime)
+                .Include(x => x.Product).Where(k => !k.IsDeleted)
+                .Include(x => x.WareHouse).Where(x => !x.IsDeleted)
+                .Skip(item.SkipCount).Take(item.TakeMaxResultCount).ToListAsync();
+            return new CommonPageDto<InventoryDto>(count, item, _mapper.Map<List<Inventory>, List<InventoryDto>>(InventoriesDto));
         }
 
         public async Task<InventoryDto> UpdateAsync(UpdateInventoryDto item)
@@ -172,6 +167,11 @@ namespace ManagerCafe.Services
                 //await transaction.RollbackAsync();
                 throw ex.GetBaseException();
             }
+        }
+
+        public void Teest()
+        {
+
         }
     }
 }

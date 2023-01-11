@@ -37,7 +37,6 @@
             this.BtAdd = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.BtFind = new System.Windows.Forms.Button();
-            this.TbFind = new System.Windows.Forms.TextBox();
             this.CbbPage = new System.Windows.Forms.ComboBox();
             this.CbbProduct = new System.Windows.Forms.ComboBox();
             this.CbbWareHouse = new System.Windows.Forms.ComboBox();
@@ -45,6 +44,7 @@
             this.TbCurrentPage = new System.Windows.Forms.TextBox();
             this.BtNextPage = new System.Windows.Forms.Button();
             this.BtReversePage = new System.Windows.Forms.Button();
+            this.CbbInventoryFilter = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Dtg)).BeginInit();
             this.SuspendLayout();
@@ -132,7 +132,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label3.Location = new System.Drawing.Point(146, 66);
+            this.label3.Location = new System.Drawing.Point(146, 65);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(70, 28);
             this.label3.TabIndex = 76;
@@ -146,13 +146,7 @@
             this.BtFind.TabIndex = 75;
             this.BtFind.Text = "Find";
             this.BtFind.UseVisualStyleBackColor = true;
-            // 
-            // TbFind
-            // 
-            this.TbFind.Location = new System.Drawing.Point(260, 67);
-            this.TbFind.Name = "TbFind";
-            this.TbFind.Size = new System.Drawing.Size(545, 27);
-            this.TbFind.TabIndex = 74;
+            this.BtFind.Click += new System.EventHandler(this.BtFind_Click);
             // 
             // CbbPage
             // 
@@ -162,11 +156,14 @@
             this.CbbPage.Name = "CbbPage";
             this.CbbPage.Size = new System.Drawing.Size(151, 28);
             this.CbbPage.TabIndex = 78;
+            this.CbbPage.SelectedValueChanged += new System.EventHandler(this.CbbPage_SelectedValueChanged);
             // 
             // CbbProduct
             // 
+            this.CbbProduct.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.CbbProduct.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CbbProduct.FormattingEnabled = true;
-            this.CbbProduct.Location = new System.Drawing.Point(819, 102);
+            this.CbbProduct.Location = new System.Drawing.Point(356, 65);
             this.CbbProduct.Name = "CbbProduct";
             this.CbbProduct.Size = new System.Drawing.Size(151, 28);
             this.CbbProduct.TabIndex = 79;
@@ -174,8 +171,10 @@
             // 
             // CbbWareHouse
             // 
+            this.CbbWareHouse.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.CbbWareHouse.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CbbWareHouse.FormattingEnabled = true;
-            this.CbbWareHouse.Location = new System.Drawing.Point(819, 137);
+            this.CbbWareHouse.Location = new System.Drawing.Point(585, 65);
             this.CbbWareHouse.Name = "CbbWareHouse";
             this.CbbWareHouse.Size = new System.Drawing.Size(151, 28);
             this.CbbWareHouse.TabIndex = 80;
@@ -184,13 +183,12 @@
             // CbAllResult
             // 
             this.CbAllResult.AutoSize = true;
-            this.CbAllResult.Location = new System.Drawing.Point(989, 102);
+            this.CbAllResult.Location = new System.Drawing.Point(1011, 67);
             this.CbAllResult.Name = "CbAllResult";
-            this.CbAllResult.Size = new System.Drawing.Size(71, 24);
+            this.CbAllResult.Size = new System.Drawing.Size(49, 24);
             this.CbAllResult.TabIndex = 81;
-            this.CbAllResult.Text = "Tất cả";
+            this.CbAllResult.Text = "All";
             this.CbAllResult.UseVisualStyleBackColor = true;
-            this.CbAllResult.CheckedChanged += new System.EventHandler(this.CbAllResult_CheckedChanged);
             // 
             // TbCurrentPage
             // 
@@ -227,11 +225,22 @@
             this.BtReversePage.UseVisualStyleBackColor = true;
             this.BtReversePage.Click += new System.EventHandler(this.BtReversePage_Click);
             // 
+            // CbbInventoryFilter
+            // 
+            this.CbbInventoryFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CbbInventoryFilter.FormattingEnabled = true;
+            this.CbbInventoryFilter.Location = new System.Drawing.Point(931, 254);
+            this.CbbInventoryFilter.Name = "CbbInventoryFilter";
+            this.CbbInventoryFilter.Size = new System.Drawing.Size(151, 28);
+            this.CbbInventoryFilter.TabIndex = 85;
+            this.CbbInventoryFilter.SelectedValueChanged += new System.EventHandler(this.CbbInventoryFilter_SelectedValueChanged);
+            // 
             // FormInventory
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1134, 743);
+            this.Controls.Add(this.CbbInventoryFilter);
             this.Controls.Add(this.TbCurrentPage);
             this.Controls.Add(this.BtNextPage);
             this.Controls.Add(this.BtReversePage);
@@ -245,7 +254,6 @@
             this.Controls.Add(this.BtAdd);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.BtFind);
-            this.Controls.Add(this.TbFind);
             this.Controls.Add(this.CbbPage);
             this.Name = "FormInventory";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -269,7 +277,6 @@
         private Button BtAdd;
         private Label label3;
         private Button BtFind;
-        private TextBox TbFind;
         private ComboBox CbbPage;
         private ComboBox CbbProduct;
         private ComboBox CbbWareHouse;
@@ -278,5 +285,6 @@
         private TextBox TbCurrentPage;
         private Button BtNextPage;
         private Button BtReversePage;
+        private ComboBox CbbInventoryFilter;
     }
 }

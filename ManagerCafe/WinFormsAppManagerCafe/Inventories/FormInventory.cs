@@ -36,6 +36,8 @@ namespace WinFormsAppManagerCafe.Inventories
             {
                 _takePage = Convert.ToInt32(indexPage.Name);
             }
+            CbbInventoryFilter.DataSource = EnumHelpers.GetEnumList<EnumInventoryFilter>();
+            CbbInventoryFilter.DisplayMember = "Name";
         }
 
 
@@ -139,30 +141,29 @@ namespace WinFormsAppManagerCafe.Inventories
         {
             if (_isLoadingDone && CbbProduct.SelectedIndex >= 0)
             {
-                _isLoadingDone = false;
                 await OnFilterInventoryAsync();
-                _isLoadingDone = true;
             }
         }
 
         private async Task OnFilterInventoryAsync()
         {
+            _isLoadingDone = false;
             var filter = new FilterInventoryDto();
 
-            if (CbbProduct.SelectedItem is ProductDto productDto)
-            {
-                filter.ProductId = productDto.Id;
-            }
-            if (CbbWareHouse.SelectedItem is WareHouseDto warehouseDto)
-            {
-                filter.WareHouseId = warehouseDto.Id;
-            }
+            //if (CbbProduct.SelectedItem is ProductDto productDto)
+            //{
+            //    filter.ProductId = productDto.Id;
+            //}
+            //if (CbbWareHouse.SelectedItem is WareHouseDto warehouseDto)
+            //{
+            //    filter.WareHouseId = warehouseDto.Id;
+            //}
 
             filter.TakeMaxResultCount = _takePage;
             filter.SkipCount = _skipPage;
-            filter.CurrentPage = _currentPage;  
+            filter.CurrentPage = _currentPage;
             var inventories = await _inventoryService.GetPagedListAsync(filter);
-            Dtg.DataSource = inventories;
+            Dtg.DataSource = inventories.Data;
 
             if (Dtg?.Columns != null && Dtg.Columns.Contains("Id"))
             {
@@ -195,7 +196,11 @@ namespace WinFormsAppManagerCafe.Inventories
 
             BtRemove.Enabled = false;
             TbQuatity.Text = string.Empty;
+            var isToNextPage = inventories.HasNextPage == true ? BtNextPage.Enabled = true : BtNextPage.Enabled = false;
+            var isToReserPage = inventories.HasReversePage == true ? BtReversePage.Enabled = true : BtReversePage.Enabled = false;
             _InventoryId = null;
+            TbCurrentPage.Text = $"{_currentPage}/{inventories.TotalPage}";
+            _isLoadingDone = true;
         }
 
         private async void CbbWareHouse_SelectedIndexChanged(object sender, EventArgs e)
@@ -208,32 +213,85 @@ namespace WinFormsAppManagerCafe.Inventories
             }
         }
 
-        private async void CbAllResult_CheckedChanged(object sender, EventArgs e)
+        private async void BtReversePage_Click(object sender, EventArgs e)
         {
             if (_isLoadingDone)
             {
-                if (CbAllResult.Checked)
+                _currentPage--;
+                if (CbbPage.SelectedItem is CommonEnumDto<EnumIndexPage> indexPage)
                 {
-                    var filter = new FilterInventoryDto();
-                    var inventories = new List<InventoryDto>();
-                    inventories = await _inventoryService.FilterAsync(filter);
-                    Dtg.DataSource = inventories;
+                    _skipPage -= Convert.ToInt32(indexPage.Name);
+                    _takePage = Convert.ToInt32(indexPage.Name);
                 }
-                else
-                {
-                    await OnFilterInventoryAsync();
-                }
+                await OnFilterInventoryAsync();
             }
         }
 
-        private void BtReversePage_Click(object sender, EventArgs e)
+        private async void BtNextPage_Click(object sender, EventArgs e)
         {
-
+            if (_isLoadingDone)
+            {
+                _currentPage++;
+                if (CbbPage.SelectedItem is CommonEnumDto<EnumIndexPage> indexPage)
+                {
+                    _skipPage += Convert.ToInt32(indexPage.Name);
+                    _takePage = Convert.ToInt32(indexPage.Name);
+                }
+                await OnFilterInventoryAsync();
+            }
         }
 
-        private void BtNextPage_Click(object sender, EventArgs e)
+        private async void CbbPage_SelectedValueChanged(object sender, EventArgs e)
         {
+            if (_isLoadingDone)
+            {
+                await OnFilterInventoryAsync();
+            }
+        }
 
+        private async void BtFind_Click(object sender, EventArgs e)
+        {
+            if (!CbAllResult.Checked)
+            {
+                if (CbbProduct.SelectedItem is ProductDto productDto)
+                {
+
+                }
+                if (CbbWareHouse.SelectedItem is WareHouseDto warehouseDto)
+                {
+
+                }
+                //Dtg = 
+            }
+            else
+            {
+                await OnFilterInventoryAsync();
+            }
+        }
+
+        private async void CbbInventoryFilter_SelectedValueChanged(object sender, EventArgs e)
+        {
+            if (_isLoadingDone)
+            {
+                if (CbbInventoryFilter.SelectedItem is CommonEnumDto<EnumInventoryFilter> enumFilter)
+                {
+
+                }
+                _isLoadingDone = false;
+                var filter = new FilterInventoryDto();
+                filter.TakeMaxResultCount = _takePage;
+                filter.SkipCount = _skipPage;
+                filter.CurrentPage = _currentPage;
+                var inventories = await _inventoryService.GetPagedListAsync(filter);
+                Dtg.DataSource = inventories.Data;
+                BtRemove.Enabled = false;
+                TbQuatity.Text = string.Empty;
+                var isToNextPage = inventories.HasNextPage == true ? BtNextPage.Enabled = true : BtNextPage.Enabled = false;
+                var isToReserPage = inventories.HasReversePage == true ? BtReversePage.Enabled = true : BtReversePage.Enabled = false;
+                _InventoryId = null;
+                TbCurrentPage.Text = $"{_currentPage}/{inventories.TotalPage}";
+                _isLoadingDone = true;
+            }
         }
     }
 }
