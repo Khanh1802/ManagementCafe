@@ -40,6 +40,10 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.CbbWarehouse = new System.Windows.Forms.ComboBox();
             this.checkBoxWarehouse = new System.Windows.Forms.CheckBox();
+            this.TbCurrentPage = new System.Windows.Forms.TextBox();
+            this.BtNextPage = new System.Windows.Forms.Button();
+            this.BtReversePage = new System.Windows.Forms.Button();
+            this.CbbPage = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.Dtg)).BeginInit();
             this.SuspendLayout();
             // 
@@ -53,7 +57,7 @@
             this.Dtg.RowHeadersWidth = 51;
             this.Dtg.RowTemplate.Height = 29;
             this.Dtg.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.Dtg.Size = new System.Drawing.Size(910, 389);
+            this.Dtg.Size = new System.Drawing.Size(910, 470);
             this.Dtg.TabIndex = 74;
             // 
             // label1
@@ -97,7 +101,7 @@
             // 
             this.CbbType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CbbType.FormattingEnabled = true;
-            this.CbbType.Location = new System.Drawing.Point(940, 134);
+            this.CbbType.Location = new System.Drawing.Point(940, 127);
             this.CbbType.Name = "CbbType";
             this.CbbType.Size = new System.Drawing.Size(151, 28);
             this.CbbType.TabIndex = 81;
@@ -138,26 +142,77 @@
             // 
             this.CbbWarehouse.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CbbWarehouse.FormattingEnabled = true;
-            this.CbbWarehouse.Location = new System.Drawing.Point(940, 207);
+            this.CbbWarehouse.Location = new System.Drawing.Point(940, 287);
             this.CbbWarehouse.Name = "CbbWarehouse";
             this.CbbWarehouse.Size = new System.Drawing.Size(151, 28);
             this.CbbWarehouse.TabIndex = 86;
+            this.CbbWarehouse.SelectedValueChanged += new System.EventHandler(this.CbbWarehouse_SelectedValueChanged);
             // 
             // checkBoxWarehouse
             // 
             this.checkBoxWarehouse.AutoSize = true;
-            this.checkBoxWarehouse.Location = new System.Drawing.Point(940, 257);
+            this.checkBoxWarehouse.Location = new System.Drawing.Point(940, 344);
             this.checkBoxWarehouse.Name = "checkBoxWarehouse";
             this.checkBoxWarehouse.Size = new System.Drawing.Size(124, 24);
             this.checkBoxWarehouse.TabIndex = 88;
             this.checkBoxWarehouse.Text = "All warehouse";
             this.checkBoxWarehouse.UseVisualStyleBackColor = true;
+            this.checkBoxWarehouse.CheckedChanged += new System.EventHandler(this.checkBoxWarehouse_CheckedChanged);
+            // 
+            // TbCurrentPage
+            // 
+            this.TbCurrentPage.Enabled = false;
+            this.TbCurrentPage.Location = new System.Drawing.Point(438, 699);
+            this.TbCurrentPage.Name = "TbCurrentPage";
+            this.TbCurrentPage.Size = new System.Drawing.Size(125, 27);
+            this.TbCurrentPage.TabIndex = 91;
+            // 
+            // BtNextPage
+            // 
+            this.BtNextPage.Enabled = false;
+            this.BtNextPage.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.BtNextPage.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.BtNextPage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtNextPage.Location = new System.Drawing.Point(735, 691);
+            this.BtNextPage.Name = "BtNextPage";
+            this.BtNextPage.Size = new System.Drawing.Size(123, 35);
+            this.BtNextPage.TabIndex = 90;
+            this.BtNextPage.Text = "Next page";
+            this.BtNextPage.UseVisualStyleBackColor = true;
+            this.BtNextPage.Click += new System.EventHandler(this.BtNextPage_Click);
+            // 
+            // BtReversePage
+            // 
+            this.BtReversePage.Enabled = false;
+            this.BtReversePage.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.BtReversePage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtReversePage.Location = new System.Drawing.Point(103, 691);
+            this.BtReversePage.Name = "BtReversePage";
+            this.BtReversePage.Size = new System.Drawing.Size(123, 35);
+            this.BtReversePage.TabIndex = 89;
+            this.BtReversePage.Text = "Reverse page";
+            this.BtReversePage.UseVisualStyleBackColor = true;
+            this.BtReversePage.Click += new System.EventHandler(this.BtReversePage_Click);
+            // 
+            // CbbPage
+            // 
+            this.CbbPage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CbbPage.FormattingEnabled = true;
+            this.CbbPage.Location = new System.Drawing.Point(940, 207);
+            this.CbbPage.Name = "CbbPage";
+            this.CbbPage.Size = new System.Drawing.Size(151, 28);
+            this.CbbPage.TabIndex = 92;
+            this.CbbPage.SelectedValueChanged += new System.EventHandler(this.CbbPage_SelectedValueChanged);
             // 
             // FormInventoryTransaction
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1103, 608);
+            this.ClientSize = new System.Drawing.Size(1134, 743);
+            this.Controls.Add(this.CbbPage);
+            this.Controls.Add(this.TbCurrentPage);
+            this.Controls.Add(this.BtNextPage);
+            this.Controls.Add(this.BtReversePage);
             this.Controls.Add(this.checkBoxWarehouse);
             this.Controls.Add(this.CbbWarehouse);
             this.Controls.Add(this.textBox2);
@@ -194,5 +249,9 @@
         private TextBox textBox2;
         private ComboBox CbbWarehouse;
         private CheckBox checkBoxWarehouse;
+        private TextBox TbCurrentPage;
+        private Button BtNextPage;
+        private Button BtReversePage;
+        private ComboBox CbbPage;
     }
 }

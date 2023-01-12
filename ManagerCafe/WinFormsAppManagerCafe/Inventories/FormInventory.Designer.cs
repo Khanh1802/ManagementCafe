@@ -112,6 +112,7 @@
             this.BtRemove.TabIndex = 72;
             this.BtRemove.Text = "Delete";
             this.BtRemove.UseVisualStyleBackColor = false;
+            this.BtRemove.Click += new System.EventHandler(this.BtRemove_Click);
             // 
             // BtAdd
             // 

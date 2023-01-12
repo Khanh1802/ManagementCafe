@@ -15,7 +15,7 @@ namespace WinFormsAppManagerCafe
         {
             var pageProduct = Program.ServiceProvider.GetService<FormProduct>();
             pageProduct.ShowDialog();
-            if(pageProduct._isLoadingDone)
+            if (pageProduct._isLoadingDone)
             {
                 pageProduct.Close();
             }
@@ -45,10 +45,7 @@ namespace WinFormsAppManagerCafe
         {
             var pageInventory = Program.ServiceProvider.GetService<FormInventory>();
             pageInventory.ShowDialog();
-            if(pageInventory._isLoadingDone)
-            {
-                pageInventory.Close();
-            }
+
         }
     }
 }

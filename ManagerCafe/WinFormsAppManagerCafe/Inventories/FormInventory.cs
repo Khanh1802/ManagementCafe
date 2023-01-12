@@ -43,6 +43,7 @@ namespace WinFormsAppManagerCafe.Inventories
         {
             if (_isLoadingDone)
             {
+                _isLoadingDone = false;
                 if (!string.IsNullOrEmpty(TbQuatity.Text))
                 {
                     if (CbbWareHouse.SelectedIndex >= 0 && CbbWareHouse.SelectedIndex >= 0
@@ -83,6 +84,18 @@ namespace WinFormsAppManagerCafe.Inventories
                             }
                             catch (Exception ex)
                             {
+                                if (CbbProduct.SelectedItem is ProductDto productDto &&
+                                    CbbWareHouse.SelectedItem is WareHouseDto wareHouseDto)
+                                {
+                                    var filter = new FilterInventoryDto()
+                                    {
+                                        ProductId = productDto.Id,
+                                        WareHouseId = wareHouseDto.Id,
+                                    };
+                                    var inventory = await _inventoryService.FindByIdProductAndWarehouse(filter);
+                                    TbQuatity.Text = string.Empty;
+                                    Dtg.DataSource = inventory;
+                                }
                                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
                         }
@@ -97,6 +110,7 @@ namespace WinFormsAppManagerCafe.Inventories
                     MessageBox.Show("Quantity is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+            _isLoadingDone = true;
         }
 
         private void Dtg_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -110,7 +124,6 @@ namespace WinFormsAppManagerCafe.Inventories
             else
             {
                 BtRemove.Enabled = true;
-
                 if (Dtg.Rows[e.RowIndex].DataBoundItem is InventoryDto)
                 {
                     var inventory = Dtg.Rows[e.RowIndex].DataBoundItem as InventoryDto;
@@ -253,6 +266,7 @@ namespace WinFormsAppManagerCafe.Inventories
         {
             if (_isLoadingDone)
             {
+                _isLoadingDone = false;
                 if (!CbAllResult.Checked)
                 {
                     var filter = new FilterInventoryDto();
@@ -273,6 +287,7 @@ namespace WinFormsAppManagerCafe.Inventories
                         var filters = await _inventoryService.GetPagedListAsync(filter, choice);
                         Dtg.DataSource = filters.Data;
                     }
+                    _isLoadingDone = true;
                 }
                 else
                 {
@@ -286,6 +301,30 @@ namespace WinFormsAppManagerCafe.Inventories
             if (_isLoadingDone)
             {
                 await OnFilterInventoryAsync();
+            }
+        }
+
+        private async void BtRemove_Click(object sender, EventArgs e)
+        {
+            if (_isLoadingDone && _InventoryId is not null)
+            {
+                if (DialogResult.Yes == MessageBox.Show("Do You Want Delete ?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning))
+                {
+                    try
+                    {
+                        _isLoadingDone = false;
+                        await _inventoryService.DeleteAsync(_InventoryId);
+                        MessageBox.Show("Deleted inventory success", "Done", MessageBoxButtons.OK);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    finally
+                    {
+                        await OnFilterInventoryAsync();
+                    }
+                }
             }
         }
     }

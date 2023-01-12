@@ -8,11 +8,7 @@ using ManagerCafe.Dtos.InventoryTransactionDtos;
 using ManagerCafe.Enums;
 using ManagerCafe.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Caching.Memory;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Transactions;
 
 namespace ManagerCafe.Services
 {
@@ -35,7 +31,6 @@ namespace ManagerCafe.Services
 
         public async Task<InventoryDto> AddAsync(CreatenInvetoryDto item)
         {
-            var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
                 var entity = new Inventory();
@@ -47,53 +42,60 @@ namespace ManagerCafe.Services
                 if (filter.Count > 0)
                 {
                     var inventory = filter.FirstOrDefault();
-                    if (inventory == null)
+                    if (inventory is not null)
                     {
-                        throw new Exception("Not found Inventory to delete");
+                        throw new Exception("Inventory have been create");
                     }
-                    inventory.Quatity += item.Quatity;
-                    var update = _mapper.Map<InventoryDto, UpdateInventoryDto>(inventory);
-                    await UpdateAsync(update);
-
-                    var inventoryTransaction = new CreateInventoryTransactionDto();
-
-                    inventoryTransaction.Quatity = item.Quatity;
-                    inventoryTransaction.InventoryId = inventory.Id;
-                    inventoryTransaction.Type = EnumInventoryTransation.Import;
-                    await _inventoryTransactionService.AddAsync(inventoryTransaction, transaction.GetDbTransaction());
                 }
                 else
                 {
-                    var createInventory = _mapper.Map<CreatenInvetoryDto, Inventory>(item);
-                    entity = await _inventoryRepository.AddAsync(createInventory);
-
-                    var inventoryTransaction = new CreateInventoryTransactionDto()
+                    var transaction = await _context.Database.BeginTransactionAsync();
+                    try
                     {
-                        Quatity = entity.Quatity,
-                        InventoryId = entity.Id,
-                        Type = EnumInventoryTransation.Import
-                    };
-                    await _inventoryTransactionService.AddAsync(inventoryTransaction, transaction.GetDbTransaction());
+                        var createInventory = _mapper.Map<CreatenInvetoryDto, Inventory>(item);
+                        entity = await _inventoryRepository.AddAsync(createInventory);
+
+                        var inventoryTransaction = new CreateInventoryTransactionDto()
+                        {
+                            Quatity = entity.Quatity,
+                            InventoryId = entity.Id,
+                            Type = EnumInventoryTransation.Import
+                        };
+                        await _inventoryTransactionService.AddAsync(inventoryTransaction);
+                        await transaction.CommitAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        await transaction.RollbackAsync();
+                        throw ex.GetBaseException();
+                    }
                 }
-                await transaction.CommitAsync();
                 return _mapper.Map<Inventory, InventoryDto>(entity);
+            }
+            catch (Exception ex)
+            {
+                throw ex.GetBaseException();
+            }
+        }
+
+        public async Task DeleteAsync<Tkey>(Tkey key)
+        {
+            var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                var entity = await _inventoryRepository.GetByIdAsync(key);
+                if (entity is null)
+                {
+                    throw new Exception("Not found Inventory to delete");
+                }
+                await _inventoryRepository.Delete(entity);
+                await transaction.CommitAsync();
             }
             catch (Exception ex)
             {
                 await transaction.RollbackAsync();
                 throw ex.GetBaseException();
             }
-
-        }
-
-        public async Task DeleteAsync<Tkey>(Tkey key)
-        {
-            var entity = await _inventoryRepository.GetByIdAsync(key);
-            if (entity is null)
-            {
-                throw new Exception("Not found Inventory to delete");
-            }
-            await _inventoryRepository.Delete(entity);
         }
 
         public async Task<List<InventoryDto>> FilterAsync(FilterInventoryDto item)
@@ -222,7 +224,7 @@ namespace ManagerCafe.Services
         public async Task<InventoryDto> UpdateAsync(UpdateInventoryDto item)
         {
             //1 Khởi tạo Init transaction
-            // var transaction = await _context.Database.BeginTransactionAsync();
+            var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
                 var entity = await _inventoryRepository.GetByIdAsync(item.Id);
@@ -236,25 +238,37 @@ namespace ManagerCafe.Services
                 //var a = await _inventoryRepository.GetAllAsync();
                 // Khi ko bị lỗi thì save tất cả thay đổi xuống Db
                 //1
-                // await transaction.CommitAsync();
+                var inventoryTransaction = new CreateInventoryTransactionDto()
+                {
+                    Quatity = item.Quatity,
+                    InventoryId = item.Id,
+                    Type = EnumInventoryTransation.Import
+                };
+                await _inventoryTransactionService.AddAsync(inventoryTransaction);
+                await transaction.CommitAsync();
                 return _mapper.Map<Inventory, InventoryDto>(entity);
             }
             catch (Exception ex)
             {
                 //Nếu có lỗi trong lúc donw xuống db thì trả lại như cũ
-                //await transaction.RollbackAsync();
+                await transaction.RollbackAsync();
                 throw ex.GetBaseException();
             }
-        }
-
-        public void Teest()
-        {
-
         }
 
         public Task<CommonPageDto<InventoryDto>> GetPagedListAsync(FilterInventoryDto item)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<List<InventoryDto>> FindByIdProductAndWarehouse(FilterInventoryDto item)
+        {
+            var filter = await _inventoryRepository.GetQueryableAsync();
+            var InventoriesDto = filter.Include(x => x.Product).Where(k => !k.IsDeleted)
+                   .Include(x => x.WareHouse).Where(x => !x.IsDeleted)
+                   .Where(x => x.Product.Id == item.ProductId && x.WareHouseId == item.WareHouseId)
+                   .Select(x => x).ToListAsync();
+            return _mapper.Map<List<Inventory>, List<InventoryDto>>(await InventoriesDto);
         }
     }
 }
