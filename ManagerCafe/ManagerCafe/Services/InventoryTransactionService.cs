@@ -182,11 +182,11 @@ namespace ManagerCafe.Services
                     case EnumInventoryTransactionFilter.DateAsc:
                         return await FilterHistoryDateAsc(item);
                     case EnumInventoryTransactionFilter.DateDesc:
-                        break;
+                        return await FilterHistoryDateDesc(item);
                     case EnumInventoryTransactionFilter.QuatityAsc:
-                        break;
+                        return await FilterHistoryQuatityAsc(item);
                     case EnumInventoryTransactionFilter.QuatytiDesc:
-                        break;
+                        return await FilterHistoryQuatityDesc(item);
                 }
             }
             return new CommonPageDto<InventoryTransactionDto>();
@@ -203,6 +203,58 @@ namespace ManagerCafe.Services
             var count = filter.CountAsync();
             var data = filter.OrderBy(x => x.CreateTime).Skip(item.SkipCount).Take(item.TakeMaxResultCount);
             return new CommonPageDto<InventoryTransactionDto>(await count, item, _mapper.Map<List<InventoryTransaction>, List<InventoryTransactionDto>>(await data.ToListAsync()));
+        }
+        private async Task<CommonPageDto<InventoryTransactionDto>> FilterHistoryDateDesc(FilterInventoryTransactionDto item)
+        {
+            var query = await _inventoryTransactionRepository.GetQueryableAsync();
+            var filter = query
+                .Include(x => x.Inventory)
+                .ThenInclude(k => k.Product)
+                .Include(x => x.Inventory)
+                .ThenInclude(k => k.WareHouse);
+            var count = filter.CountAsync();
+            var data = filter.OrderByDescending(x => x.CreateTime).Skip(item.SkipCount).Take(item.TakeMaxResultCount);
+            return new CommonPageDto<InventoryTransactionDto>(await count, item, _mapper.Map<List<InventoryTransaction>, List<InventoryTransactionDto>>(await data.ToListAsync()));
+        }
+
+        private async Task<CommonPageDto<InventoryTransactionDto>> FilterHistoryQuatityAsc(FilterInventoryTransactionDto item)
+        {
+            var query = await _inventoryTransactionRepository.GetQueryableAsync();
+            var filter = query
+                .Include(x => x.Inventory)
+                .ThenInclude(k => k.Product)
+                .Include(x => x.Inventory)
+                .ThenInclude(k => k.WareHouse);
+            var count = filter.CountAsync();
+            var data = filter.OrderBy(x => x.Quatity).Skip(item.SkipCount).Take(item.TakeMaxResultCount);
+            return new CommonPageDto<InventoryTransactionDto>(await count, item, _mapper.Map<List<InventoryTransaction>, List<InventoryTransactionDto>>(await data.ToListAsync()));
+        }
+
+        private async Task<CommonPageDto<InventoryTransactionDto>> FilterHistoryQuatityDesc(FilterInventoryTransactionDto item)
+        {
+            var query = await _inventoryTransactionRepository.GetQueryableAsync();
+            var filter = query
+                .Include(x => x.Inventory)
+                .ThenInclude(k => k.Product)
+                .Include(x => x.Inventory)
+                .ThenInclude(k => k.WareHouse);
+            var count = filter.CountAsync();
+            var data = filter.OrderByDescending(x => x.Quatity).Skip(item.SkipCount).Take(item.TakeMaxResultCount);
+            return new CommonPageDto<InventoryTransactionDto>(await count, item, _mapper.Map<List<InventoryTransaction>, List<InventoryTransactionDto>>(await data.ToListAsync()));
+        }
+
+        public async Task<List<InventoryTransactionDto>> FilterHistoryAsync(FilterInventoryTransactionDto item)
+        {
+            var toDate = item.ToDate.AddDays(1).AddSeconds(-1);
+            var query = await _inventoryTransactionRepository.GetQueryableAsync();
+            var filter = query
+                .Include(x => x.Inventory)
+                .ThenInclude(k => k.Product)
+                .Include(x => x.Inventory)
+                .ThenInclude(k => k.WareHouse)
+                .Where(x => x.Inventory.ProductId == item.ProductId && x.Inventory.WareHouseId == item.WarehouseId
+                && x.Type == item.Type && x.CreateTime >= item.FromDate && x.CreateTime <= toDate);
+            return _mapper.Map<List<InventoryTransaction>, List<InventoryTransactionDto>>(await filter.ToListAsync());
         }
     }
 }

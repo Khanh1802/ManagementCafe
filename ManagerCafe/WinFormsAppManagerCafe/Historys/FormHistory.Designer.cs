@@ -58,6 +58,7 @@
             this.CbbFilter.Name = "CbbFilter";
             this.CbbFilter.Size = new System.Drawing.Size(198, 28);
             this.CbbFilter.TabIndex = 100;
+            this.CbbFilter.SelectedValueChanged += new System.EventHandler(this.CbbFilter_SelectedValueChanged);
             // 
             // TbCurrentPage
             // 
@@ -79,6 +80,7 @@
             this.BtNextPage.TabIndex = 98;
             this.BtNextPage.Text = "Next page";
             this.BtNextPage.UseVisualStyleBackColor = true;
+            this.BtNextPage.Click += new System.EventHandler(this.BtNextPage_Click);
             // 
             // BtReversePage
             // 
@@ -91,6 +93,7 @@
             this.BtReversePage.TabIndex = 97;
             this.BtReversePage.Text = "Reverse page";
             this.BtReversePage.UseVisualStyleBackColor = true;
+            this.BtReversePage.Click += new System.EventHandler(this.BtReversePage_Click);
             // 
             // CbAllResult
             // 
@@ -101,6 +104,7 @@
             this.CbAllResult.TabIndex = 96;
             this.CbAllResult.Text = "All";
             this.CbAllResult.UseVisualStyleBackColor = true;
+            this.CbAllResult.CheckedChanged += new System.EventHandler(this.CbAllResult_CheckedChanged);
             // 
             // CbbWareHouse
             // 
@@ -173,6 +177,7 @@
             this.BtFind.TabIndex = 90;
             this.BtFind.Text = "Find";
             this.BtFind.UseVisualStyleBackColor = true;
+            this.BtFind.Click += new System.EventHandler(this.BtFind_Click);
             // 
             // textBox2
             // 

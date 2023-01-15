@@ -11,6 +11,7 @@ namespace ManagerCafe.Services
         Task<List<InventoryTransactionDto>> GetAllAsync();
         Task AddAsync(CreateInventoryTransactionDto item);
         Task<List<InventoryTransactionDto>> FilterAsync(FilterInventoryTransactionDto item);
+        Task<List<InventoryTransactionDto>> FilterHistoryAsync(FilterInventoryTransactionDto item);
         Task<CommonPageDto<InventoryTransactionDto>> GetPagedStatisticListAsync(FilterInventoryTransactionDto item, int choice);
         Task<CommonPageDto<InventoryTransactionDto>> GetPagedHistoryListAsync(FilterInventoryTransactionDto item, int choice);
     }
