@@ -6,12 +6,6 @@ namespace ManagerCafe.Services
 {
     public interface IProductService : IGenericService<ProductDto, CreateProductDto, UpdateProductDto, FilterProductDto>
     {
-        //Task<List<ProductDto>> FilterPriceDesc();
-        //Task<List<ProductDto>> FilterPriceAcs();
-        //Task<List<ProductDto>> FilterDayDesc();
-        //Task<List<ProductDto>> FilterDayAsc();
-        Task<int> AllCountAsync();
-        Task<List<ProductDto>> FilterChoice(EnumProductFilter filter);
-        Task<CommonPageDto<ProductDto>> GetPagedListAsync(FilterProductDto item);
+        Task<CommonPageDto<ProductDto>> GetPagedListAsync(FilterProductDto item,int choice);
     }
 }

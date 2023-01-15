@@ -31,6 +31,7 @@
             this.BtPageProduct = new System.Windows.Forms.Button();
             this.BtPageWareHouse = new System.Windows.Forms.Button();
             this.BtPageInventory = new System.Windows.Forms.Button();
+            this.BtStatistic = new System.Windows.Forms.Button();
             this.BtHistory = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -50,7 +51,7 @@
             // 
             this.BtPageWareHouse.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
             this.BtPageWareHouse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtPageWareHouse.Location = new System.Drawing.Point(419, 145);
+            this.BtPageWareHouse.Location = new System.Drawing.Point(419, 140);
             this.BtPageWareHouse.Name = "BtPageWareHouse";
             this.BtPageWareHouse.Size = new System.Drawing.Size(250, 71);
             this.BtPageWareHouse.TabIndex = 1;
@@ -62,7 +63,7 @@
             // 
             this.BtPageInventory.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
             this.BtPageInventory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtPageInventory.Location = new System.Drawing.Point(419, 264);
+            this.BtPageInventory.Location = new System.Drawing.Point(419, 254);
             this.BtPageInventory.Name = "BtPageInventory";
             this.BtPageInventory.Size = new System.Drawing.Size(250, 71);
             this.BtPageInventory.TabIndex = 2;
@@ -70,17 +71,28 @@
             this.BtPageInventory.UseVisualStyleBackColor = true;
             this.BtPageInventory.Click += new System.EventHandler(this.BtPageInventory_Click);
             // 
+            // BtStatistic
+            // 
+            this.BtStatistic.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.BtStatistic.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtStatistic.Location = new System.Drawing.Point(419, 368);
+            this.BtStatistic.Name = "BtStatistic";
+            this.BtStatistic.Size = new System.Drawing.Size(250, 71);
+            this.BtStatistic.TabIndex = 3;
+            this.BtStatistic.Text = "Statistic";
+            this.BtStatistic.UseVisualStyleBackColor = true;
+            this.BtStatistic.Click += new System.EventHandler(this.BtHistory_Click);
+            // 
             // BtHistory
             // 
             this.BtHistory.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
             this.BtHistory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtHistory.Location = new System.Drawing.Point(419, 383);
+            this.BtHistory.Location = new System.Drawing.Point(419, 482);
             this.BtHistory.Name = "BtHistory";
             this.BtHistory.Size = new System.Drawing.Size(250, 71);
-            this.BtHistory.TabIndex = 3;
+            this.BtHistory.TabIndex = 4;
             this.BtHistory.Text = "History";
             this.BtHistory.UseVisualStyleBackColor = true;
-            this.BtHistory.Click += new System.EventHandler(this.BtHistory_Click);
             // 
             // HomePage
             // 
@@ -88,6 +100,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1103, 608);
             this.Controls.Add(this.BtHistory);
+            this.Controls.Add(this.BtStatistic);
             this.Controls.Add(this.BtPageInventory);
             this.Controls.Add(this.BtPageWareHouse);
             this.Controls.Add(this.BtPageProduct);
@@ -103,6 +116,7 @@
         private Button BtPageProduct;
         private Button BtPageWareHouse;
         private Button BtPageInventory;
+        private Button BtStatistic;
         private Button BtHistory;
     }
 }

@@ -33,7 +33,7 @@ namespace WinFormsAppManagerCafe
 
         private void BtHistory_Click(object sender, EventArgs e)
         {
-            var pageInventoryTransaction = Program.ServiceProvider.GetService<FormInventoryTransaction>();
+            var pageInventoryTransaction = Program.ServiceProvider.GetService<FormStatistic>();
             pageInventoryTransaction.ShowDialog();
             if (pageInventoryTransaction._isLoadingDone)
             {

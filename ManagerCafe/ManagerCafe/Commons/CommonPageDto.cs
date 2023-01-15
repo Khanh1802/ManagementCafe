@@ -18,7 +18,7 @@
             TakeMaxResultCount = pagination.TakeMaxResultCount;
             SkipCount = pagination.SkipCount;
             CurrentPage = pagination.CurrentPage;
-            TotalPage = (int)Math.Ceiling((double)Total / TakeMaxResultCount );
+            TotalPage = (int)Math.Ceiling((double)Total / (CurrentPage * TakeMaxResultCount - SkipCount));
             HasReversePage = CurrentPage > 1;
             HasNextPage = CurrentPage < TotalPage;
             Data = data;
