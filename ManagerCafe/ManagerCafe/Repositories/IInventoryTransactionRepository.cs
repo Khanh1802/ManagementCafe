@@ -1,4 +1,5 @@
 ﻿using ManagerCafe.Data.Models;
+using ManagerCafe.Dtos.InventoryDtos;
 using ManagerCafe.Dtos.InventoryTransactionDtos;
 
 namespace ManagerCafe

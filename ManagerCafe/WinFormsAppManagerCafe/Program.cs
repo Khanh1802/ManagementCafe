@@ -9,6 +9,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WinFormsAppManagerCafe.History;
 using WinFormsAppManagerCafe.Inventories;
 using WinFormsAppManagerCafe.Products;
 using WinFormsAppManagerCafe.WareHouses;
@@ -61,7 +62,8 @@ namespace WinFormsAppManagerCafe
                services.AddTransient<FormAddWareHouse>();
                services.AddTransient<FormInventory>();
                services.AddTransient<FormAddInventory>();
-               services.AddTransient<FormInventoryTransaction>();
+               services.AddTransient<FormStatistic>();
+               services.AddTransient<FormHistory>();
                services.AddAutoMapper(typeof(ProductProfile));
                services.AddAutoMapper(typeof(WareHouseProfile));
                services.AddAutoMapper(typeof(InventoryProfile));

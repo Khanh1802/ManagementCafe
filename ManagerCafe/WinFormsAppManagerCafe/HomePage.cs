@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using WinFormsAppManagerCafe.History;
 using WinFormsAppManagerCafe.Inventories;
 using WinFormsAppManagerCafe.WareHouses;
 
@@ -15,7 +16,7 @@ namespace WinFormsAppManagerCafe
         {
             var pageProduct = Program.ServiceProvider.GetService<FormProduct>();
             pageProduct.ShowDialog();
-            if(pageProduct._isLoadingDone)
+            if (pageProduct._isLoadingDone)
             {
                 pageProduct.Close();
             }
@@ -33,7 +34,7 @@ namespace WinFormsAppManagerCafe
 
         private void BtHistory_Click(object sender, EventArgs e)
         {
-            var pageInventoryTransaction = Program.ServiceProvider.GetService<FormInventoryTransaction>();
+            var pageInventoryTransaction = Program.ServiceProvider.GetService<FormStatistic>();
             pageInventoryTransaction.ShowDialog();
             if (pageInventoryTransaction._isLoadingDone)
             {
@@ -45,10 +46,13 @@ namespace WinFormsAppManagerCafe
         {
             var pageInventory = Program.ServiceProvider.GetService<FormInventory>();
             pageInventory.ShowDialog();
-            if(pageInventory._isLoadingDone)
-            {
-                pageInventory.Close();
-            }
+
+        }
+
+        private void BtHistory_Click_1(object sender, EventArgs e)
+        {
+            var pageHistory = Program.ServiceProvider.GetService<FormHistory>();
+            pageHistory.ShowDialog();
         }
     }
 }

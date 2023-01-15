@@ -10,6 +10,5 @@ namespace ManagerCafe.Services
         Task DeleteAsync<Tkey>(Tkey key);
         Task<TEntityDto> GetByIdAsync<Tkey>(Tkey key);
         Task<List<TEntityDto>> FilterAsync(FilterDto item);
-        Task<CommonPageDto<TEntityDto>> GetPagedListAsync(FilterDto item);
     }
 }

@@ -37,11 +37,14 @@
             this.BtAdd = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.BtFind = new System.Windows.Forms.Button();
-            this.TbFind = new System.Windows.Forms.TextBox();
-            this.CbbFilter = new System.Windows.Forms.ComboBox();
+            this.CbbPage = new System.Windows.Forms.ComboBox();
             this.CbbProduct = new System.Windows.Forms.ComboBox();
             this.CbbWareHouse = new System.Windows.Forms.ComboBox();
             this.CbAllResult = new System.Windows.Forms.CheckBox();
+            this.TbCurrentPage = new System.Windows.Forms.TextBox();
+            this.BtNextPage = new System.Windows.Forms.Button();
+            this.BtReversePage = new System.Windows.Forms.Button();
+            this.CbbInventoryFilter = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Dtg)).BeginInit();
             this.SuspendLayout();
@@ -60,6 +63,7 @@
             // 
             this.TbQuatity.Location = new System.Drawing.Point(125, 22);
             this.TbQuatity.Name = "TbQuatity";
+            this.TbQuatity.ReadOnly = true;
             this.TbQuatity.Size = new System.Drawing.Size(290, 27);
             this.TbQuatity.TabIndex = 65;
             // 
@@ -83,7 +87,7 @@
             this.Dtg.RowHeadersWidth = 51;
             this.Dtg.RowTemplate.Height = 29;
             this.Dtg.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.Dtg.Size = new System.Drawing.Size(755, 372);
+            this.Dtg.Size = new System.Drawing.Size(755, 439);
             this.Dtg.TabIndex = 73;
             this.Dtg.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dtg_CellClick);
             // 
@@ -103,12 +107,13 @@
             this.BtRemove.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.BtRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtRemove.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.BtRemove.Location = new System.Drawing.Point(787, 551);
+            this.BtRemove.Location = new System.Drawing.Point(787, 680);
             this.BtRemove.Name = "BtRemove";
             this.BtRemove.Size = new System.Drawing.Size(123, 53);
             this.BtRemove.TabIndex = 72;
             this.BtRemove.Text = "Delete";
             this.BtRemove.UseVisualStyleBackColor = false;
+            this.BtRemove.Click += new System.EventHandler(this.BtRemove_Click);
             // 
             // BtAdd
             // 
@@ -117,7 +122,7 @@
             this.BtAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtAdd.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.BtAdd.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.BtAdd.Location = new System.Drawing.Point(155, 549);
+            this.BtAdd.Location = new System.Drawing.Point(155, 678);
             this.BtAdd.Name = "BtAdd";
             this.BtAdd.Size = new System.Drawing.Size(123, 53);
             this.BtAdd.TabIndex = 70;
@@ -129,7 +134,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label3.Location = new System.Drawing.Point(146, 66);
+            this.label3.Location = new System.Drawing.Point(146, 65);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(70, 28);
             this.label3.TabIndex = 76;
@@ -143,57 +148,103 @@
             this.BtFind.TabIndex = 75;
             this.BtFind.Text = "Find";
             this.BtFind.UseVisualStyleBackColor = true;
+            this.BtFind.Click += new System.EventHandler(this.BtFind_Click);
             // 
-            // TbFind
+            // CbbPage
             // 
-            this.TbFind.Location = new System.Drawing.Point(260, 67);
-            this.TbFind.Name = "TbFind";
-            this.TbFind.Size = new System.Drawing.Size(545, 27);
-            this.TbFind.TabIndex = 74;
-            // 
-            // CbbFilter
-            // 
-            this.CbbFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CbbFilter.FormattingEnabled = true;
-            this.CbbFilter.Location = new System.Drawing.Point(931, 171);
-            this.CbbFilter.Name = "CbbFilter";
-            this.CbbFilter.Size = new System.Drawing.Size(151, 28);
-            this.CbbFilter.TabIndex = 78;
+            this.CbbPage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CbbPage.FormattingEnabled = true;
+            this.CbbPage.Location = new System.Drawing.Point(931, 171);
+            this.CbbPage.Name = "CbbPage";
+            this.CbbPage.Size = new System.Drawing.Size(151, 28);
+            this.CbbPage.TabIndex = 78;
+            this.CbbPage.SelectedValueChanged += new System.EventHandler(this.CbbPage_SelectedValueChanged);
             // 
             // CbbProduct
             // 
+            this.CbbProduct.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.CbbProduct.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CbbProduct.FormattingEnabled = true;
-            this.CbbProduct.Location = new System.Drawing.Point(819, 102);
+            this.CbbProduct.Location = new System.Drawing.Point(356, 65);
             this.CbbProduct.Name = "CbbProduct";
             this.CbbProduct.Size = new System.Drawing.Size(151, 28);
             this.CbbProduct.TabIndex = 79;
-            this.CbbProduct.SelectedIndexChanged += new System.EventHandler(this.CbbProduct_SelectedIndexChanged);
             // 
             // CbbWareHouse
             // 
+            this.CbbWareHouse.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.CbbWareHouse.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CbbWareHouse.FormattingEnabled = true;
-            this.CbbWareHouse.Location = new System.Drawing.Point(819, 137);
+            this.CbbWareHouse.Location = new System.Drawing.Point(585, 65);
             this.CbbWareHouse.Name = "CbbWareHouse";
             this.CbbWareHouse.Size = new System.Drawing.Size(151, 28);
             this.CbbWareHouse.TabIndex = 80;
-            this.CbbWareHouse.SelectedIndexChanged += new System.EventHandler(this.CbbWareHouse_SelectedIndexChanged);
             // 
             // CbAllResult
             // 
             this.CbAllResult.AutoSize = true;
-            this.CbAllResult.Location = new System.Drawing.Point(989, 102);
+            this.CbAllResult.Location = new System.Drawing.Point(1011, 67);
             this.CbAllResult.Name = "CbAllResult";
-            this.CbAllResult.Size = new System.Drawing.Size(71, 24);
+            this.CbAllResult.Size = new System.Drawing.Size(49, 24);
             this.CbAllResult.TabIndex = 81;
-            this.CbAllResult.Text = "Tất cả";
+            this.CbAllResult.Text = "All";
             this.CbAllResult.UseVisualStyleBackColor = true;
             this.CbAllResult.CheckedChanged += new System.EventHandler(this.CbAllResult_CheckedChanged);
+            // 
+            // TbCurrentPage
+            // 
+            this.TbCurrentPage.Enabled = false;
+            this.TbCurrentPage.Location = new System.Drawing.Point(491, 630);
+            this.TbCurrentPage.Name = "TbCurrentPage";
+            this.TbCurrentPage.Size = new System.Drawing.Size(125, 27);
+            this.TbCurrentPage.TabIndex = 84;
+            // 
+            // BtNextPage
+            // 
+            this.BtNextPage.Enabled = false;
+            this.BtNextPage.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.BtNextPage.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.BtNextPage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtNextPage.Location = new System.Drawing.Point(788, 622);
+            this.BtNextPage.Name = "BtNextPage";
+            this.BtNextPage.Size = new System.Drawing.Size(123, 35);
+            this.BtNextPage.TabIndex = 83;
+            this.BtNextPage.Text = "Next page";
+            this.BtNextPage.UseVisualStyleBackColor = true;
+            this.BtNextPage.Click += new System.EventHandler(this.BtNextPage_Click);
+            // 
+            // BtReversePage
+            // 
+            this.BtReversePage.Enabled = false;
+            this.BtReversePage.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.BtReversePage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtReversePage.Location = new System.Drawing.Point(156, 622);
+            this.BtReversePage.Name = "BtReversePage";
+            this.BtReversePage.Size = new System.Drawing.Size(123, 35);
+            this.BtReversePage.TabIndex = 82;
+            this.BtReversePage.Text = "Reverse page";
+            this.BtReversePage.UseVisualStyleBackColor = true;
+            this.BtReversePage.Click += new System.EventHandler(this.BtReversePage_Click);
+            // 
+            // CbbInventoryFilter
+            // 
+            this.CbbInventoryFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CbbInventoryFilter.FormattingEnabled = true;
+            this.CbbInventoryFilter.Location = new System.Drawing.Point(931, 254);
+            this.CbbInventoryFilter.Name = "CbbInventoryFilter";
+            this.CbbInventoryFilter.Size = new System.Drawing.Size(198, 28);
+            this.CbbInventoryFilter.TabIndex = 85;
+            this.CbbInventoryFilter.SelectedValueChanged += new System.EventHandler(this.CbbInventoryFilter_SelectedValueChanged);
             // 
             // FormInventory
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1103, 608);
+            this.ClientSize = new System.Drawing.Size(1134, 743);
+            this.Controls.Add(this.CbbInventoryFilter);
+            this.Controls.Add(this.TbCurrentPage);
+            this.Controls.Add(this.BtNextPage);
+            this.Controls.Add(this.BtReversePage);
             this.Controls.Add(this.CbAllResult);
             this.Controls.Add(this.CbbWareHouse);
             this.Controls.Add(this.CbbProduct);
@@ -204,8 +255,7 @@
             this.Controls.Add(this.BtAdd);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.BtFind);
-            this.Controls.Add(this.TbFind);
-            this.Controls.Add(this.CbbFilter);
+            this.Controls.Add(this.CbbPage);
             this.Name = "FormInventory";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormInventory";
@@ -228,11 +278,14 @@
         private Button BtAdd;
         private Label label3;
         private Button BtFind;
-        private TextBox TbFind;
-        private ComboBox CbbFilter;
+        private ComboBox CbbPage;
         private ComboBox CbbProduct;
         private ComboBox CbbWareHouse;
         private TextBox TbQuatity;
         private CheckBox CbAllResult;
+        private TextBox TbCurrentPage;
+        private Button BtNextPage;
+        private Button BtReversePage;
+        private ComboBox CbbInventoryFilter;
     }
 }

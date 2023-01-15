@@ -48,6 +48,7 @@
             this.BtNextPage = new System.Windows.Forms.Button();
             this.TbCurrentPage = new System.Windows.Forms.TextBox();
             this.CbbIndexPage = new System.Windows.Forms.ComboBox();
+            this.CbAllResult = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.Dtg)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUDPriceSell)).BeginInit();
@@ -300,11 +301,23 @@
             this.CbbIndexPage.TabIndex = 72;
             this.CbbIndexPage.SelectedValueChanged += new System.EventHandler(this.CbbIndexPage_SelectedValueChanged);
             // 
+            // CbAllResult
+            // 
+            this.CbAllResult.AutoSize = true;
+            this.CbAllResult.Location = new System.Drawing.Point(1013, 65);
+            this.CbAllResult.Name = "CbAllResult";
+            this.CbAllResult.Size = new System.Drawing.Size(49, 24);
+            this.CbAllResult.TabIndex = 82;
+            this.CbAllResult.Text = "All";
+            this.CbAllResult.UseVisualStyleBackColor = true;
+            this.CbAllResult.CheckedChanged += new System.EventHandler(this.CbAllResult_CheckedChanged);
+            // 
             // FormProduct
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1134, 743);
+            this.Controls.Add(this.CbAllResult);
             this.Controls.Add(this.CbbIndexPage);
             this.Controls.Add(this.TbCurrentPage);
             this.Controls.Add(this.BtNextPage);
@@ -355,5 +368,6 @@
         private Button BtNextPage;
         private TextBox TbCurrentPage;
         private ComboBox CbbIndexPage;
+        private CheckBox CbAllResult;
     }
 }

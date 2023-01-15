@@ -17,7 +17,7 @@ namespace WinFormsAppManagerCafe
         private Guid? _productId = null;
         internal bool _isLoadingDone = false;
         private int _skipCount = 0;
-        private int _maxResultCount = 10;
+        private int _takeMaxResultCount = 10;
         private int _currentPage = 1;
         public FormProduct(IProductService productService, IMemoryCache memoryCache)
         {
@@ -32,6 +32,10 @@ namespace WinFormsAppManagerCafe
             CbbFilter.DisplayMember = "Name";
             CbbIndexPage.DataSource = EnumHelpers.GetEnumList<EnumIndexPage>();
             CbbIndexPage.DisplayMember = "Name";
+            if (CbbIndexPage.SelectedItem is CommonEnumDto<EnumIndexPage> indexPage)
+            {
+                _takeMaxResultCount = Convert.ToInt32(indexPage.Name);
+            }
             _memoryCache = memoryCache;
         }
 
@@ -106,12 +110,19 @@ namespace WinFormsAppManagerCafe
 
         private async Task RefreshDataGirdView()
         {
+            _isLoadingDone = false;
+            var choice = -1;
+
+            if (CbbFilter.SelectedItem is CommonEnumDto<EnumProductFilter> filter)
+            {
+                choice = Convert.ToInt32(filter.Id);
+            }
             var data = await _productService.GetPagedListAsync(new FilterProductDto()
             {
                 SkipCount = _skipCount,
-                MaxResultCount = _maxResultCount,
+                TakeMaxResultCount = _takeMaxResultCount,
                 CurrentPage = _currentPage,
-            });
+            }, choice);
             TbCurrentPage.Text = $"{data.CurrentPage}/{Convert.ToString(data.TotalPage)}";
             BtReversePage.Enabled = false;
             BtNextPage.Enabled = false;
@@ -151,8 +162,10 @@ namespace WinFormsAppManagerCafe
 
         private async void BtFind_Click(object sender, EventArgs e)
         {
+            _isLoadingDone = false;
             if (!string.IsNullOrEmpty(TbFind.Text))
             {
+                CbAllResult.Checked = false;
                 var filter = new FilterProductDto()
                 {
                     Name = TbFind.Text,
@@ -161,7 +174,13 @@ namespace WinFormsAppManagerCafe
                 {
                     _isLoadingDone = false;
                     var filters = await _productService.FilterAsync(filter);
+
                     Dtg.DataSource = filters;
+                    if (filters.Count == 0)
+                    {
+                        MessageBox.Show($"Not found any thing with \"{TbFind.Text}\"", "Done", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    _isLoadingDone = true;
                 }
                 catch (Exception ex)
                 {
@@ -170,8 +189,9 @@ namespace WinFormsAppManagerCafe
             }
             else
             {
-                await RefreshDataGirdView();
+                MessageBox.Show("Search is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            _isLoadingDone = true;
         }
 
         private void Dtg_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -211,11 +231,11 @@ namespace WinFormsAppManagerCafe
 
         private async void CbbFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (_isLoadingDone && CbbFilter.SelectedItem is CommonEnumDto<EnumProductFilter> filter)
+            if (_isLoadingDone)
             {
-                _isLoadingDone = false;
-                Dtg.DataSource = await _productService.FilterChoice(filter.Id);
-                _isLoadingDone = true;
+                _currentPage = 1;
+                _skipCount = 0;
+                await RefreshDataGirdView();
             }
         }
 
@@ -225,13 +245,9 @@ namespace WinFormsAppManagerCafe
             {
                 _isLoadingDone = false;
                 _currentPage++;
-                if (CbbIndexPage.SelectedIndex > -1 && CbbIndexPage.SelectedItem is CommonEnumDto<EnumIndexPage> indexPage)
+                if (CbbIndexPage.SelectedItem is CommonEnumDto<EnumIndexPage> indexPage)
                 {
                     _skipCount += Convert.ToInt32(indexPage.Name);
-                }
-                else
-                {
-                    _skipCount += 10;
                 }
                 await RefreshDataGirdView();
             }
@@ -243,13 +259,9 @@ namespace WinFormsAppManagerCafe
             {
                 _isLoadingDone = false;
                 _currentPage--;
-                if (CbbIndexPage.SelectedIndex > -1 && CbbIndexPage.SelectedItem is CommonEnumDto<EnumIndexPage> indexPage)
+                if (CbbIndexPage.SelectedItem is CommonEnumDto<EnumIndexPage> indexPage)
                 {
                     _skipCount -= Convert.ToInt32(indexPage.Name);
-                }
-                else
-                {
-                    _skipCount -= 10;
                 }
                 await RefreshDataGirdView();
             }
@@ -261,8 +273,17 @@ namespace WinFormsAppManagerCafe
             {
                 _skipCount = 0;
                 _currentPage = 1;
-                _maxResultCount = Convert.ToInt32(indexPage.Name);
                 _memoryCache.Remove(ProductCacheKey.ProductAllKey);
+                await RefreshDataGirdView();
+            }
+        }
+
+        private async void CbAllResult_CheckedChanged(object sender, EventArgs e)
+        {
+            if (_isLoadingDone && CbAllResult.Checked)
+            {
+                _skipCount = 0;
+                _currentPage = 1;
                 await RefreshDataGirdView();
             }
         }

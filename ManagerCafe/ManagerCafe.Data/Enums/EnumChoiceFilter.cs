@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
-namespace ManagerCafe.Data.Enums
+namespace ManagerCafe.Enums
 {
-    public enum EnumInventoryTransactionFilter
-    {
+    public enum EnumChoiceFilter
+    {      
+
         [Display(Name = "Ngày tăng dần")]
         DateAsc = 1,
 

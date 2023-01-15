@@ -1,4 +1,7 @@
-﻿using ManagerCafe.Data.Models;
+﻿using ManagerCafe.Commons;
+using ManagerCafe.Data.Enums;
+using ManagerCafe.Data.Models;
+using ManagerCafe.Datas.Enums;
 using ManagerCafe.Dtos.InventoryDto.InventoryDtos;
 using ManagerCafe.Dtos.InventoryDtos;
 using ManagerCafe.Dtos.ProductDtos;
@@ -15,13 +18,25 @@ namespace WinFormsAppManagerCafe.Inventories
         private readonly IProductService _productService;
         private readonly IWareHouseService _wareHouseService;
         internal bool _isLoadingDone = false;
+        private int _takePage = 0;
+        private int _skipPage = 0;
+        private int _currentPage = 1;
         private Guid? _InventoryId;
+
         public FormInventory(IInventoryService inventoryService, IProductService productService, IWareHouseService wareHouseService)
         {
             InitializeComponent();
             _inventoryService = inventoryService;
             _productService = productService;
             _wareHouseService = wareHouseService;
+            CbbPage.DataSource = EnumHelpers.GetEnumList<EnumIndexPage>();
+            CbbPage.DisplayMember = "Name";
+            if (CbbPage.SelectedItem is CommonEnumDto<EnumIndexPage> indexPage)
+            {
+                _takePage = Convert.ToInt32(indexPage.Name);
+            }
+            CbbInventoryFilter.DataSource = EnumHelpers.GetEnumList<EnumChoiceFilter>();
+            CbbInventoryFilter.DisplayMember = "Name";
         }
 
 
@@ -29,6 +44,7 @@ namespace WinFormsAppManagerCafe.Inventories
         {
             if (_isLoadingDone)
             {
+                _isLoadingDone = false;
                 if (!string.IsNullOrEmpty(TbQuatity.Text))
                 {
                     if (CbbWareHouse.SelectedIndex >= 0 && CbbWareHouse.SelectedIndex >= 0
@@ -69,6 +85,18 @@ namespace WinFormsAppManagerCafe.Inventories
                             }
                             catch (Exception ex)
                             {
+                                if (CbbProduct.SelectedItem is ProductDto productDto &&
+                                    CbbWareHouse.SelectedItem is WareHouseDto wareHouseDto)
+                                {
+                                    var filter = new FilterInventoryDto()
+                                    {
+                                        ProductId = productDto.Id,
+                                        WareHouseId = wareHouseDto.Id,
+                                    };
+                                    var inventory = await _inventoryService.FindByIdProductAndWarehouse(filter);
+                                    TbQuatity.Text = string.Empty;
+                                    Dtg.DataSource = inventory;
+                                }
                                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
                         }
@@ -83,6 +111,7 @@ namespace WinFormsAppManagerCafe.Inventories
                     MessageBox.Show("Quantity is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+            _isLoadingDone = true;
         }
 
         private void Dtg_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -90,19 +119,19 @@ namespace WinFormsAppManagerCafe.Inventories
             if (e.RowIndex == -1)
             {
                 BtRemove.Enabled = false;
+                TbQuatity.ReadOnly = true;
                 TbQuatity.Text = string.Empty;
                 _InventoryId = null;
             }
             else
             {
                 BtRemove.Enabled = true;
-
                 if (Dtg.Rows[e.RowIndex].DataBoundItem is InventoryDto)
                 {
                     var inventory = Dtg.Rows[e.RowIndex].DataBoundItem as InventoryDto;
                     _InventoryId = inventory.Id;
                     TbQuatity.Text = Convert.ToString(inventory.Quatity);
-                    TbQuatity.Enabled = true;
+                    TbQuatity.ReadOnly = false;
                 }
             }
         }
@@ -125,26 +154,26 @@ namespace WinFormsAppManagerCafe.Inventories
         {
             if (_isLoadingDone && CbbProduct.SelectedIndex >= 0)
             {
-                _isLoadingDone = false;
                 await OnFilterInventoryAsync();
-                _isLoadingDone = true;
             }
         }
 
         private async Task OnFilterInventoryAsync()
         {
+            _isLoadingDone = false;
             var filter = new FilterInventoryDto();
+            var choice = -1;
 
-            if (CbbProduct.SelectedItem is ProductDto productDto)
+            if (CbbInventoryFilter.SelectedItem is CommonEnumDto<EnumChoiceFilter> enumFilter)
             {
-                filter.ProductId = productDto.Id;
+                choice = (int)enumFilter.Id;
             }
-            if (CbbWareHouse.SelectedItem is WareHouseDto warehouseDto)
-            {
-                filter.WareHouseId = warehouseDto.Id;
-            }
-            var inventories = await _inventoryService.FilterAsync(filter);
-            Dtg.DataSource = inventories;
+
+            filter.TakeMaxResultCount = _takePage;
+            filter.SkipCount = _skipPage;
+            filter.CurrentPage = _currentPage;
+            var inventories = await _inventoryService.GetPagedListAsync(filter, choice);
+            Dtg.DataSource = inventories.Data;
 
             if (Dtg?.Columns != null && Dtg.Columns.Contains("Id"))
             {
@@ -177,17 +206,119 @@ namespace WinFormsAppManagerCafe.Inventories
 
             BtRemove.Enabled = false;
             TbQuatity.Text = string.Empty;
+            TbQuatity.ReadOnly = false;
+            var isToNextPage = inventories.HasNextPage == true ? BtNextPage.Enabled = true : BtNextPage.Enabled = false;
+            var isToReserPage = inventories.HasReversePage == true ? BtReversePage.Enabled = true : BtReversePage.Enabled = false;
             _InventoryId = null;
+            TbCurrentPage.Text = $"{_currentPage}/{inventories.TotalPage}";
             _isLoadingDone = true;
         }
 
-        private async void CbbWareHouse_SelectedIndexChanged(object sender, EventArgs e)
+        private async void BtReversePage_Click(object sender, EventArgs e)
         {
-            if (_isLoadingDone && CbbWareHouse.SelectedIndex >= 0)
+            if (_isLoadingDone)
+            {
+                if (CbbPage.SelectedItem is CommonEnumDto<EnumIndexPage> indexPage)
+                {
+                    _currentPage--;
+                    _skipPage -= Convert.ToInt32(indexPage.Name);
+                    await OnFilterInventoryAsync();
+                }
+            }
+        }
+
+        private async void BtNextPage_Click(object sender, EventArgs e)
+        {
+            if (_isLoadingDone)
+            {
+                if (CbbPage.SelectedItem is CommonEnumDto<EnumIndexPage> indexPage)
+                {
+                    _currentPage++;
+                    _skipPage += Convert.ToInt32(indexPage.Name);
+                    await OnFilterInventoryAsync();
+                }
+            }
+        }
+
+        private async void CbbPage_SelectedValueChanged(object sender, EventArgs e)
+        {
+            if (_isLoadingDone)
+            {
+                if (CbbPage.SelectedItem is CommonEnumDto<EnumIndexPage> indexPage)
+                {
+                    _takePage = Convert.ToInt32(indexPage.Name);
+                    _currentPage = 1;
+                    _skipPage = 0;
+                    await OnFilterInventoryAsync();
+                }
+            }
+        }
+
+        private async void BtFind_Click(object sender, EventArgs e)
+        {
+            if (_isLoadingDone)
             {
                 _isLoadingDone = false;
-                await OnFilterInventoryAsync();
+                CbAllResult.Checked = false;
+                var dataGirdView = new List<InventoryDto>();
+                _isLoadingDone = false;
+                var filter = new FilterInventoryDto();
+                if (CbbProduct.SelectedItem is ProductDto productDto)
+                {
+                    filter.ProductId = productDto.Id;
+                }
+                if (CbbWareHouse.SelectedItem is WareHouseDto warehouseDto)
+                {
+                    filter.WareHouseId = warehouseDto.Id;
+                }
+                if (filter.ProductId != null && filter.WareHouseId != null)
+                {
+                    dataGirdView = await _inventoryService.FilterAsync(filter);
+                    Dtg.DataSource = dataGirdView;
+                }
+
+                BtRemove.Enabled = false;
+                BtNextPage.Enabled = true;
+                BtReversePage.Enabled = true;
+                TbQuatity.ReadOnly = false;
+                TbQuatity.Text = string.Empty;
+                _InventoryId = null;
                 _isLoadingDone = true;
+            }
+        }
+
+        private async void CbbInventoryFilter_SelectedValueChanged(object sender, EventArgs e)
+        {
+            if (_isLoadingDone && CbbPage.SelectedItem is CommonEnumDto<EnumIndexPage> indexPage)
+            {
+                _takePage = Convert.ToInt32(indexPage.Name);
+                _currentPage = 1;
+                _skipPage = 0;
+                await OnFilterInventoryAsync();
+            }
+        }
+
+        private async void BtRemove_Click(object sender, EventArgs e)
+        {
+            if (_isLoadingDone && _InventoryId is not null)
+            {
+                if (DialogResult.Yes == MessageBox.Show("Do You Want Delete ?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning))
+                {
+                    try
+                    {
+                        _isLoadingDone = false;
+                        await _inventoryService.DeleteAsync(_InventoryId);
+                        MessageBox.Show("Deleted inventory success", "Done", MessageBoxButtons.OK);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    finally
+                    {
+                        await OnFilterInventoryAsync();
+                    }
+                }
             }
         }
 
@@ -195,17 +326,7 @@ namespace WinFormsAppManagerCafe.Inventories
         {
             if (_isLoadingDone)
             {
-                if (CbAllResult.Checked)
-                {
-                    var filter = new FilterInventoryDto();
-                    var inventories = new List<InventoryDto>();
-                    inventories = await _inventoryService.FilterAsync(filter);
-                    Dtg.DataSource = inventories;
-                }
-                else
-                {
-                    await OnFilterInventoryAsync();
-                }
+                await OnFilterInventoryAsync();
             }
         }
     }
