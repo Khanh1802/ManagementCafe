@@ -93,6 +93,7 @@
             this.BtHistory.TabIndex = 4;
             this.BtHistory.Text = "History";
             this.BtHistory.UseVisualStyleBackColor = true;
+            this.BtHistory.Click += new System.EventHandler(this.BtHistory_Click_1);
             // 
             // HomePage
             // 

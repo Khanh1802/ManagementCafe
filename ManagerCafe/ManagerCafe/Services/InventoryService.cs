@@ -145,17 +145,17 @@ namespace ManagerCafe.Services
 
         public async Task<CommonPageDto<InventoryDto>> GetPagedListAsync(FilterInventoryDto item, int choice)
         {
-            if (Enum.IsDefined(typeof(EnumInventoryFilter), choice))
+            if (Enum.IsDefined(typeof(EnumChoiceFilter), choice))
             {
-                switch ((EnumInventoryFilter)choice)
+                switch ((EnumChoiceFilter)choice)
                 {
-                    case EnumInventoryFilter.DateAsc:
+                    case EnumChoiceFilter.DateAsc:
                         return await FilterInventoryDtoDateAsc(item);
-                    case EnumInventoryFilter.DateDesc:
+                    case EnumChoiceFilter.DateDesc:
                         return await FilterInventoryDtoDateDesc(item);
-                    case EnumInventoryFilter.QuatityAsc:
+                    case EnumChoiceFilter.QuatityAsc:
                         return await FilterInventoryDtoQuatityAsc(item);
-                    case EnumInventoryFilter.QuatytiDesc:
+                    case EnumChoiceFilter.QuatytiDesc:
                         return await FilterInventoryDtoQuaityDesc(item);
                 }
             }

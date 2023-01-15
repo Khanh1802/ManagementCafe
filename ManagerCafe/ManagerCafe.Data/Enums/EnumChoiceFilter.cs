@@ -3,7 +3,7 @@ using System.Xml.Linq;
 
 namespace ManagerCafe.Enums
 {
-    public enum EnumInventoryFilter
+    public enum EnumChoiceFilter
     {      
 
         [Display(Name = "Ngày tăng dần")]

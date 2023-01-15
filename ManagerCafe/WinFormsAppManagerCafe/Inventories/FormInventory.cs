@@ -35,7 +35,7 @@ namespace WinFormsAppManagerCafe.Inventories
             {
                 _takePage = Convert.ToInt32(indexPage.Name);
             }
-            CbbInventoryFilter.DataSource = EnumHelpers.GetEnumList<EnumInventoryFilter>();
+            CbbInventoryFilter.DataSource = EnumHelpers.GetEnumList<EnumChoiceFilter>();
             CbbInventoryFilter.DisplayMember = "Name";
         }
 
@@ -131,7 +131,7 @@ namespace WinFormsAppManagerCafe.Inventories
                     var inventory = Dtg.Rows[e.RowIndex].DataBoundItem as InventoryDto;
                     _InventoryId = inventory.Id;
                     TbQuatity.Text = Convert.ToString(inventory.Quatity);
-                    TbQuatity.Enabled = true;
+                    TbQuatity.ReadOnly = false;
                 }
             }
         }
@@ -164,7 +164,7 @@ namespace WinFormsAppManagerCafe.Inventories
             var filter = new FilterInventoryDto();
             var choice = -1;
 
-            if (CbbInventoryFilter.SelectedItem is CommonEnumDto<EnumInventoryFilter> enumFilter)
+            if (CbbInventoryFilter.SelectedItem is CommonEnumDto<EnumChoiceFilter> enumFilter)
             {
                 choice = (int)enumFilter.Id;
             }
@@ -206,7 +206,7 @@ namespace WinFormsAppManagerCafe.Inventories
 
             BtRemove.Enabled = false;
             TbQuatity.Text = string.Empty;
-            TbQuatity.ReadOnly = true;
+            TbQuatity.ReadOnly = false;
             var isToNextPage = inventories.HasNextPage == true ? BtNextPage.Enabled = true : BtNextPage.Enabled = false;
             var isToReserPage = inventories.HasReversePage == true ? BtReversePage.Enabled = true : BtReversePage.Enabled = false;
             _InventoryId = null;
@@ -280,7 +280,7 @@ namespace WinFormsAppManagerCafe.Inventories
                 BtRemove.Enabled = false;
                 BtNextPage.Enabled = true;
                 BtReversePage.Enabled = true;
-                TbQuatity.ReadOnly = true;
+                TbQuatity.ReadOnly = false;
                 TbQuatity.Text = string.Empty;
                 _InventoryId = null;
                 _isLoadingDone = true;

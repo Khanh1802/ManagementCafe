@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using WinFormsAppManagerCafe.History;
 using WinFormsAppManagerCafe.Inventories;
 using WinFormsAppManagerCafe.WareHouses;
 
@@ -46,6 +47,12 @@ namespace WinFormsAppManagerCafe
             var pageInventory = Program.ServiceProvider.GetService<FormInventory>();
             pageInventory.ShowDialog();
 
+        }
+
+        private void BtHistory_Click_1(object sender, EventArgs e)
+        {
+            var pageHistory = Program.ServiceProvider.GetService<FormHistory>();
+            pageHistory.ShowDialog();
         }
     }
 }

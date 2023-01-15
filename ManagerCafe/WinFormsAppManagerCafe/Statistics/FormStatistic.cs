@@ -73,7 +73,7 @@ namespace WinFormsAppManagerCafe.Inventories
             filter.CurrentPage = _currentPage;
             filter.SkipCount = _skipCount;
             filter.TakeMaxResultCount = _takeCount;
-            var inventoryTransactions = await _inventoryTransactionService.GetPagedListAsync(filter, choice);
+            var inventoryTransactions = await _inventoryTransactionService.GetPagedStatisticListAsync(filter, choice);
             Dtg.DataSource = inventoryTransactions.Data;
             var isToNextPage = inventoryTransactions.HasNextPage == true ? BtNextPage.Enabled = true : BtNextPage.Enabled = false;
             var isToReversePage = inventoryTransactions.HasReversePage == true ? BtReversePage.Enabled = true : BtReversePage.Enabled = false;
@@ -193,7 +193,7 @@ namespace WinFormsAppManagerCafe.Inventories
             filter.CurrentPage = _currentPage;
             filter.SkipCount = _skipCount;
             filter.TakeMaxResultCount = _takeCount;
-            var inventoryTransactions = await _inventoryTransactionService.GetPagedListAsync(filter, choice);
+            var inventoryTransactions = await _inventoryTransactionService.GetPagedStatisticListAsync(filter, choice);
             Dtg.DataSource = inventoryTransactions.Data;
             var isToNextPage = inventoryTransactions.HasNextPage == true ? BtNextPage.Enabled = true : BtNextPage.Enabled = false;
             var isToReversePage = inventoryTransactions.HasReversePage == true ? BtReversePage.Enabled = true : BtReversePage.Enabled = false;
