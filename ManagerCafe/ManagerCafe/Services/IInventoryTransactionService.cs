@@ -1,8 +1,5 @@
 ﻿using ManagerCafe.Commons;
-using ManagerCafe.Data.Models;
-using ManagerCafe.Dtos.InventoryDtos;
 using ManagerCafe.Dtos.InventoryTransactionDtos;
-using System.Data.Common;
 
 namespace ManagerCafe.Services
 {
@@ -10,8 +7,8 @@ namespace ManagerCafe.Services
     {
         Task<List<InventoryTransactionDto>> GetAllAsync();
         Task AddAsync(CreateInventoryTransactionDto item);
-        Task<List<InventoryTransactionDto>> FilterAsync(FilterInventoryTransactionDto item);
-        Task<List<InventoryTransactionDto>> FilterHistoryAsync(FilterInventoryTransactionDto item);
+        Task<List<InventoryTransactionDto>> FilterStatisticFindAsync(FilterInventoryTransactionDto item);
+        Task<List<InventoryTransactionDto>> FilterHistoryFindAsync(FilterInventoryTransactionDto item);
         Task<CommonPageDto<InventoryTransactionDto>> GetPagedStatisticListAsync(FilterInventoryTransactionDto item, int choice);
         Task<CommonPageDto<InventoryTransactionDto>> GetPagedHistoryListAsync(FilterInventoryTransactionDto item, int choice);
     }

@@ -70,45 +70,9 @@ namespace ManagerCafe.Services
 
         private async Task<IQueryable<Product>> FilterQueryAbleAsync(FilterProductDto item)
         {
-
             var query = await _productRepository.GetQueryableAsync();
             var filter = query.Where(x => !x.IsDeleted);
             return filter;
-        }
-        private async Task<CommonPageDto<ProductDto>> FilterDayAsc(FilterProductDto item)
-        {
-            var filter = (await FilterQueryAbleAsync(item))
-                .OrderBy(x => x.CreateTime)
-                .Skip(item.SkipCount).Take(item.TakeMaxResultCount); ;
-            var count = (await FilterQueryAbleAsync(item)).CountAsync();
-            return new CommonPageDto<ProductDto>(await count, item, _mapper.Map<List<Product>, List<ProductDto>>(await filter.ToListAsync()));
-        }
-
-        private async Task<CommonPageDto<ProductDto>> FilterDayDesc(FilterProductDto item)
-        {
-            var filter = (await FilterQueryAbleAsync(item))
-                .OrderByDescending(x => x.CreateTime)
-                .Skip(item.SkipCount).Take(item.TakeMaxResultCount); ;
-            var count = (await FilterQueryAbleAsync(item)).CountAsync();
-            return new CommonPageDto<ProductDto>(await count, item, _mapper.Map<List<Product>, List<ProductDto>>(await filter.ToListAsync()));
-        }
-
-        private async Task<CommonPageDto<ProductDto>> FilterPriceAcs(FilterProductDto item)
-        {
-            var filter = (await FilterQueryAbleAsync(item))
-                .OrderBy(x => x.PriceSell)
-                .Skip(item.SkipCount).Take(item.TakeMaxResultCount); ;
-            var count = (await FilterQueryAbleAsync(item)).CountAsync();
-            return new CommonPageDto<ProductDto>(await count, item, _mapper.Map<List<Product>, List<ProductDto>>(await filter.ToListAsync()));
-        }
-
-        private async Task<CommonPageDto<ProductDto>> FilterPriceDesc(FilterProductDto item)
-        {
-            var filter = (await FilterQueryAbleAsync(item))
-                        .OrderByDescending(x => x.PriceSell)
-                        .Skip(item.SkipCount).Take(item.TakeMaxResultCount); ;
-            var count = (await FilterQueryAbleAsync(item)).CountAsync();
-            return new CommonPageDto<ProductDto>(await count, item, _mapper.Map<List<Product>, List<ProductDto>>(await filter.ToListAsync()));
         }
 
         public async Task<List<ProductDto>> GetAllAsync()
@@ -159,23 +123,29 @@ namespace ManagerCafe.Services
 
         public async Task<CommonPageDto<ProductDto>> GetPagedListAsync(FilterProductDto item, int choice)
         {
-            switch ((EnumProductFilter)choice)
+            if (Enum.IsDefined(typeof(EnumProductFilter), choice))
             {
-                case EnumProductFilter.PriceAsc:
-                    return await FilterPriceAcs(item);
-                case EnumProductFilter.PriceDesc:
-                    return await FilterPriceDesc(item);
-                case EnumProductFilter.DateAsc:
-                    return await FilterDayAsc(item);
-                case EnumProductFilter.DateDesc:
-                    return await FilterDayDesc(item);
+                var query = await FilterQueryAbleAsync(item);
+                var count = query.CountAsync();
+                switch ((EnumProductFilter)choice)
+                {
+                    case EnumProductFilter.PriceAsc:
+                        query = query.OrderBy(x => x.PriceSell);
+                        break;
+                    case EnumProductFilter.PriceDesc:
+                        query = query.OrderByDescending(x => x.PriceSell);
+                        break;
+                    case EnumProductFilter.DateAsc:
+                        query = query.OrderBy(x => x.CreateTime);
+                        break;
+                    case EnumProductFilter.DateDesc:
+                        query = query.OrderByDescending(x => x.CreateTime);
+                        break;
+                }
+                query = query.Skip(item.SkipCount).Take(item.TakeMaxResultCount);
+                return new CommonPageDto<ProductDto>(await count, item, _mapper.Map<List<Product>, List<ProductDto>>(await query.ToListAsync()));
             }
             return new CommonPageDto<ProductDto>();
-        }
-
-        public async Task<int> AllCountAsync()
-        {
-            return await (await _productRepository.GetQueryableAsync()).CountAsync();
         }
     }
 }

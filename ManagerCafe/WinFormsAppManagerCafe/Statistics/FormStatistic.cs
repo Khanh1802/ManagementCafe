@@ -115,7 +115,7 @@ namespace WinFormsAppManagerCafe.Inventories
                 }
                 filter.FromDate = DTPFormDate.Value;
                 filter.ToDate = DTPToDate.Value;
-                var resultFilter = await _inventoryTransactionService.FilterAsync(filter);
+                var resultFilter = await _inventoryTransactionService.FilterStatisticFindAsync(filter);
                 Dtg.DataSource = resultFilter;
                 BtNextPage.Enabled = false;
                 BtReversePage.Enabled = false;

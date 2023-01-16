@@ -158,7 +158,7 @@ namespace WinFormsAppManagerCafe.History
                 }
                 filter.FromDate = DTPFormDate.Value;
                 filter.ToDate = DTPToDate.Value;
-                var data = await _inventoryTransactionService.FilterHistoryAsync(filter);
+                var data = await _inventoryTransactionService.FilterHistoryFindAsync(filter);
                 Dtg.DataSource = data;
                 _isLoadingDone = true;
             }

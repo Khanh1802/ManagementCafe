@@ -52,45 +52,6 @@ namespace ManagerCafe.Services
             return filter;
         }
 
-        private async Task<CommonPageDto<InventoryTransactionDto>> FilterQuatityAsc(FilterInventoryTransactionDto item)
-        {
-            var filter = await FilterQueryStatisticAbleAsync(item);
-            var count = (await FilterQueryStatisticAbleAsync(item)).CountAsync();
-            var data = filter.OrderBy(x => x.Quatity).Skip(item.SkipCount).Take(item.TakeMaxResultCount);
-            return new CommonPageDto<InventoryTransactionDto>(await count, item, await data.ToListAsync());
-        }
-
-        private async Task<CommonPageDto<InventoryTransactionDto>> FilterQuatityDesc(FilterInventoryTransactionDto item)
-        {
-            var filter = await FilterQueryStatisticAbleAsync(item);
-            var count = (await FilterQueryStatisticAbleAsync(item)).CountAsync();
-            var data = filter.OrderByDescending(x => x.Quatity).Skip(item.SkipCount).Take(item.TakeMaxResultCount);
-            return new CommonPageDto<InventoryTransactionDto>(await count, item, await data.ToListAsync());
-        }
-
-        private async Task<CommonPageDto<InventoryTransactionDto>> FilterDateAsc(FilterInventoryTransactionDto item)
-        {
-            var filter = await FilterQueryStatisticAbleAsync(item);
-            var count = (await FilterQueryStatisticAbleAsync(item)).CountAsync();
-            var data = filter.OrderBy(x => x.CreateTime).Skip(item.SkipCount).Take(item.TakeMaxResultCount);
-            return new CommonPageDto<InventoryTransactionDto>(await count, item, await data.ToListAsync());
-        }
-
-        private async Task<CommonPageDto<InventoryTransactionDto>> FilterDateDesc(FilterInventoryTransactionDto item)
-        {
-            var filter = await FilterQueryStatisticAbleAsync(item);
-            var count = (await FilterQueryStatisticAbleAsync(item)).CountAsync();
-            var data = filter.OrderByDescending(x => x.CreateTime).Skip(item.SkipCount).Take(item.TakeMaxResultCount);
-            return new CommonPageDto<InventoryTransactionDto>(await count, item, await data.ToListAsync());
-        }
-
-        private async Task<List<InventoryTransactionDto>> FilterImport()
-        {
-            var inventoryTransactions = await _inventoryTransactionRepository.GetQueryableAsync();
-            inventoryTransactions.GroupBy(x => x.InventoryId);
-            return _mapper.Map<List<InventoryTransaction>, List<InventoryTransactionDto>>(await inventoryTransactions.ToListAsync());
-        }
-
         public async Task<List<InventoryTransactionDto>> GetAllAsync()
         {
             var entites = await _inventoryTransactionRepository.GetAllAsync();
@@ -141,7 +102,7 @@ namespace ManagerCafe.Services
             return new CommonPageDto<InventoryTransactionDto>();
         }
 
-        public async Task<List<InventoryTransactionDto>> FilterAsync(FilterInventoryTransactionDto item)
+        public async Task<List<InventoryTransactionDto>> FilterStatisticFindAsync(FilterInventoryTransactionDto item)
         {
             var query = await _inventoryTransactionRepository.GetQueryableAsync();
             var toDate = item.ToDate.AddDays(1).AddSeconds(-1);
@@ -160,17 +121,25 @@ namespace ManagerCafe.Services
         {
             if (Enum.IsDefined(typeof(EnumInventoryTransactionFilter), choice))
             {
+                var query = await FilterQueryAbleHistoryAsync(item);
+                var count = query.CountAsync();
                 switch ((EnumInventoryTransactionFilter)choice)
                 {
                     case EnumInventoryTransactionFilter.DateAsc:
-                        return await FilterHistoryDateAsc(item);
+                        query = query.OrderBy(x => x.CreateTime);
+                        break;
                     case EnumInventoryTransactionFilter.DateDesc:
-                        return await FilterHistoryDateDesc(item);
+                        query = query.OrderByDescending(x => x.CreateTime);
+                        break;
                     case EnumInventoryTransactionFilter.QuatityAsc:
-                        return await FilterHistoryQuatityAsc(item);
+                        query = query.OrderBy(x => x.Quatity);
+                        break;
                     case EnumInventoryTransactionFilter.QuatytiDesc:
-                        return await FilterHistoryQuatityDesc(item);
+                        query = query.OrderByDescending(x => x.Quatity);
+                        break;
                 }
+                query = query.Skip(item.SkipCount).Take(item.TakeMaxResultCount);
+                return new CommonPageDto<InventoryTransactionDto>(await count, item, _mapper.Map<List<InventoryTransaction>, List<InventoryTransactionDto>>(await query.ToListAsync()));
             }
             return new CommonPageDto<InventoryTransactionDto>();
         }
@@ -186,38 +155,7 @@ namespace ManagerCafe.Services
             return filter;
         }
 
-        private async Task<CommonPageDto<InventoryTransactionDto>> FilterHistoryDateAsc(FilterInventoryTransactionDto item)
-        {
-            var filter = await FilterQueryAbleHistoryAsync(item);
-            var count = (await FilterQueryAbleHistoryAsync(item)).CountAsync();
-            var data = filter.OrderBy(x => x.CreateTime).Skip(item.SkipCount).Take(item.TakeMaxResultCount);
-            return new CommonPageDto<InventoryTransactionDto>(await count, item, _mapper.Map<List<InventoryTransaction>, List<InventoryTransactionDto>>(await data.ToListAsync()));
-        }
-        private async Task<CommonPageDto<InventoryTransactionDto>> FilterHistoryDateDesc(FilterInventoryTransactionDto item)
-        {
-            var filter = await FilterQueryAbleHistoryAsync(item);
-            var count = (await FilterQueryAbleHistoryAsync(item)).CountAsync();
-            var data = filter.OrderByDescending(x => x.CreateTime).Skip(item.SkipCount).Take(item.TakeMaxResultCount);
-            return new CommonPageDto<InventoryTransactionDto>(await count, item, _mapper.Map<List<InventoryTransaction>, List<InventoryTransactionDto>>(await data.ToListAsync()));
-        }
-
-        private async Task<CommonPageDto<InventoryTransactionDto>> FilterHistoryQuatityAsc(FilterInventoryTransactionDto item)
-        {
-            var filter = await FilterQueryAbleHistoryAsync(item);
-            var count = (await FilterQueryAbleHistoryAsync(item)).CountAsync();
-            var data = filter.OrderBy(x => x.Quatity).Skip(item.SkipCount).Take(item.TakeMaxResultCount);
-            return new CommonPageDto<InventoryTransactionDto>(await count, item, _mapper.Map<List<InventoryTransaction>, List<InventoryTransactionDto>>(await data.ToListAsync()));
-        }
-
-        private async Task<CommonPageDto<InventoryTransactionDto>> FilterHistoryQuatityDesc(FilterInventoryTransactionDto item)
-        {
-            var filter = await FilterQueryAbleHistoryAsync(item);
-            var count = (await FilterQueryAbleHistoryAsync(item)).CountAsync();
-            var data = filter.OrderByDescending(x => x.Quatity).Skip(item.SkipCount).Take(item.TakeMaxResultCount);
-            return new CommonPageDto<InventoryTransactionDto>(await count, item, _mapper.Map<List<InventoryTransaction>, List<InventoryTransactionDto>>(await data.ToListAsync()));
-        }
-
-        public async Task<List<InventoryTransactionDto>> FilterHistoryAsync(FilterInventoryTransactionDto item)
+        public async Task<List<InventoryTransactionDto>> FilterHistoryFindAsync(FilterInventoryTransactionDto item)
         {
             var toDate = item.ToDate.AddDays(1).AddSeconds(-1);
             var query = await _inventoryTransactionRepository.GetQueryableAsync();

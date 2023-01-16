@@ -55,29 +55,22 @@ namespace ManagerCafe.Services
             }
             return _mapper.Map<List<WareHouse>, List<WareHouseDto>>(await filters.ToListAsync());
         }
-        private async Task<List<WareHouseDto>> FilterDayAsc()
-        {
-            var filter = (await FilterQueryAbleAsync()).OrderBy(x => x.CreateTime);
-            return _mapper.Map<List<WareHouse>, List<WareHouseDto>>(await filter.ToListAsync());
-        }
 
-        private async Task<List<WareHouseDto>> FilterDayDesc()
+        public async Task<List<WareHouseDto>> FilterChoice(int choice)
         {
-            var filter = (await FilterQueryAbleAsync()).OrderByDescending(x => x.CreateTime);
-            return _mapper.Map<List<WareHouse>, List<WareHouseDto>>(await filter.ToListAsync());
-        }
-
-        public async Task<List<WareHouseDto>> FilterChoice(int filter)
-        {
-            if (Enum.IsDefined(typeof(EnumWareHouseFilter), filter))
+            if (Enum.IsDefined(typeof(EnumWareHouseFilter), choice))
             {
-                switch ((EnumWareHouseFilter)filter)
+                var query = await FilterQueryAbleAsync();
+                switch ((EnumWareHouseFilter)choice)
                 {
                     case EnumWareHouseFilter.DateAsc:
-                        return await FilterDayAsc();
+                        query = query.OrderBy(x => x.CreateTime);
+                        break;
                     case EnumWareHouseFilter.DateDesc:
-                        return await FilterDayDesc();
+                        query = query.OrderByDescending(x => x.CreateTime);
+                        break;
                 }
+                return new List<WareHouseDto>(_mapper.Map<List<WareHouse>, List<WareHouseDto>>(await query.ToListAsync()));
             }
             throw new Exception("Not found filter Product");
         }
