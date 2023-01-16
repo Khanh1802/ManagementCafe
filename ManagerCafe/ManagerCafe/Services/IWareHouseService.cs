@@ -6,7 +6,6 @@ namespace ManagerCafe.Services
 {
     public interface IWareHouseService : IGenericService<WareHouseDto, CreateWareHouseDto, UpdateWareHouseDto, FilterWareHouseDto>
     {
-        Task<int> AllCountAsync();
         Task<List<WareHouseDto>> FilterChoice(int filter);
         Task<CommonPageDto<WareHouseDto>> GetPagedListAsync(FilterWareHouseDto item);
     }

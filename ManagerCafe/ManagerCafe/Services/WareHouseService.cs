@@ -39,6 +39,13 @@ namespace ManagerCafe.Services
             await _wareHouseRepository.Delete(entity);
         }
 
+        private async Task<IQueryable<WareHouse>> FilterQueryAbleAsync()
+        {
+            var query = await _wareHouseRepository.GetQueryableAsync();
+            var filter = query.Where(x => !x.IsDeleted);
+            return filter;
+        }
+
         public async Task<List<WareHouseDto>> FilterAsync(FilterWareHouseDto item)
         {
             var filters = await _wareHouseRepository.GetQueryableAsync();
@@ -50,16 +57,14 @@ namespace ManagerCafe.Services
         }
         private async Task<List<WareHouseDto>> FilterDayAsc()
         {
-            var warehouses = await (await _wareHouseRepository.GetQueryableAsync())
-              .OrderBy(x => x.CreateTime).ToListAsync();
-            return _mapper.Map<List<WareHouse>, List<WareHouseDto>>(warehouses);
+            var filter = (await FilterQueryAbleAsync()).OrderBy(x => x.CreateTime);
+            return _mapper.Map<List<WareHouse>, List<WareHouseDto>>(await filter.ToListAsync());
         }
 
         private async Task<List<WareHouseDto>> FilterDayDesc()
         {
-            var warehouses = await (await _wareHouseRepository.GetQueryableAsync())
-              .OrderByDescending(x => x.CreateTime).ToListAsync();
-            return _mapper.Map<List<WareHouse>, List<WareHouseDto>>(warehouses);
+            var filter = (await FilterQueryAbleAsync()).OrderByDescending(x => x.CreateTime);
+            return _mapper.Map<List<WareHouse>, List<WareHouseDto>>(await filter.ToListAsync());
         }
 
         public async Task<List<WareHouseDto>> FilterChoice(int filter)
@@ -112,11 +117,6 @@ namespace ManagerCafe.Services
         public Task<CommonPageDto<WareHouseDto>> GetPagedListAsync(FilterWareHouseDto item)
         {
             throw new NotImplementedException();
-        }
-
-        public async Task<int> AllCountAsync()
-        {
-            return await (await _wareHouseRepository.GetQueryableAsync()).CountAsync();
         }
     }
 }
