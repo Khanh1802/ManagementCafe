@@ -45,7 +45,7 @@ namespace ManagerCafe.Services
                     CreateTime = x.FirstOrDefault().CreateTime,
                     ProductName = x.FirstOrDefault().Inventory.Product.Name,
                     WarehouseName = x.FirstOrDefault().Inventory.WareHouse.Name,
-                    Quatity = x.Sum(x => x.Quatity),
+                    Quatity = x.Sum(k => k.Quatity),
                     Type = x.FirstOrDefault().Type,
                     InventoryId = x.FirstOrDefault().InventoryId,
                 });
@@ -101,17 +101,42 @@ namespace ManagerCafe.Services
         {
             if (Enum.IsDefined(typeof(EnumInventoryTransactionFilter), enums))
             {
+                var queryBuilder = await FilterQueryStatisticAbleAsync(item);
+                var totalCount = await queryBuilder.CountAsync();
+
                 switch ((EnumInventoryTransactionFilter)enums)
                 {
                     case EnumInventoryTransactionFilter.DateAsc:
-                        return await FilterDateAsc(item);
+                        {
+                            queryBuilder = queryBuilder
+                                .OrderBy(x => x.CreateTime);
+                            break;
+                        }
                     case EnumInventoryTransactionFilter.DateDesc:
-                        return await FilterDateDesc(item);
+                        {
+                            queryBuilder = queryBuilder
+                                .OrderByDescending(x => x.CreateTime);
+                            break;
+                        }
                     case EnumInventoryTransactionFilter.QuatityAsc:
-                        return await FilterQuatityAsc(item);
+                        {
+                            queryBuilder = queryBuilder
+                                .OrderBy(x => x.Quatity);
+                            break;
+                        }
                     case EnumInventoryTransactionFilter.QuatytiDesc:
-                        return await FilterQuatityDesc(item);
+                        {
+                            queryBuilder = queryBuilder
+                                .OrderByDescending(x => x.Quatity);
+                            break;
+                        }
                 }
+
+                queryBuilder = queryBuilder
+                    .Skip(item.SkipCount)
+                    .Take(item.TakeMaxResultCount);
+
+                return new CommonPageDto<InventoryTransactionDto>(totalCount, item, await queryBuilder.ToListAsync());
             }
             return new CommonPageDto<InventoryTransactionDto>();
         }
