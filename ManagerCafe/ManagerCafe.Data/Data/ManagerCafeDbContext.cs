@@ -12,7 +12,7 @@ namespace ManagerCafe.Data.Data
         public ManagerCafeDbContext(DbContextOptions options) : base(options)
         {
         }
-      
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
@@ -28,11 +28,15 @@ namespace ManagerCafe.Data.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-        
+
             new ProductEntityTypeConfigurations().Configure(modelBuilder.Entity<Product>());
             new InvetoryEntityTypeConfiguration().Configure(modelBuilder.Entity<Inventory>());
             new WareHouseEntityTypeConfiguration().Configure(modelBuilder.Entity<WareHouse>());
             new InventoryTransactionEntityTypeConfiguration().Configure(modelBuilder.Entity<InventoryTransaction>());
+            new UserTypeEntityTypeConfiguration().Configure(modelBuilder.Entity<UserType>());
+            new UserEntityTypeConfiguration().Configure(modelBuilder.Entity<User>());
+
+            modelBuilder.Entity<User>().HasKey(m => new { m.Id, m.UserName });
         }
         public override void Dispose()
         {
@@ -49,5 +53,7 @@ namespace ManagerCafe.Data.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<WareHouse> WareHouses { get; set; }
         public DbSet<InventoryTransaction> InventoryTransactions { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserType> UserTypes { get; set; }
     }
 }

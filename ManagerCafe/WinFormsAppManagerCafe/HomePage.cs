@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using WinFormsAppManagerCafe.History;
 using WinFormsAppManagerCafe.Inventories;
+using WinFormsAppManagerCafe.Users;
 using WinFormsAppManagerCafe.WareHouses;
 
 namespace WinFormsAppManagerCafe
@@ -53,6 +54,10 @@ namespace WinFormsAppManagerCafe
         {
             var pageHistory = Program.ServiceProvider.GetService<FormHistory>();
             pageHistory.ShowDialog();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
         }
     }
 }

@@ -11,7 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WinFormsAppManagerCafe.History;
 using WinFormsAppManagerCafe.Inventories;
+using WinFormsAppManagerCafe.Login;
 using WinFormsAppManagerCafe.Products;
+using WinFormsAppManagerCafe.Users;
 using WinFormsAppManagerCafe.WareHouses;
 
 namespace WinFormsAppManagerCafe
@@ -55,6 +57,7 @@ namespace WinFormsAppManagerCafe
                services.AddTransient<IInventoryService, InventoryService>();
                services.AddTransient<IInventoryTransactionRepository, InventoryTransactionRepository>();
                services.AddTransient<IInventoryTransactionService, InventoryTransactionService>();
+               services.AddTransient<User>();
                services.AddTransient<HomePage>();
                services.AddTransient<FormProduct>();
                services.AddTransient<FormAddProduct>();
@@ -64,6 +67,7 @@ namespace WinFormsAppManagerCafe
                services.AddTransient<FormAddInventory>();
                services.AddTransient<FormStatistic>();
                services.AddTransient<FormHistory>();
+               services.AddTransient<UserType>();
                services.AddAutoMapper(typeof(ProductProfile));
                services.AddAutoMapper(typeof(WareHouseProfile));
                services.AddAutoMapper(typeof(InventoryProfile));

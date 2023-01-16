@@ -4506,3 +4506,373 @@ dbug: 1/8/2023 13:42:13.831 RelationalEventId.ConnectionClosed[20003] (Microsoft
       Closed connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
 dbug: 1/8/2023 13:42:13.832 CoreEventId.ContextDisposed[10407] (Microsoft.EntityFrameworkCore.Infrastructure) 
       'ManagerCafeDbContext' disposed.
+info: 1/17/2023 01:35:15.204 CoreEventId.ContextInitialized[10403] (Microsoft.EntityFrameworkCore.Infrastructure) 
+      Entity Framework Core 6.0.11 initialized 'ManagerCafeDbContext' using provider 'Pomelo.EntityFrameworkCore.MySql:6.0.2' with options: ServerVersion 8.0.21-mysql 
+dbug: 1/17/2023 01:35:15.233 RelationalEventId.ConnectionOpening[20000] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opening connection to database '' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:35:16.105 RelationalEventId.ConnectionOpened[20001] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opened connection to database '' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:35:16.233 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteScalar'.
+dbug: 1/17/2023 01:35:16.236 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteScalar' (3ms).
+dbug: 1/17/2023 01:35:16.236 RelationalEventId.ConnectionOpening[20000] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opening connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:35:17.078 RelationalEventId.ConnectionOpened[20001] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opened connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:35:17.093 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='MangerCafe' AND TABLE_NAME='__EFMigrationsHistory';
+info: 1/17/2023 01:35:17.251 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (164ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='MangerCafe' AND TABLE_NAME='__EFMigrationsHistory';
+dbug: 1/17/2023 01:35:17.253 RelationalEventId.ConnectionClosing[20002] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Closing connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:35:17.255 RelationalEventId.ConnectionClosed[20003] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Closed connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:35:17.277 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 1/17/2023 01:35:17.277 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (0ms).
+dbug: 1/17/2023 01:35:17.277 RelationalEventId.ConnectionOpening[20000] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opening connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:35:17.509 RelationalEventId.ConnectionOpened[20001] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opened connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:35:17.509 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT `MigrationId`, `ProductVersion`
+      FROM `__EFMigrationsHistory`
+      ORDER BY `MigrationId`;
+info: 1/17/2023 01:35:17.649 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (140ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT `MigrationId`, `ProductVersion`
+      FROM `__EFMigrationsHistory`
+      ORDER BY `MigrationId`;
+dbug: 1/17/2023 01:35:17.651 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader was disposed.
+dbug: 1/17/2023 01:35:17.651 RelationalEventId.ConnectionClosing[20002] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Closing connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:35:17.651 RelationalEventId.ConnectionClosed[20003] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Closed connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:35:17.656 CoreEventId.ContextDisposed[10407] (Microsoft.EntityFrameworkCore.Infrastructure) 
+      'ManagerCafeDbContext' disposed.
+info: 1/17/2023 01:37:53.288 CoreEventId.ContextInitialized[10403] (Microsoft.EntityFrameworkCore.Infrastructure) 
+      Entity Framework Core 6.0.11 initialized 'ManagerCafeDbContext' using provider 'Pomelo.EntityFrameworkCore.MySql:6.0.2' with options: ServerVersion 8.0.21-mysql 
+dbug: 1/17/2023 01:37:53.410 CoreEventId.DetectChangesStarting[10800] (Microsoft.EntityFrameworkCore.ChangeTracking) 
+      DetectChanges starting for 'ManagerCafeDbContext'.
+dbug: 1/17/2023 01:37:53.411 CoreEventId.DetectChangesCompleted[10801] (Microsoft.EntityFrameworkCore.ChangeTracking) 
+      DetectChanges completed for 'ManagerCafeDbContext'.
+dbug: 1/17/2023 01:37:53.412 CoreEventId.DetectChangesStarting[10800] (Microsoft.EntityFrameworkCore.ChangeTracking) 
+      DetectChanges starting for 'ManagerCafeDbContext'.
+dbug: 1/17/2023 01:37:53.412 CoreEventId.DetectChangesCompleted[10801] (Microsoft.EntityFrameworkCore.ChangeTracking) 
+      DetectChanges completed for 'ManagerCafeDbContext'.
+dbug: 1/17/2023 01:37:53.415 CoreEventId.DetectChangesStarting[10800] (Microsoft.EntityFrameworkCore.ChangeTracking) 
+      DetectChanges starting for 'ManagerCafeDbContext'.
+dbug: 1/17/2023 01:37:53.415 CoreEventId.DetectChangesCompleted[10801] (Microsoft.EntityFrameworkCore.ChangeTracking) 
+      DetectChanges completed for 'ManagerCafeDbContext'.
+dbug: 1/17/2023 01:37:53.415 CoreEventId.DetectChangesStarting[10800] (Microsoft.EntityFrameworkCore.ChangeTracking) 
+      DetectChanges starting for 'ManagerCafeDbContext'.
+dbug: 1/17/2023 01:37:53.415 CoreEventId.DetectChangesCompleted[10801] (Microsoft.EntityFrameworkCore.ChangeTracking) 
+      DetectChanges completed for 'ManagerCafeDbContext'.
+dbug: 1/17/2023 01:37:53.473 CoreEventId.ContextDisposed[10407] (Microsoft.EntityFrameworkCore.Infrastructure) 
+      'ManagerCafeDbContext' disposed.
+info: 1/17/2023 01:41:31.403 CoreEventId.ContextInitialized[10403] (Microsoft.EntityFrameworkCore.Infrastructure) 
+      Entity Framework Core 6.0.11 initialized 'ManagerCafeDbContext' using provider 'Pomelo.EntityFrameworkCore.MySql:6.0.2' with options: ServerVersion 8.0.21-mysql 
+dbug: 1/17/2023 01:41:31.503 CoreEventId.DetectChangesStarting[10800] (Microsoft.EntityFrameworkCore.ChangeTracking) 
+      DetectChanges starting for 'ManagerCafeDbContext'.
+dbug: 1/17/2023 01:41:31.505 CoreEventId.DetectChangesCompleted[10801] (Microsoft.EntityFrameworkCore.ChangeTracking) 
+      DetectChanges completed for 'ManagerCafeDbContext'.
+dbug: 1/17/2023 01:41:31.505 CoreEventId.DetectChangesStarting[10800] (Microsoft.EntityFrameworkCore.ChangeTracking) 
+      DetectChanges starting for 'ManagerCafeDbContext'.
+dbug: 1/17/2023 01:41:31.505 CoreEventId.DetectChangesCompleted[10801] (Microsoft.EntityFrameworkCore.ChangeTracking) 
+      DetectChanges completed for 'ManagerCafeDbContext'.
+dbug: 1/17/2023 01:41:31.522 RelationalEventId.ConnectionOpening[20000] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opening connection to database '' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:41:32.632 RelationalEventId.ConnectionOpened[20001] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opened connection to database '' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:41:32.804 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteScalar'.
+dbug: 1/17/2023 01:41:32.808 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteScalar' (1ms).
+dbug: 1/17/2023 01:41:32.808 RelationalEventId.ConnectionOpening[20000] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opening connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:41:33.320 RelationalEventId.ConnectionOpened[20001] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opened connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:41:33.325 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='MangerCafe' AND TABLE_NAME='__EFMigrationsHistory';
+info: 1/17/2023 01:41:33.419 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (96ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='MangerCafe' AND TABLE_NAME='__EFMigrationsHistory';
+dbug: 1/17/2023 01:41:33.420 RelationalEventId.ConnectionClosing[20002] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Closing connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:41:33.422 RelationalEventId.ConnectionClosed[20003] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Closed connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:41:33.429 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 1/17/2023 01:41:33.429 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (0ms).
+dbug: 1/17/2023 01:41:33.429 RelationalEventId.ConnectionOpening[20000] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opening connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:41:33.614 RelationalEventId.ConnectionOpened[20001] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opened connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:41:33.614 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT `MigrationId`, `ProductVersion`
+      FROM `__EFMigrationsHistory`
+      ORDER BY `MigrationId`;
+info: 1/17/2023 01:41:33.700 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (86ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT `MigrationId`, `ProductVersion`
+      FROM `__EFMigrationsHistory`
+      ORDER BY `MigrationId`;
+dbug: 1/17/2023 01:41:33.702 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader was disposed.
+dbug: 1/17/2023 01:41:33.702 RelationalEventId.ConnectionClosing[20002] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Closing connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:41:33.702 RelationalEventId.ConnectionClosed[20003] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Closed connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:41:33.760 CoreEventId.ContextDisposed[10407] (Microsoft.EntityFrameworkCore.Infrastructure) 
+      'ManagerCafeDbContext' disposed.
+info: 1/17/2023 01:41:59.916 CoreEventId.ContextInitialized[10403] (Microsoft.EntityFrameworkCore.Infrastructure) 
+      Entity Framework Core 6.0.11 initialized 'ManagerCafeDbContext' using provider 'Pomelo.EntityFrameworkCore.MySql:6.0.2' with options: ServerVersion 8.0.21-mysql 
+dbug: 1/17/2023 01:42:00.045 CoreEventId.DetectChangesStarting[10800] (Microsoft.EntityFrameworkCore.ChangeTracking) 
+      DetectChanges starting for 'ManagerCafeDbContext'.
+dbug: 1/17/2023 01:42:00.047 CoreEventId.DetectChangesCompleted[10801] (Microsoft.EntityFrameworkCore.ChangeTracking) 
+      DetectChanges completed for 'ManagerCafeDbContext'.
+dbug: 1/17/2023 01:42:00.047 CoreEventId.DetectChangesStarting[10800] (Microsoft.EntityFrameworkCore.ChangeTracking) 
+      DetectChanges starting for 'ManagerCafeDbContext'.
+dbug: 1/17/2023 01:42:00.047 CoreEventId.DetectChangesCompleted[10801] (Microsoft.EntityFrameworkCore.ChangeTracking) 
+      DetectChanges completed for 'ManagerCafeDbContext'.
+dbug: 1/17/2023 01:42:00.051 CoreEventId.DetectChangesStarting[10800] (Microsoft.EntityFrameworkCore.ChangeTracking) 
+      DetectChanges starting for 'ManagerCafeDbContext'.
+dbug: 1/17/2023 01:42:00.051 CoreEventId.DetectChangesCompleted[10801] (Microsoft.EntityFrameworkCore.ChangeTracking) 
+      DetectChanges completed for 'ManagerCafeDbContext'.
+dbug: 1/17/2023 01:42:00.051 CoreEventId.DetectChangesStarting[10800] (Microsoft.EntityFrameworkCore.ChangeTracking) 
+      DetectChanges starting for 'ManagerCafeDbContext'.
+dbug: 1/17/2023 01:42:00.051 CoreEventId.DetectChangesCompleted[10801] (Microsoft.EntityFrameworkCore.ChangeTracking) 
+      DetectChanges completed for 'ManagerCafeDbContext'.
+dbug: 1/17/2023 01:42:00.112 CoreEventId.ContextDisposed[10407] (Microsoft.EntityFrameworkCore.Infrastructure) 
+      'ManagerCafeDbContext' disposed.
+info: 1/17/2023 01:44:22.041 CoreEventId.ContextInitialized[10403] (Microsoft.EntityFrameworkCore.Infrastructure) 
+      Entity Framework Core 6.0.11 initialized 'ManagerCafeDbContext' using provider 'Pomelo.EntityFrameworkCore.MySql:6.0.2' with options: ServerVersion 8.0.21-mysql 
+dbug: 1/17/2023 01:44:22.063 RelationalEventId.MigrateUsingConnection[20400] (Microsoft.EntityFrameworkCore.Migrations) 
+      Migrating using database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:44:22.068 RelationalEventId.ConnectionOpening[20000] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opening connection to database '' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:44:23.110 RelationalEventId.ConnectionOpened[20001] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opened connection to database '' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:44:23.282 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteScalar'.
+dbug: 1/17/2023 01:44:23.284 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteScalar' (2ms).
+dbug: 1/17/2023 01:44:23.284 RelationalEventId.ConnectionOpening[20000] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opening connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:44:24.117 RelationalEventId.ConnectionOpened[20001] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opened connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:44:24.121 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='MangerCafe' AND TABLE_NAME='__EFMigrationsHistory';
+info: 1/17/2023 01:44:24.271 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (151ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='MangerCafe' AND TABLE_NAME='__EFMigrationsHistory';
+dbug: 1/17/2023 01:44:24.272 RelationalEventId.ConnectionClosing[20002] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Closing connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:44:24.274 RelationalEventId.ConnectionClosed[20003] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Closed connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:44:24.275 RelationalEventId.ConnectionOpening[20000] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opening connection to database '' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:44:24.782 RelationalEventId.ConnectionOpened[20001] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opened connection to database '' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:44:24.868 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteScalar'.
+dbug: 1/17/2023 01:44:24.868 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteScalar' (0ms).
+dbug: 1/17/2023 01:44:24.868 RelationalEventId.ConnectionOpening[20000] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opening connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:44:25.105 RelationalEventId.ConnectionOpened[20001] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opened connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:44:25.105 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='MangerCafe' AND TABLE_NAME='__EFMigrationsHistory';
+info: 1/17/2023 01:44:25.245 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (139ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='MangerCafe' AND TABLE_NAME='__EFMigrationsHistory';
+dbug: 1/17/2023 01:44:25.245 RelationalEventId.ConnectionClosing[20002] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Closing connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:44:25.245 RelationalEventId.ConnectionClosed[20003] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Closed connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:44:25.262 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteReader'.
+dbug: 1/17/2023 01:44:25.262 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteReader' (0ms).
+dbug: 1/17/2023 01:44:25.262 RelationalEventId.ConnectionOpening[20000] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opening connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:44:25.496 RelationalEventId.ConnectionOpened[20001] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opened connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:44:25.496 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT `MigrationId`, `ProductVersion`
+      FROM `__EFMigrationsHistory`
+      ORDER BY `MigrationId`;
+info: 1/17/2023 01:44:25.640 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (143ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT `MigrationId`, `ProductVersion`
+      FROM `__EFMigrationsHistory`
+      ORDER BY `MigrationId`;
+dbug: 1/17/2023 01:44:25.642 RelationalEventId.DataReaderDisposing[20300] (Microsoft.EntityFrameworkCore.Database.Command) 
+      A data reader was disposed.
+dbug: 1/17/2023 01:44:25.642 RelationalEventId.ConnectionClosing[20002] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Closing connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:44:25.642 RelationalEventId.ConnectionClosed[20003] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Closed connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+info: 1/17/2023 01:44:25.656 RelationalEventId.MigrationApplying[20402] (Microsoft.EntityFrameworkCore.Migrations) 
+      Applying migration '20230116184200_UserAndUserTypeEntity'.
+dbug: 1/17/2023 01:44:25.708 RelationalEventId.ConnectionOpening[20000] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opening connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:44:25.948 RelationalEventId.ConnectionOpened[20001] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Opened connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:44:25.950 RelationalEventId.TransactionStarting[20209] (Microsoft.EntityFrameworkCore.Database.Transaction) 
+      Beginning transaction with isolation level 'Unspecified'.
+dbug: 1/17/2023 01:44:26.230 RelationalEventId.TransactionStarted[20200] (Microsoft.EntityFrameworkCore.Database.Transaction) 
+      Began transaction with isolation level 'Unspecified'.
+dbug: 1/17/2023 01:44:26.231 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteNonQuery'.
+dbug: 1/17/2023 01:44:26.231 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteNonQuery' (0ms).
+dbug: 1/17/2023 01:44:26.232 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE `UserType` (
+          `Id` char(36) COLLATE ascii_general_ci NOT NULL,
+          `Name` varchar(200) CHARACTER SET utf8mb4 NOT NULL,
+          `CreateTime` datetime(6) NOT NULL,
+          `DeletetionTime` datetime(6) NULL,
+          `LastModificationTime` datetime(6) NULL,
+          CONSTRAINT `PK_UserType` PRIMARY KEY (`Id`)
+      ) CHARACTER SET=utf8mb4;
+info: 1/17/2023 01:44:26.509 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (277ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE `UserType` (
+          `Id` char(36) COLLATE ascii_general_ci NOT NULL,
+          `Name` varchar(200) CHARACTER SET utf8mb4 NOT NULL,
+          `CreateTime` datetime(6) NOT NULL,
+          `DeletetionTime` datetime(6) NULL,
+          `LastModificationTime` datetime(6) NULL,
+          CONSTRAINT `PK_UserType` PRIMARY KEY (`Id`)
+      ) CHARACTER SET=utf8mb4;
+dbug: 1/17/2023 01:44:26.509 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteNonQuery'.
+dbug: 1/17/2023 01:44:26.509 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteNonQuery' (0ms).
+dbug: 1/17/2023 01:44:26.509 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE `User` (
+          `Id` char(36) COLLATE ascii_general_ci NOT NULL,
+          `UserName` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+          `UserTypeId` char(36) COLLATE ascii_general_ci NOT NULL,
+          `Password` varchar(100) CHARACTER SET utf8mb4 NOT NULL,
+          `FullName` varchar(400) CHARACTER SET utf8mb4 NOT NULL,
+          `PhoneNumber` varchar(400) CHARACTER SET utf8mb4 NOT NULL,
+          `Email` varchar(255) CHARACTER SET utf8mb4 NULL,
+          `IsActive` tinyint(1) NOT NULL DEFAULT FALSE,
+          `IsDeleted` tinyint(1) NOT NULL,
+          `LastLoginTime` datetime(6) NOT NULL,
+          `CreateTime` datetime(6) NOT NULL,
+          `DeletetionTime` datetime(6) NULL,
+          `LastModificationTime` datetime(6) NULL,
+          CONSTRAINT `PK_User` PRIMARY KEY (`Id`, `UserName`),
+          CONSTRAINT `FK_User_UserType_UserTypeId` FOREIGN KEY (`UserTypeId`) REFERENCES `UserType` (`Id`) ON DELETE CASCADE
+      ) CHARACTER SET=utf8mb4;
+info: 1/17/2023 01:44:26.711 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (201ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE `User` (
+          `Id` char(36) COLLATE ascii_general_ci NOT NULL,
+          `UserName` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+          `UserTypeId` char(36) COLLATE ascii_general_ci NOT NULL,
+          `Password` varchar(100) CHARACTER SET utf8mb4 NOT NULL,
+          `FullName` varchar(400) CHARACTER SET utf8mb4 NOT NULL,
+          `PhoneNumber` varchar(400) CHARACTER SET utf8mb4 NOT NULL,
+          `Email` varchar(255) CHARACTER SET utf8mb4 NULL,
+          `IsActive` tinyint(1) NOT NULL DEFAULT FALSE,
+          `IsDeleted` tinyint(1) NOT NULL,
+          `LastLoginTime` datetime(6) NOT NULL,
+          `CreateTime` datetime(6) NOT NULL,
+          `DeletetionTime` datetime(6) NULL,
+          `LastModificationTime` datetime(6) NULL,
+          CONSTRAINT `PK_User` PRIMARY KEY (`Id`, `UserName`),
+          CONSTRAINT `FK_User_UserType_UserTypeId` FOREIGN KEY (`UserTypeId`) REFERENCES `UserType` (`Id`) ON DELETE CASCADE
+      ) CHARACTER SET=utf8mb4;
+dbug: 1/17/2023 01:44:26.711 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteNonQuery'.
+dbug: 1/17/2023 01:44:26.711 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteNonQuery' (0ms).
+dbug: 1/17/2023 01:44:26.711 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE FULLTEXT INDEX `IX_User_Email` ON `User` (`Email`);
+info: 1/17/2023 01:44:27.077 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (366ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE FULLTEXT INDEX `IX_User_Email` ON `User` (`Email`);
+dbug: 1/17/2023 01:44:27.077 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteNonQuery'.
+dbug: 1/17/2023 01:44:27.077 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteNonQuery' (0ms).
+dbug: 1/17/2023 01:44:27.077 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE FULLTEXT INDEX `IX_User_PhoneNumber` ON `User` (`PhoneNumber`);
+info: 1/17/2023 01:44:27.312 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (235ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE FULLTEXT INDEX `IX_User_PhoneNumber` ON `User` (`PhoneNumber`);
+dbug: 1/17/2023 01:44:27.312 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteNonQuery'.
+dbug: 1/17/2023 01:44:27.312 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteNonQuery' (0ms).
+dbug: 1/17/2023 01:44:27.312 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE FULLTEXT INDEX `IX_User_UserName` ON `User` (`UserName`);
+info: 1/17/2023 01:44:27.557 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (245ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE FULLTEXT INDEX `IX_User_UserName` ON `User` (`UserName`);
+dbug: 1/17/2023 01:44:27.557 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteNonQuery'.
+dbug: 1/17/2023 01:44:27.557 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteNonQuery' (0ms).
+dbug: 1/17/2023 01:44:27.557 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX `IX_User_UserTypeId` ON `User` (`UserTypeId`);
+info: 1/17/2023 01:44:27.729 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (171ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX `IX_User_UserTypeId` ON `User` (`UserTypeId`);
+dbug: 1/17/2023 01:44:27.729 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteNonQuery'.
+dbug: 1/17/2023 01:44:27.729 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteNonQuery' (0ms).
+dbug: 1/17/2023 01:44:27.729 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE FULLTEXT INDEX `IX_UserType_Name` ON `UserType` (`Name`);
+info: 1/17/2023 01:44:28.137 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (408ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE FULLTEXT INDEX `IX_UserType_Name` ON `UserType` (`Name`);
+dbug: 1/17/2023 01:44:28.137 RelationalEventId.CommandCreating[20103] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Creating DbCommand for 'ExecuteNonQuery'.
+dbug: 1/17/2023 01:44:28.137 RelationalEventId.CommandCreated[20104] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Created DbCommand for 'ExecuteNonQuery' (0ms).
+dbug: 1/17/2023 01:44:28.137 RelationalEventId.CommandExecuting[20100] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+      INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
+      VALUES ('20230116184200_UserAndUserTypeEntity', '6.0.11');
+info: 1/17/2023 01:44:28.279 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (143ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
+      VALUES ('20230116184200_UserAndUserTypeEntity', '6.0.11');
+dbug: 1/17/2023 01:44:28.281 RelationalEventId.TransactionCommitting[20210] (Microsoft.EntityFrameworkCore.Database.Transaction) 
+      Committing transaction.
+dbug: 1/17/2023 01:44:28.424 RelationalEventId.TransactionCommitted[20202] (Microsoft.EntityFrameworkCore.Database.Transaction) 
+      Committed transaction.
+dbug: 1/17/2023 01:44:28.425 RelationalEventId.TransactionDisposed[20204] (Microsoft.EntityFrameworkCore.Database.Transaction) 
+      Disposing transaction.
+dbug: 1/17/2023 01:44:28.425 RelationalEventId.ConnectionClosing[20002] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Closing connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:44:28.425 RelationalEventId.ConnectionClosed[20003] (Microsoft.EntityFrameworkCore.Database.Connection) 
+      Closed connection to database 'MangerCafe' on server 'database-2.c0nsjksxeqe3.ap-southeast-1.rds.amazonaws.com'.
+dbug: 1/17/2023 01:44:28.426 CoreEventId.ContextDisposed[10407] (Microsoft.EntityFrameworkCore.Infrastructure) 
+      'ManagerCafeDbContext' disposed.
