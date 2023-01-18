@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ManagerCafe.Commons;
+using ManagerCafe.Data.Data;
 using ManagerCafe.Data.Models;
 using ManagerCafe.Dtos.InventoryDtos;
 using ManagerCafe.Dtos.ProductDtos;
@@ -16,29 +17,51 @@ namespace ManagerCafe.Services
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
         private readonly IMemoryCache _memoryCache;
+        private readonly ManagerCafeDbContext _context;
 
-        public ProductService(IProductRepository productRepository, IMapper mapper, IMemoryCache memoryCache)
+        public ProductService(IProductRepository productRepository, IMapper mapper, IMemoryCache memoryCache, ManagerCafeDbContext context)
         {
             _productRepository = productRepository;
             _mapper = mapper;
             _memoryCache = memoryCache;
+            _context = context;
         }
 
         public async Task<ProductDto> AddAsync(CreateProductDto item)
         {
-            var entity = _mapper.Map<CreateProductDto, Product>(item);
-            await _productRepository.AddAsync(entity);
-            return _mapper.Map<Product, ProductDto>(entity);
+            var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                var entity = _mapper.Map<CreateProductDto, Product>(item);
+                await _productRepository.AddAsync(entity);
+                await transaction.CommitAsync();
+                return _mapper.Map<Product, ProductDto>(entity);
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                throw ex.GetBaseException();
+            }
         }
 
         public async Task DeleteAsync<TKey>(TKey key)
         {
-            var entity = await _productRepository.GetByIdAsync(key);
-            if (entity is null)
+            var transaction = await _context.Database.BeginTransactionAsync();
+            try
             {
-                throw new Exception("Not found Product to delete");
+                var entity = await _productRepository.GetByIdAsync(key);
+                if (entity is null)
+                {
+                    throw new Exception("Not found Product to delete");
+                }
+                await _productRepository.Delete(entity);
+                await transaction.CommitAsync();
             }
-            await _productRepository.Delete(entity);
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                throw ex.GetBaseException();
+            }
         }
 
         public async Task<List<ProductDto>> FilterAsync(FilterProductDto item)
@@ -111,14 +134,24 @@ namespace ManagerCafe.Services
 
         public async Task<ProductDto> UpdateAsync(UpdateProductDto item)
         {
-            var entity = await _productRepository.GetByIdAsync(item.Id);
-            if (entity is null)
+            var transaction = await _context.Database.BeginTransactionAsync();
+            try
             {
-                throw new Exception("Not found Product to update");
+                var entity = await _productRepository.GetByIdAsync(item.Id);
+                if (entity is null)
+                {
+                    throw new Exception("Not found Product to update");
+                }
+                var update = _mapper.Map<UpdateProductDto, Product>(item, entity);
+                await _productRepository.UpdateAsync(update);
+                await transaction.CommitAsync();
+                return _mapper.Map<Product, ProductDto>(update);
             }
-            var update = _mapper.Map<UpdateProductDto, Product>(item, entity);
-            await _productRepository.UpdateAsync(update);
-            return _mapper.Map<Product, ProductDto>(update);
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                throw ex.GetBaseException();
+            }
         }
 
         public async Task<CommonPageDto<ProductDto>> GetPagedListAsync(FilterProductDto item, int choice)

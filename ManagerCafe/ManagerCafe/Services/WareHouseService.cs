@@ -1,42 +1,67 @@
 ﻿using AutoMapper;
 using ManagerCafe.Commons;
+using ManagerCafe.Data.Data;
 using ManagerCafe.Data.Models;
 using ManagerCafe.Dtos.WareHouseDtos;
 using ManagerCafe.Enums;
 using ManagerCafe.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Caching.Memory;
+using System.Data;
 
 namespace ManagerCafe.Services
 {
     public class WareHouseService : IWareHouseService
     {
         private readonly IWareHouseRepository _wareHouseRepository;
+        private readonly ManagerCafeDbContext _context;
         private readonly IMemoryCache _memoryCache;
         private readonly IMapper _mapper;
 
-        public WareHouseService(IWareHouseRepository wareHouseRepository, IMapper mapper, IMemoryCache memoryCache)
+        public WareHouseService(IWareHouseRepository wareHouseRepository, IMapper mapper, IMemoryCache memoryCache, ManagerCafeDbContext context)
         {
             _wareHouseRepository = wareHouseRepository;
             _mapper = mapper;
             _memoryCache = memoryCache;
+            _context = context;
         }
 
         public async Task<WareHouseDto> AddAsync(CreateWareHouseDto item)
         {
-            var entity = _mapper.Map<CreateWareHouseDto, WareHouse>(item);
-            await _wareHouseRepository.AddAsync(entity);
-            return _mapper.Map<WareHouse, WareHouseDto>(entity);
+            var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                var entity = _mapper.Map<CreateWareHouseDto, WareHouse>(item);
+                await _wareHouseRepository.AddAsync(entity);
+                await transaction.CommitAsync();
+                return _mapper.Map<WareHouse, WareHouseDto>(entity);
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                throw ex.GetBaseException();
+            }
         }
 
         public async Task DeleteAsync<Tkey>(Tkey key)
         {
-            var entity = await _wareHouseRepository.GetByIdAsync(key);
-            if (entity == null)
+            var transaction = await _context.Database.BeginTransactionAsync();
+            try
             {
-                throw new Exception("Not found WareHouse to detele");
+                var entity = await _wareHouseRepository.GetByIdAsync(key);
+                if (entity == null)
+                {
+                    throw new Exception("Not found WareHouse to detele");
+                }
+                await _wareHouseRepository.Delete(entity);
+                await transaction.CommitAsync();
             }
-            await _wareHouseRepository.Delete(entity);
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                throw ex.GetBaseException();
+            }
         }
 
         private async Task<IQueryable<WareHouse>> FilterQueryAbleAsync()
@@ -97,14 +122,24 @@ namespace ManagerCafe.Services
 
         public async Task<WareHouseDto> UpdateAsync(UpdateWareHouseDto item)
         {
-            var entity = await _wareHouseRepository.GetByIdAsync(item.Id);
-            if (entity == null)
+            var transaction = await _context.Database.BeginTransactionAsync();
+            try
             {
-                throw new Exception("Not found WareHouse to update");
+                var entity = await _wareHouseRepository.GetByIdAsync(item.Id);
+                if (entity == null)
+                {
+                    throw new Exception("Not found WareHouse to update");
+                }
+                var update = _mapper.Map<UpdateWareHouseDto, WareHouse>(item, entity);
+                await _wareHouseRepository.UpdateAsync(update);
+                await transaction.CommitAsync();
+                return _mapper.Map<WareHouse, WareHouseDto>(update);
             }
-            var update = _mapper.Map<UpdateWareHouseDto, WareHouse>(item, entity);
-            await _wareHouseRepository.UpdateAsync(update);
-            return _mapper.Map<WareHouse, WareHouseDto>(update);
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                throw ex.GetBaseException();
+            }
         }
 
         public Task<CommonPageDto<WareHouseDto>> GetPagedListAsync(FilterWareHouseDto item)

@@ -65,7 +65,7 @@ namespace ManagerCafe.Services
                 var checkEmail = CheckEmail(item.Email);
                 var checkUserName = await CheckUserName(stringMD5);
                 var checkPhoneNumer = CheckPhoneNumer(item.PhoneNumber);
-                if (checkUserName != null)
+                if (checkUserName == null)
                 {
                     throw new Exception("Name user have been already");
                 }
@@ -157,6 +157,5 @@ namespace ManagerCafe.Services
             }
             return login;
         }
-
     }
 }

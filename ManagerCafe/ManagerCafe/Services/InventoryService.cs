@@ -32,51 +32,44 @@ namespace ManagerCafe.Services
 
         public async Task<InventoryDto> AddAsync(CreatenInvetoryDto item)
         {
-            try
+            var entity = new Inventory();
+            var filter = await FilterAsync(new FilterInventoryDto()
             {
-                var entity = new Inventory();
-                var filter = await FilterAsync(new FilterInventoryDto()
+                ProductId = item.ProductId,
+                WareHouseId = item.WareHouseId,
+            });
+            if (filter.Count > 0)
+            {
+                var inventory = filter.FirstOrDefault();
+                if (inventory is not null)
                 {
-                    ProductId = item.ProductId,
-                    WareHouseId = item.WareHouseId,
-                });
-                if (filter.Count > 0)
-                {
-                    var inventory = filter.FirstOrDefault();
-                    if (inventory is not null)
-                    {
-                        throw new Exception("Inventory have been create");
-                    }
+                    throw new Exception("Inventory have been create");
                 }
-                else
+            }
+            else
+            {
+                var transaction = await _context.Database.BeginTransactionAsync();
+                try
                 {
-                    var transaction = await _context.Database.BeginTransactionAsync();
-                    try
-                    {
-                        var createInventory = _mapper.Map<CreatenInvetoryDto, Inventory>(item);
-                        entity = await _inventoryRepository.AddAsync(createInventory);
+                    var createInventory = _mapper.Map<CreatenInvetoryDto, Inventory>(item);
+                    entity = await _inventoryRepository.AddAsync(createInventory);
 
-                        var inventoryTransaction = new CreateInventoryTransactionDto()
-                        {
-                            Quatity = entity.Quatity,
-                            InventoryId = entity.Id,
-                            Type = EnumInventoryTransation.Import
-                        };
-                        await _inventoryTransactionService.AddAsync(inventoryTransaction);
-                        await transaction.CommitAsync();
-                    }
-                    catch (Exception ex)
+                    var inventoryTransaction = new CreateInventoryTransactionDto()
                     {
-                        await transaction.RollbackAsync();
-                        throw ex.GetBaseException();
-                    }
+                        Quatity = entity.Quatity,
+                        InventoryId = entity.Id,
+                        Type = EnumInventoryTransation.Import
+                    };
+                    await _inventoryTransactionService.AddAsync(inventoryTransaction);
+                    await transaction.CommitAsync();
                 }
-                return _mapper.Map<Inventory, InventoryDto>(entity);
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    throw ex.GetBaseException();
+                }
             }
-            catch (Exception ex)
-            {
-                throw ex.GetBaseException();
-            }
+            return _mapper.Map<Inventory, InventoryDto>(entity);
         }
 
         public async Task DeleteAsync<Tkey>(Tkey key)
@@ -119,8 +112,6 @@ namespace ManagerCafe.Services
                       .ToListAsync();
             return _mapper.Map<List<Inventory>, List<InventoryDto>>(dataGirdView);
         }
-
-
 
         public async Task<List<InventoryDto>> GetAllAsync()
         {

@@ -36,7 +36,7 @@ namespace WinFormsAppManagerCafe.Logins
                     _isLoadingDone = true;
                     return;
                 }
-                if (string.IsNullOrEmpty(TbPhoneNumber.Text) || TbPhoneNumber.Text.Length < 10)
+                if (string.IsNullOrEmpty(TbPhoneNumber.Text) || TbPhoneNumber.Text.Length != 10)
                 {
                     MessageBox.Show("Phone number is empty or not enough number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     _isLoadingDone = true;
