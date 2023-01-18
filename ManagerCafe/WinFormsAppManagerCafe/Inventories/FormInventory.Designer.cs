@@ -259,6 +259,7 @@
             this.Name = "FormInventory";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormInventory";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormInventory_FormClosing);
             this.Load += new System.EventHandler(this.FormInventory_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

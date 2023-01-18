@@ -144,10 +144,15 @@ namespace WinFormsAppManagerCafe.Inventories
 
         private async Task RefreshCbb()
         {
-            CbbProduct.DataSource = await _productService.GetAllAsync();
-            CbbProduct.DisplayMember = "Name";
-            CbbWareHouse.DataSource = await _wareHouseService.GetAllAsync();
-            CbbWareHouse.DisplayMember = "Name";
+            if (_isLoadingDone)
+            {
+                _isLoadingDone = false;
+                CbbProduct.DataSource = await _productService.GetAllAsync();
+                CbbProduct.DisplayMember = "Name";
+                CbbWareHouse.DataSource = await _wareHouseService.GetAllAsync();
+                CbbWareHouse.DisplayMember = "Name";
+                _isLoadingDone = true;
+            }
         }
 
         private async void CbbProduct_SelectedIndexChanged(object sender, EventArgs e)
@@ -327,6 +332,18 @@ namespace WinFormsAppManagerCafe.Inventories
             if (_isLoadingDone)
             {
                 await OnFilterInventoryAsync();
+            }
+        }
+
+        private void FormInventory_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!_isLoadingDone)
+            {
+                e.Cancel = true;
+            }
+            else
+            {
+                e.Cancel = false;
             }
         }
     }

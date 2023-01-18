@@ -267,6 +267,7 @@
             this.Name = "FormHistory";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormHistory";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormHistory_FormClosing);
             this.Load += new System.EventHandler(this.FormHistory_Load);
             ((System.ComponentModel.ISupportInitialize)(this.Dtg)).EndInit();
             this.ResumeLayout(false);

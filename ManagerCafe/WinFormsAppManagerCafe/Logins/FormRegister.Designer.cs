@@ -245,6 +245,7 @@
             this.Name = "FormRegister";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormRegister";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormRegister_FormClosing);
             this.Load += new System.EventHandler(this.FormRegister_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

@@ -161,5 +161,16 @@ namespace WinFormsAppManagerCafe.Logins
             }
         }
 
+        private void FormRegister_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!_isLoadingDone)
+            {
+                e.Cancel = true;
+            }
+            else
+            {
+                e.Cancel = false;
+            }
+        }
     }
 }

@@ -238,7 +238,7 @@
             this.label4.TabIndex = 96;
             this.label4.Text = "Product";
             // 
-            // FormInventoryTransaction
+            // FormStatistic
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -262,9 +262,10 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.BtFind);
             this.Controls.Add(this.Dtg);
-            this.Name = "FormInventoryTransaction";
+            this.Name = "FormStatistic";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "InventoryTransaction";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormStatistic_FormClosing);
             this.Load += new System.EventHandler(this.FormInventoryTransaction_Load);
             ((System.ComponentModel.ISupportInitialize)(this.Dtg)).EndInit();
             this.ResumeLayout(false);

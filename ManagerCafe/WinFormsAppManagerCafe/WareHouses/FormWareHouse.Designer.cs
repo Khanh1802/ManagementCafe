@@ -199,6 +199,7 @@
             this.Name = "FormWareHouse";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormWareHouse";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormWareHouse_FormClosing);
             this.Load += new System.EventHandler(this.FormWareHouse_Load);
             ((System.ComponentModel.ISupportInitialize)(this.Dtg)).EndInit();
             this.panel1.ResumeLayout(false);

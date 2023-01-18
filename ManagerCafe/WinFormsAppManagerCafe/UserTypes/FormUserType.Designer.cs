@@ -68,6 +68,7 @@
             this.BtNextPage.TabIndex = 98;
             this.BtNextPage.Text = "Next page";
             this.BtNextPage.UseVisualStyleBackColor = true;
+            this.BtNextPage.Click += new System.EventHandler(this.BtNextPage_Click);
             // 
             // BtReversePage
             // 
@@ -80,6 +81,7 @@
             this.BtReversePage.TabIndex = 97;
             this.BtReversePage.Text = "Reverse page";
             this.BtReversePage.UseVisualStyleBackColor = true;
+            this.BtReversePage.Click += new System.EventHandler(this.BtReversePage_Click);
             // 
             // CbAllResult
             // 
@@ -245,6 +247,7 @@
             this.Name = "FormUserType";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormUserType";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormUserType_FormClosing);
             this.Load += new System.EventHandler(this.FormUserType_Load);
             ((System.ComponentModel.ISupportInitialize)(this.Dtg)).EndInit();
             this.panel1.ResumeLayout(false);

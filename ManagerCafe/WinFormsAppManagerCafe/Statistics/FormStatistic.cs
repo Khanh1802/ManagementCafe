@@ -217,5 +217,17 @@ namespace WinFormsAppManagerCafe.Inventories
                 await RefreshCheckBoxWarehouse();
             }
         }
+
+        private void FormStatistic_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!_isLoadingDone)
+            {
+                e.Cancel = true;
+            }
+            else
+            {
+                e.Cancel = false;
+            }
+        }
     }
 }

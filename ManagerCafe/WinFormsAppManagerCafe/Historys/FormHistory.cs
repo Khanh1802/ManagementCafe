@@ -30,12 +30,14 @@ namespace WinFormsAppManagerCafe.History
 
         private void RefreshComBoBox()
         {
+            _isLoadingDone = false;
             CbbPage.DataSource = EnumHelpers.GetEnumList<EnumIndexPage>();
             CbbPage.DisplayMember = "Name";
             CbbType.DataSource = EnumHelpers.GetEnumList<EnumInventoryTransation>();
             CbbType.DisplayMember = "Name";
             CbbFilter.DataSource = EnumHelpers.GetEnumList<EnumChoiceFilter>();
             CbbFilter.DisplayMember = "Name";
+            _isLoadingDone = true;
         }
 
         private async void FormHistory_Load(object sender, EventArgs e)
@@ -171,6 +173,18 @@ namespace WinFormsAppManagerCafe.History
                 _currentPage = 1;
                 _skipCount = 0;
                 await RefreshDataGirdView();
+            }
+        }
+
+        private void FormHistory_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!_isLoadingDone)
+            {
+                e.Cancel = true;
+            }
+            else
+            {
+                e.Cancel = false;
             }
         }
     }

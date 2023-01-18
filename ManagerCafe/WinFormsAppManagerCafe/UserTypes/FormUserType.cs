@@ -59,12 +59,15 @@ namespace WinFormsAppManagerCafe.UserTypes
 
         private void RefreshComBoBox()
         {
+            _isLoadingDone = false;
             CbbIndexPage.DataSource = EnumHelpers.GetEnumList<EnumIndexPage>();
             CbbIndexPage.DisplayMember = "Name";
             if (CbbIndexPage.SelectedItem is CommonEnumDto<EnumIndexPage> indexPage)
             {
                 _takeCount = Convert.ToInt32(indexPage.Name);
             }
+            _isLoadingDone = true;
+
         }
 
         private void CbbIndexPage_SelectedValueChanged(object sender, EventArgs e)
@@ -157,6 +160,40 @@ namespace WinFormsAppManagerCafe.UserTypes
                         }
                     }
                 }
+            }
+        }
+
+        private async void BtReversePage_Click(object sender, EventArgs e)
+        {
+            if (_isLoadingDone && CbbIndexPage.SelectedItem is CommonEnumDto<EnumIndexPage> indexPage)
+            {
+                _isLoadingDone = false;
+                _currentPage--;
+                _skipCount -= Convert.ToInt32(indexPage.Name);
+                await RefreshDataGirdView();
+            }
+        }
+
+        private async void BtNextPage_Click(object sender, EventArgs e)
+        {
+            if (_isLoadingDone && CbbIndexPage.SelectedItem is CommonEnumDto<EnumIndexPage> indexPage)
+            {
+                _isLoadingDone = false;
+                _currentPage++;
+                _skipCount += Convert.ToInt32(indexPage.Name);
+                await RefreshDataGirdView();
+            }
+        }
+
+        private void FormUserType_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!_isLoadingDone)
+            {
+                e.Cancel = true;
+            }
+            else
+            {
+                e.Cancel = false;
             }
         }
     }

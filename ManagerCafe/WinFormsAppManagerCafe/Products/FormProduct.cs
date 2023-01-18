@@ -287,5 +287,17 @@ namespace WinFormsAppManagerCafe
                 await RefreshDataGirdView();
             }
         }
+
+        private void FormProduct_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!_isLoadingDone)
+            {
+                e.Cancel = true;
+            }
+            else
+            {
+                e.Cancel = false;
+            }
+        }
     }
 }

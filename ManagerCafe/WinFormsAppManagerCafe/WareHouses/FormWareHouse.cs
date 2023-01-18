@@ -170,5 +170,17 @@ namespace WinFormsAppManagerCafe.WareHouses
             TbName.Enabled = false;
             _isLoadingDone = true;
         }
+
+        private void FormWareHouse_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!_isLoadingDone)
+            {
+                e.Cancel = true;
+            }
+            else
+            {
+                e.Cancel = false;
+            }
+        }
     }
 }
