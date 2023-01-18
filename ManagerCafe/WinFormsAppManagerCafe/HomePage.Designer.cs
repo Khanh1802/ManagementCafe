@@ -119,6 +119,5 @@
         private Button BtPageInventory;
         private Button BtStatistic;
         private Button BtHistory;
-        private Button button1;
     }
 }

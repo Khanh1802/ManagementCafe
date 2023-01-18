@@ -73,6 +73,7 @@ namespace WinFormsAppManagerCafe.Logins
         private void FormLogin_Load(object sender, EventArgs e)
         {
             RefreshPassword();
+            RefreshTableLogin();
             _isLoadingDone = true;
         }
         private void RefreshPassword()
@@ -82,8 +83,7 @@ namespace WinFormsAppManagerCafe.Logins
         }
         private void RefreshTableLogin()
         {
-            TbUserName.Text = string.Empty;
-            TbUserName.Text = string.Empty;
+            TbPassword.Text = string.Empty;
         }
     }
 }
