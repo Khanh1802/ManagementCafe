@@ -77,7 +77,6 @@ namespace WinFormsAppManagerCafe.Logins
                 }
                 catch (Exception ex)
                 {
-
                     MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 _isLoadingDone = true;
@@ -101,14 +100,14 @@ namespace WinFormsAppManagerCafe.Logins
                     return;
                 }
 
-                var checkUserName = await _userService.CheckUserName(TbUserName.Text);
-                if (checkUserName is null)
+                var checkUserName = await _userService.CheckUserNameExist(TbUserName.Text);
+                if (checkUserName != default(Guid))
                 {
-                    MessageBox.Show("Allow", "", MessageBoxButtons.OK);
+                    MessageBox.Show("Already exist", "", MessageBoxButtons.OK);
                 }
                 else
                 {
-                    MessageBox.Show("Already exist", "", MessageBoxButtons.OK);
+                    MessageBox.Show("Allow", "", MessageBoxButtons.OK);
                 }
                 _isLoadingDone = true;
             }
@@ -161,5 +160,6 @@ namespace WinFormsAppManagerCafe.Logins
                 CbPassword.Text = "View";
             }
         }
+
     }
 }

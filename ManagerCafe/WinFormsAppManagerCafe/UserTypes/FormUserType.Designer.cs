@@ -40,7 +40,12 @@
             this.BtFind = new System.Windows.Forms.Button();
             this.TbFind = new System.Windows.Forms.TextBox();
             this.BtUpdate = new System.Windows.Forms.Button();
+            this.CbbIndexPage = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.TbName = new System.Windows.Forms.TextBox();
+            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.Dtg)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // TbCurrentPage
@@ -90,14 +95,15 @@
             // 
             this.Dtg.BackgroundColor = System.Drawing.Color.White;
             this.Dtg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.Dtg.Location = new System.Drawing.Point(85, 118);
+            this.Dtg.Location = new System.Drawing.Point(85, 192);
             this.Dtg.Name = "Dtg";
             this.Dtg.ReadOnly = true;
             this.Dtg.RowHeadersWidth = 51;
             this.Dtg.RowTemplate.Height = 29;
             this.Dtg.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.Dtg.Size = new System.Drawing.Size(755, 486);
+            this.Dtg.Size = new System.Drawing.Size(755, 412);
             this.Dtg.TabIndex = 89;
+            this.Dtg.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Dtg_CellClick);
             // 
             // label1
             // 
@@ -112,6 +118,7 @@
             // BtRemove
             // 
             this.BtRemove.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.BtRemove.Enabled = false;
             this.BtRemove.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.BtRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtRemove.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -121,6 +128,7 @@
             this.BtRemove.TabIndex = 88;
             this.BtRemove.Text = "Delete";
             this.BtRemove.UseVisualStyleBackColor = false;
+            this.BtRemove.Click += new System.EventHandler(this.BtRemove_Click);
             // 
             // BtAdd
             // 
@@ -176,12 +184,52 @@
             this.BtUpdate.TabIndex = 102;
             this.BtUpdate.Text = "Update";
             this.BtUpdate.UseVisualStyleBackColor = false;
+            this.BtUpdate.Click += new System.EventHandler(this.BtUpdate_Click);
+            // 
+            // CbbIndexPage
+            // 
+            this.CbbIndexPage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CbbIndexPage.FormattingEnabled = true;
+            this.CbbIndexPage.Location = new System.Drawing.Point(864, 118);
+            this.CbbIndexPage.Name = "CbbIndexPage";
+            this.CbbIndexPage.Size = new System.Drawing.Size(151, 28);
+            this.CbbIndexPage.TabIndex = 103;
+            this.CbbIndexPage.SelectedValueChanged += new System.EventHandler(this.CbbIndexPage_SelectedValueChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label4.Location = new System.Drawing.Point(16, 16);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(64, 28);
+            this.label4.TabIndex = 13;
+            this.label4.Text = "Name";
+            // 
+            // TbName
+            // 
+            this.TbName.Location = new System.Drawing.Point(188, 16);
+            this.TbName.Name = "TbName";
+            this.TbName.Size = new System.Drawing.Size(290, 27);
+            this.TbName.TabIndex = 10;
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.panel1.Controls.Add(this.label4);
+            this.panel1.Controls.Add(this.TbName);
+            this.panel1.Location = new System.Drawing.Point(190, 103);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(545, 69);
+            this.panel1.TabIndex = 104;
             // 
             // FormUserType
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1134, 743);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.CbbIndexPage);
             this.Controls.Add(this.BtUpdate);
             this.Controls.Add(this.TbFind);
             this.Controls.Add(this.TbCurrentPage);
@@ -199,6 +247,8 @@
             this.Text = "FormUserType";
             this.Load += new System.EventHandler(this.FormUserType_Load);
             ((System.ComponentModel.ISupportInitialize)(this.Dtg)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -217,5 +267,9 @@
         private Button BtFind;
         private TextBox TbFind;
         private Button BtUpdate;
+        private ComboBox CbbIndexPage;
+        private Label label4;
+        private TextBox TbName;
+        private Panel panel1;
     }
 }

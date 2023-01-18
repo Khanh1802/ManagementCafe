@@ -85,14 +85,5 @@ namespace WinFormsAppManagerCafe.Logins
         {
             TbPassword.Text = string.Empty;
         }
-
-        private void FormLogin_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            var result = MessageBox.Show("Bạn có muốn thoát không?", "Thông báo", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-            if (result is not DialogResult.OK)
-            {
-                e.Cancel = true;
-            }
-        }
     }
 }

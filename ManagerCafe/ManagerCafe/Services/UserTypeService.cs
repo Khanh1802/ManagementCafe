@@ -5,6 +5,7 @@ using ManagerCafe.Data.Models;
 using ManagerCafe.Dtos.UsersDto;
 using ManagerCafe.Dtos.UserTypeDtos;
 using ManagerCafe.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using System.Buffers;
 
@@ -30,9 +31,9 @@ namespace ManagerCafe.Services
             var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
-                await _userTypeRepository.AddAsync(_mapper.Map<CreateUserTypeDto, UserType>(item));
+                var user = await _userTypeRepository.AddAsync(_mapper.Map<CreateUserTypeDto, UserType>(item));
                 transaction.Commit();
-                return _mapper.Map<CreateUserTypeDto, UserTypeDto>(item);
+                return _mapper.Map<UserType, UserTypeDto>(user);
             }
             catch (Exception ex)
             {
@@ -42,12 +43,22 @@ namespace ManagerCafe.Services
 
         public async Task DeleteAsync<Tkey>(Tkey key)
         {
-            var entity = await _userTypeRepository.GetByIdAsync(key);
-            if (entity == null)
+            var transaction = await _context.Database.BeginTransactionAsync();
+            try
             {
-                throw new Exception("Not found User type to deleted");
+                var entity = await _userTypeRepository.GetByIdAsync(key);
+                if (entity == null)
+                {
+                    throw new Exception("Not found User type to deleted");
+                }
+                await _userTypeRepository.Delete(entity);
+                await transaction.CommitAsync();
             }
-            await _userTypeRepository.Delete(entity);
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                throw ex.GetBaseException();
+            }
         }
 
         public Task<List<UserTypeDto>> FilterAsync(FilterUserTypeDto item)
@@ -73,6 +84,15 @@ namespace ManagerCafe.Services
         {
             var entity = await _userTypeRepository.GetByIdAsync(key);
             return _mapper.Map<UserType, UserTypeDto>(entity);
+        }
+
+        public async Task<CommonPageDto<UserTypeDto>> GetPagedListAsync(FilterUserTypeDto item)
+        {
+            var query = (await _userTypeRepository.GetQueryableAsync());
+            var filter = query.Where(x => !x.IsDeleted);
+            var countAsync = filter.CountAsync();
+            return new CommonPageDto<UserTypeDto>(await countAsync, item,
+                _mapper.Map<List<UserType>, List<UserTypeDto>>(await filter.ToListAsync()));
         }
 
         public async Task<UserTypeDto> UpdateAsync(UpdateUserTypeDto item)

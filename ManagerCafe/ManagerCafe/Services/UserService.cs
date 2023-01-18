@@ -31,14 +31,14 @@ namespace ManagerCafe.Services
             query = query.Where(x => x.UserName == item.UserName && x.Password == password);
             return query.SingleOrDefault();
         }
-        public async Task<User> CheckUserName(string input)
+        public async Task<Guid> CheckUserNameExist(string input)
         {
             var query = (await _userRepository.GetQueryableAsync());
-            var filter = query.Where(x => x.UserName == input);
+            var filter = query.Where(x => x.UserName == input).Select(x => x.Id);
             return await filter.SingleOrDefaultAsync();
         }
 
-        private bool CheckEmail(string input)
+        private bool CheckEmailConvert(string input)
         {
             string[] subs = input.Split("@");
             if (subs.Length > 2)
@@ -49,10 +49,24 @@ namespace ManagerCafe.Services
             return filter;
         }
 
-        private bool CheckPhoneNumer(string input)
+        private bool CheckPhoneNumerConvert(string input)
         {
             var filter = decimal.TryParse(input, out var number);
             return filter;
+        }
+
+        public async Task<Guid> CheckEmailExist(string input)
+        {
+            var query = (await _userRepository.GetQueryableAsync());
+            var filter = query.Where(x => x.Email == input).Select(x => x.Id);
+            return await filter.SingleOrDefaultAsync();
+        }
+
+        public async Task<Guid> CheckPhoneExist(string input)
+        {
+            var query = (await _userRepository.GetQueryableAsync());
+            var filter = query.Where(x => x.PhoneNumber == input).Select(x => x.Id);
+            return await filter.SingleOrDefaultAsync();
         }
 
         public async Task<UserDto> AddAsync(CreateUserDto item)
@@ -62,20 +76,30 @@ namespace ManagerCafe.Services
             {
                 var stringMD5 = CommonCreateMD5.Create(item.Password);
                 item.Password = stringMD5;
-                var checkEmail = CheckEmail(item.Email);
-                var checkUserName = await CheckUserName(stringMD5);
-                var checkPhoneNumer = CheckPhoneNumer(item.PhoneNumber);
-                if (checkUserName == null)
-                {
-                    throw new Exception("Name user have been already");
-                }
-                if (!checkEmail)
+                var checkEmailConvert = CheckEmailConvert(item.Email);
+                var checkPhoneNumerConvert = CheckPhoneNumerConvert(item.PhoneNumber);
+                var checkUserNameExist = await CheckUserNameExist(item.UserName);
+                var checkEmailExist = await CheckEmailExist(item.Email);
+                var checkPhoneExist = await CheckPhoneExist(item.PhoneNumber);
+                if (!checkEmailConvert)
                 {
                     throw new Exception("Your email don't have @gmail.com");
                 }
-                if (checkPhoneNumer == false)
+                if (checkPhoneNumerConvert == false)
                 {
                     throw new Exception("Have a char in your phone number");
+                }
+                if (checkUserNameExist != default(Guid))
+                {
+                    throw new Exception("Name user have been already exist");
+                }
+                if (checkEmailExist != default(Guid))
+                {
+                    throw new Exception("Email have been already exist");
+                }
+                if (checkPhoneExist != default(Guid))
+                {
+                    throw new Exception("Phone number have been already exist");
                 }
                 var user = await _userRepository.AddAsync(_mapper.Map<CreateUserDto, User>(item));
                 await transaction.CommitAsync();
@@ -145,8 +169,8 @@ namespace ManagerCafe.Services
 
         public async Task<User> LoginAccount(UserDto item)
         {
-            var UserName = await CheckUserName(item.UserName);
-            if (UserName == null)
+            var UserName = await CheckUserNameExist(item.UserName);
+            if (UserName == default(Guid))
             {
                 throw new Exception("Not found user name");
             }

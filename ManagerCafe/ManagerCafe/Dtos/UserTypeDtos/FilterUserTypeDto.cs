@@ -1,6 +1,8 @@
-﻿namespace ManagerCafe.Dtos.UserTypeDtos
+﻿using ManagerCafe.Commons;
+
+namespace ManagerCafe.Dtos.UserTypeDtos
 {
-    public class FilterUserTypeDto
+    public class FilterUserTypeDto : PaginationDto
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

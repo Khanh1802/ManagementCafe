@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using WinFormsAppManagerCafe.History;
 using WinFormsAppManagerCafe.Inventories;
+using WinFormsAppManagerCafe.UserTypes;
 using WinFormsAppManagerCafe.WareHouses;
 
 namespace WinFormsAppManagerCafe
@@ -53,6 +54,12 @@ namespace WinFormsAppManagerCafe
         {
             var pageHistory = Program.ServiceProvider.GetService<FormHistory>();
             pageHistory.ShowDialog();
+        }
+
+        private void BtPageUserType_Click(object sender, EventArgs e)
+        {
+            var pageUserType = Program.ServiceProvider.GetService<FormUserType>();
+            pageUserType.ShowDialog();
         }
     }
 }

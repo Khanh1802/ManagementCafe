@@ -32,6 +32,8 @@ namespace WinFormsAppManagerCafe.UserTypes
                 try
                 {
                     await _userTypeService.AddAsync(create);
+                    MessageBox.Show("Create user type successfully", "Ok", MessageBoxButtons.OK);
+                    this.Close();
                 }
                 catch (Exception ex)
                 {
