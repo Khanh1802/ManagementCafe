@@ -5,15 +5,14 @@ using ManagerCafe.Profiles;
 using ManagerCafe.Repositories;
 using ManagerCafe.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WinFormsAppManagerCafe.History;
 using WinFormsAppManagerCafe.Inventories;
-using WinFormsAppManagerCafe.Login;
+using WinFormsAppManagerCafe.Logins;
 using WinFormsAppManagerCafe.Products;
-using WinFormsAppManagerCafe.Users;
+using WinFormsAppManagerCafe.UserTypes;
 using WinFormsAppManagerCafe.WareHouses;
 
 namespace WinFormsAppManagerCafe
@@ -31,7 +30,7 @@ namespace WinFormsAppManagerCafe
             ApplicationConfiguration.Initialize();
             var host = CreateHostBuilder().Build();
             ServiceProvider = host.Services; // Buoc 2: Khoi tao host.Services
-            Application.Run(ServiceProvider.GetRequiredService<HomePage>()); // Form1 => là project tạo từ Winform Init
+            Application.Run(ServiceProvider.GetRequiredService<FormLogin>()); // Form1 => là project tạo từ Winform Init
         }
 
         public static IServiceProvider ServiceProvider { get; private set; }
@@ -57,7 +56,10 @@ namespace WinFormsAppManagerCafe
                services.AddTransient<IInventoryService, InventoryService>();
                services.AddTransient<IInventoryTransactionRepository, InventoryTransactionRepository>();
                services.AddTransient<IInventoryTransactionService, InventoryTransactionService>();
-               services.AddTransient<User>();
+               services.AddTransient<IUserRepository, UserRepository>();
+               services.AddTransient<IUserService, UserService>();
+               services.AddTransient<IUserTypeRepository, UserTypeRepository>();
+               services.AddTransient<IUserTypeService, UserTypeService>();
                services.AddTransient<HomePage>();
                services.AddTransient<FormProduct>();
                services.AddTransient<FormAddProduct>();
@@ -67,11 +69,15 @@ namespace WinFormsAppManagerCafe
                services.AddTransient<FormAddInventory>();
                services.AddTransient<FormStatistic>();
                services.AddTransient<FormHistory>();
-               services.AddTransient<UserType>();
+               services.AddTransient<FormLogin>();
+               services.AddTransient<FormRegister>();
+               services.AddTransient<FormUserType>();
+               services.AddTransient<FormAddUserType>();
                services.AddAutoMapper(typeof(ProductProfile));
                services.AddAutoMapper(typeof(WareHouseProfile));
                services.AddAutoMapper(typeof(InventoryProfile));
                services.AddAutoMapper(typeof(InventoryTransactionProfile));
+               services.AddAutoMapper(typeof(UserTypeProfile));
            });
         }
     }

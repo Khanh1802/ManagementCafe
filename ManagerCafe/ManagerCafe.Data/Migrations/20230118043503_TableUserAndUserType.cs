@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ManagerCafe.Data.Migrations
 {
-    public partial class UserAndUserTypeEntity : Migration
+    public partial class TableUserAndUserType : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,6 +16,7 @@ namespace ManagerCafe.Data.Migrations
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Name = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     CreateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     DeletetionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     LastModificationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true)
@@ -31,27 +32,27 @@ namespace ManagerCafe.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    UserName = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
                     UserTypeId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UserName = table.Column<string>(type: "varchar(255)", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Password = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FullName = table.Column<string>(type: "varchar(400)", maxLength: 400, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     PhoneNumber = table.Column<string>(type: "varchar(400)", maxLength: 400, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Email = table.Column<string>(type: "varchar(255)", nullable: true)
+                    Email = table.Column<string>(type: "varchar(300)", maxLength: 300, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    IsActive = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
+                    IsActive = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: true),
                     IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    LastLoginTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    LastLoginTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     CreateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     DeletetionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     LastModificationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_User", x => new { x.Id, x.UserName });
+                    table.PrimaryKey("PK_User", x => x.Id);
                     table.ForeignKey(
                         name: "FK_User_UserType_UserTypeId",
                         column: x => x.UserTypeId,
@@ -64,20 +65,20 @@ namespace ManagerCafe.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_User_Email",
                 table: "User",
-                column: "Email")
-                .Annotation("MySql:FullTextIndex", true);
+                column: "Email",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_PhoneNumber",
                 table: "User",
-                column: "PhoneNumber")
-                .Annotation("MySql:FullTextIndex", true);
+                column: "PhoneNumber",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_UserName",
                 table: "User",
-                column: "UserName")
-                .Annotation("MySql:FullTextIndex", true);
+                column: "UserName",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_UserTypeId",

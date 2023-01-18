@@ -1,11 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using ManagerCafe.Data.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ManagerCafe.Data.Models
+namespace ManagerCafe.Dtos.UsersDto
 {
-    public class User
+    public class UserDto
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         public Guid UserTypeId { get; set; }
         public string UserName { get; set; }
@@ -14,11 +17,8 @@ namespace ManagerCafe.Data.Models
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public bool IsActive { get; set; }
-        public bool IsDeleted { get; set; }
-        public DateTime? LastLoginTime { get; set; }
+        public DateTime LastLoginTime { get; set; }
         public DateTime CreateTime { get; set; }
-        public DateTime? DeletetionTime { get; set; }
         public DateTime? LastModificationTime { get; set; }
-        public UserType UserType { get; set; }
     }
 }

@@ -9,6 +9,7 @@ namespace ManagerCafe.Data.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         public string Name { get; set; }
+        public bool IsDeleted { get; set; }
         public DateTime CreateTime { get; set; }
         public DateTime? DeletetionTime { get; set; }
         public DateTime? LastModificationTime { get; set; }

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ManagerCafe.Data.Migrations
 {
     [DbContext(typeof(ManagerCafeDbContext))]
-    [Migration("20230116184200_UserAndUserTypeEntity")]
-    partial class UserAndUserTypeEntity
+    [Migration("20230118043503_TableUserAndUserType")]
+    partial class TableUserAndUserType
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -135,9 +135,6 @@ namespace ManagerCafe.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("UserName")
-                        .HasColumnType("varchar(255)");
-
                     b.Property<DateTime>("CreateTime")
                         .HasColumnType("datetime(6)");
 
@@ -145,7 +142,9 @@ namespace ManagerCafe.Data.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
-                        .HasColumnType("varchar(255)");
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("varchar(300)");
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -155,12 +154,12 @@ namespace ManagerCafe.Data.Migrations
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
-                        .HasDefaultValue(false);
+                        .HasDefaultValue(true);
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<DateTime>("LastLoginTime")
+                    b.Property<DateTime?>("LastLoginTime")
                         .HasColumnType("datetime(6)");
 
                     b.Property<DateTime?>("LastModificationTime")
@@ -176,19 +175,22 @@ namespace ManagerCafe.Data.Migrations
                         .HasMaxLength(400)
                         .HasColumnType("varchar(400)");
 
+                    b.Property<string>("UserName")
+                        .HasColumnType("varchar(255)");
+
                     b.Property<Guid>("UserTypeId")
                         .HasColumnType("char(36)");
 
-                    b.HasKey("Id", "UserName");
+                    b.HasKey("Id");
 
                     b.HasIndex("Email")
-                        .HasAnnotation("MySql:FullTextIndex", true);
+                        .IsUnique();
 
                     b.HasIndex("PhoneNumber")
-                        .HasAnnotation("MySql:FullTextIndex", true);
+                        .IsUnique();
 
                     b.HasIndex("UserName")
-                        .HasAnnotation("MySql:FullTextIndex", true);
+                        .IsUnique();
 
                     b.HasIndex("UserTypeId");
 
@@ -206,6 +208,9 @@ namespace ManagerCafe.Data.Migrations
 
                     b.Property<DateTime?>("DeletetionTime")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<DateTime?>("LastModificationTime")
                         .HasColumnType("datetime(6)");

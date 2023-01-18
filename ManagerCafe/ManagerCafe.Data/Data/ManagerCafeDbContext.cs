@@ -35,8 +35,6 @@ namespace ManagerCafe.Data.Data
             new InventoryTransactionEntityTypeConfiguration().Configure(modelBuilder.Entity<InventoryTransaction>());
             new UserTypeEntityTypeConfiguration().Configure(modelBuilder.Entity<UserType>());
             new UserEntityTypeConfiguration().Configure(modelBuilder.Entity<User>());
-
-            modelBuilder.Entity<User>().HasKey(m => new { m.Id, m.UserName });
         }
         public override void Dispose()
         {
