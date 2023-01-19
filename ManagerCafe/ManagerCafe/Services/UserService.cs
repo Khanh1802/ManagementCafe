@@ -2,11 +2,12 @@
 using ManagerCafe.Commons;
 using ManagerCafe.Data.Data;
 using ManagerCafe.Data.Models;
-using ManagerCafe.Dtos.UsersDto;
 using ManagerCafe.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using System.Transactions;
+using ManagerCafe.Dtos.UsersDtos;
+using ManagerCafe.Validations.Users;
 
 namespace ManagerCafe.Services
 {
@@ -17,16 +18,18 @@ namespace ManagerCafe.Services
         private readonly ManagerCafeDbContext _contex;
         private readonly IMapper _mapper;
         private readonly IMemoryCache _memoryCache;
+        private readonly IUserValidate _userValidate;
 
         private string _userName;
 
-        public UserService(IUserRepository userRepository, IMapper mapper, ManagerCafeDbContext contex, IUserTypeService userTypeService, IMemoryCache memoryCache)
+        public UserService(IUserRepository userRepository, IMapper mapper, ManagerCafeDbContext contex, IUserTypeService userTypeService, IMemoryCache memoryCache, IUserValidate userValidate)
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _contex = contex;
             _userTypeService = userTypeService;
             _memoryCache = memoryCache;
+            _userValidate = userValidate;
         }
 
         public async Task<bool> CheckUserNameExistAysnc(string input)
@@ -81,6 +84,14 @@ namespace ManagerCafe.Services
 
         public async Task<UserDto> AddAsync(CreateUserDto item)
         {
+            item.Validate();
+            var isInValidPhoneNumber = await _userValidate.IsInValidPhoneNumberAsync(item);
+            if (isInValidPhoneNumber)
+            {
+                throw new Exception("Check phone again");
+            }
+
+
             var transaction = await _contex.Database.BeginTransactionAsync();
             try
             {

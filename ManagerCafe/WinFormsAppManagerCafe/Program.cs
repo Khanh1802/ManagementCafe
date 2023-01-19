@@ -4,6 +4,7 @@ using ManagerCafe.Data.Models;
 using ManagerCafe.Profiles;
 using ManagerCafe.Repositories;
 using ManagerCafe.Services;
+using ManagerCafe.Validations.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -78,6 +79,9 @@ namespace WinFormsAppManagerCafe
                services.AddAutoMapper(typeof(InventoryProfile));
                services.AddAutoMapper(typeof(InventoryTransactionProfile));
                services.AddAutoMapper(typeof(UserTypeProfile));
+
+               //Validation
+               services.AddSingleton<IUserValidate, UserValidate>();
            });
         }
     }

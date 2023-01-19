@@ -3,7 +3,6 @@ using ManagerCafe.Commons;
 using ManagerCafe.Data.Data;
 using ManagerCafe.Data.Enums;
 using ManagerCafe.Data.Models;
-using ManagerCafe.Dtos.InventoryDto.InventoryDtos;
 using ManagerCafe.Dtos.InventoryDtos;
 using ManagerCafe.Dtos.InventoryTransactionDtos;
 using ManagerCafe.Enums;

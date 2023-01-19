@@ -1,4 +1,4 @@
-﻿namespace ManagerCafe.Dtos.UsersDto
+﻿namespace ManagerCafe.Dtos.UsersDtos
 {
     public class FilterUserDto
     {

@@ -2,7 +2,6 @@
 using ManagerCafe.Data.Enums;
 using ManagerCafe.Data.Models;
 using ManagerCafe.Datas.Enums;
-using ManagerCafe.Dtos.InventoryDto.InventoryDtos;
 using ManagerCafe.Dtos.InventoryDtos;
 using ManagerCafe.Dtos.ProductDtos;
 using ManagerCafe.Dtos.WareHouseDtos;

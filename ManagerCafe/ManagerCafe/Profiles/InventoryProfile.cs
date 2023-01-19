@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using ManagerCafe.Data.Models;
-using ManagerCafe.Dtos.InventoryDto.InventoryDtos;
 using ManagerCafe.Dtos.InventoryDtos;
 
 namespace ManagerCafe.Profiles

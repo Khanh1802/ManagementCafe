@@ -1,8 +1,8 @@
-﻿using ManagerCafe.Data.Models;
+﻿using ManagerCafe.Validations;
 
-namespace ManagerCafe.Dtos.UsersDto
+namespace ManagerCafe.Dtos.UsersDtos
 {
-    public class CreateUserDto
+    public class CreateUserDto :  IHasPhoneNumber, IValidateObject
     {
         public Guid Id { get; set; }
         public Guid UserTypeId { get; set; }
@@ -12,5 +12,13 @@ namespace ManagerCafe.Dtos.UsersDto
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public bool IsActive { get; set; }
+
+        public void Validate()
+        {
+            if (string.IsNullOrEmpty(PhoneNumber))
+            {
+                throw new Exception("Phone number is required");
+            }
+        }
     }
 }

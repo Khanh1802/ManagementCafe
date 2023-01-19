@@ -1,4 +1,4 @@
-﻿namespace ManagerCafe.Dtos.InventoryDto.InventoryDtos
+﻿namespace ManagerCafe.Dtos.InventoryDtos
 {
     public class CreatenInvetoryDto
     {

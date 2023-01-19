@@ -2,7 +2,6 @@
 using ManagerCafe.Commons;
 using ManagerCafe.Data.Data;
 using ManagerCafe.Data.Models;
-using ManagerCafe.Dtos.UsersDto;
 using ManagerCafe.Dtos.UserTypeDtos;
 using ManagerCafe.Repositories;
 using Microsoft.EntityFrameworkCore;

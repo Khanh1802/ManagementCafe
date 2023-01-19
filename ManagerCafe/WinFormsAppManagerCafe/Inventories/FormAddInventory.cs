@@ -1,4 +1,4 @@
-﻿using ManagerCafe.Dtos.InventoryDto.InventoryDtos;
+﻿using ManagerCafe.Dtos.InventoryDtos;
 using ManagerCafe.Dtos.ProductDtos;
 using ManagerCafe.Dtos.WareHouseDtos;
 using ManagerCafe.Services;

@@ -1,5 +1,5 @@
 ﻿using ManagerCafe.Commons;
-using ManagerCafe.Dtos.UsersDto;
+using ManagerCafe.Dtos.UsersDtos;
 using ManagerCafe.Dtos.UserTypeDtos;
 using ManagerCafe.Services;
 

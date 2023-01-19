@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using ManagerCafe.Data.Models;
-using ManagerCafe.Dtos.UsersDto;
+using ManagerCafe.Dtos.UsersDtos;
 
 namespace ManagerCafe.Profiles
 {

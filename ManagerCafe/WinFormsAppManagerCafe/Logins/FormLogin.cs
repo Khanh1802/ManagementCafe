@@ -1,4 +1,4 @@
-﻿using ManagerCafe.Dtos.UsersDto;
+﻿using ManagerCafe.Dtos.UsersDtos;
 using ManagerCafe.Services;
 using Microsoft.Extensions.DependencyInjection;
 

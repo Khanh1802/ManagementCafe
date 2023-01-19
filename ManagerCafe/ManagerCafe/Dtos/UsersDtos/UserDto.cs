@@ -1,13 +1,8 @@
-﻿using ManagerCafe.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ManagerCafe.Validations;
 
-namespace ManagerCafe.Dtos.UsersDto
+namespace ManagerCafe.Dtos.UsersDtos
 {
-    public class UserDto
+    public class UserDto 
     {
         public Guid Id { get; set; }
         public Guid UserTypeId { get; set; }
@@ -20,5 +15,7 @@ namespace ManagerCafe.Dtos.UsersDto
         public DateTime LastLoginTime { get; set; }
         public DateTime CreateTime { get; set; }
         public DateTime? LastModificationTime { get; set; }
+
+       
     }
 }
