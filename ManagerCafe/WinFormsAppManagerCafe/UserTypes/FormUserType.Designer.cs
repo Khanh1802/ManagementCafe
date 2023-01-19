@@ -192,7 +192,7 @@
             // 
             this.CbbIndexPage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CbbIndexPage.FormattingEnabled = true;
-            this.CbbIndexPage.Location = new System.Drawing.Point(864, 118);
+            this.CbbIndexPage.Location = new System.Drawing.Point(859, 192);
             this.CbbIndexPage.Name = "CbbIndexPage";
             this.CbbIndexPage.Size = new System.Drawing.Size(151, 28);
             this.CbbIndexPage.TabIndex = 103;

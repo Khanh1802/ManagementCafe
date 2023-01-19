@@ -38,7 +38,13 @@ namespace WinFormsAppManagerCafe.Logins
                 account.Password = TbPassword.Text;
                 try
                 {
-                    var user = await _userService.LoginAccount(account);
+                    var user = await _userService.LoginAccountAsync(account);
+                    if (user == null)
+                    {
+                        MessageBox.Show("Invalid login information", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        _isLoadingDone = true;
+                        return;
+                    }
                     var homePage = Program.ServiceProvider.GetService<HomePage>();
                     homePage.ShowDialog();
                 }

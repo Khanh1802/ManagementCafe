@@ -36,9 +36,9 @@ namespace WinFormsAppManagerCafe.Logins
                     _isLoadingDone = true;
                     return;
                 }
-                if (string.IsNullOrEmpty(TbPhoneNumber.Text) || TbPhoneNumber.Text.Length != 10)
+                if (string.IsNullOrEmpty(TbPhoneNumber.Text))
                 {
-                    MessageBox.Show("Phone number is empty or not enough number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Check phone number again", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     _isLoadingDone = true;
                     return;
                 }
@@ -74,6 +74,8 @@ namespace WinFormsAppManagerCafe.Logins
                     await _userService.AddAsync(createUser);
                     RefreshWhenComplete();
                     MessageBox.Show("Create USER successfully", "Ok", MessageBoxButtons.OK);
+                    _isLoadingDone = true;
+                    this.Close();
                 }
                 catch (Exception ex)
                 {
@@ -100,14 +102,14 @@ namespace WinFormsAppManagerCafe.Logins
                     return;
                 }
 
-                var checkUserName = await _userService.CheckUserNameExist(TbUserName.Text);
-                if (checkUserName != default(Guid))
+                var checkUserName = await _userService.CheckUserNameExistAysnc(TbUserName.Text);
+                if (checkUserName != false)
                 {
-                    MessageBox.Show("Already exist", "", MessageBoxButtons.OK);
+                    MessageBox.Show("Already exist", "Ok", MessageBoxButtons.OK);
                 }
                 else
                 {
-                    MessageBox.Show("Allow", "", MessageBoxButtons.OK);
+                    MessageBox.Show("Allow", "Ok", MessageBoxButtons.OK);
                 }
                 _isLoadingDone = true;
             }
