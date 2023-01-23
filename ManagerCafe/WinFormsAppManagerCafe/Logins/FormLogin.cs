@@ -27,7 +27,7 @@ namespace WinFormsAppManagerCafe.Logins
             if (_isLoadingDone)
             {
                 _isLoadingDone = false;
-                var account = new UserDto();
+                //var account = new UserDto();
                 if (string.IsNullOrEmpty(TbUserName.Text))
                 {
                     MessageBox.Show("User is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -40,22 +40,34 @@ namespace WinFormsAppManagerCafe.Logins
                     _isLoadingDone = true;
                     return;
                 }
-                account.UserName = TbUserName.Text;
-                account.Password = TbPassword.Text;
+                //account.UserName = TbUserName.Text;
+                //account.Password = TbPassword.Text;
                 try
                 {
-                    var user = await _userService.LoginAccountAsync(account);
-                    if (user == null)
+                    //var user = await _userService.LoginAccountAsync(account);
+                    //if (user == null)
+                    //{
+                    //    MessageBox.Show("Invalid login information", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //    _isLoadingDone = true;
+                    //    return;
+                    //}
+                    //user.LastLoginTime = DateTime.Now;
+                    //_memoryCache.Set<User>(AccountCacheKey.User_Key, user, new MemoryCacheEntryOptions()
+                    //{
+                    //    AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(7)
+                    //});
+
+                    //var homePage = Program.ServiceProvider.GetService<HomePage>();
+                    //homePage.ShowDialog();
+
+                    var isLogged = await _userService.LoginAsync(TbUserName.Text, TbPassword.Text);
+                    
+                    if (!isLogged)
                     {
                         MessageBox.Show("Invalid login information", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         _isLoadingDone = true;
                         return;
                     }
-                    user.LastLoginTime = DateTime.Now;
-                    _memoryCache.Set<User>(AccountCacheKey.User_Key, user, new MemoryCacheEntryOptions()
-                    {
-                        AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(7)
-                    });
 
                     var homePage = Program.ServiceProvider.GetService<HomePage>();
                     homePage.ShowDialog();

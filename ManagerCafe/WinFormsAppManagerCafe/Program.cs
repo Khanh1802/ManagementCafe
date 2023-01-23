@@ -64,6 +64,8 @@ namespace WinFormsAppManagerCafe
                services.AddTransient<IUserTypeService, UserTypeService>();
                services.AddTransient<IUserValidate, UserValidate>();
                services.AddTransient<IMemoryCacheUserService, MemoryCacheUserService>();
+               services.AddSingleton<IUserCacheService, UserCacheService>();
+               
                services.AddTransient<HomePage>();
                services.AddTransient<FormProduct>();
                services.AddTransient<FormAddProduct>();

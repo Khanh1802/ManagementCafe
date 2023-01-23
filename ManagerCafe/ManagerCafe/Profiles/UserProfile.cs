@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ManagerCafe.CacheItems.Users;
 using ManagerCafe.Data.Models;
 using ManagerCafe.Dtos.UsersDto;
 
@@ -12,6 +13,8 @@ namespace ManagerCafe.Profiles
             CreateMap<CreateUserDto, User>();
             CreateMap<FilterUserDto, User>();
             CreateMap<UpdateUserDto, User>();
+
+            CreateMap<User, UserCacheItem>();
         }
     }
 }

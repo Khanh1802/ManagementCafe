@@ -7,5 +7,7 @@ namespace ManagerCafe.Services
     {
         Task<bool> CheckUserNameExistAysnc(string item);
         Task<User> LoginAccountAsync(UserDto item);
+
+        Task<bool> LoginAsync(string userName, string password);
     }
 }
