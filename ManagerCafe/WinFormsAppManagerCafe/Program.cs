@@ -1,6 +1,7 @@
 ﻿using ManagerCafe;
 using ManagerCafe.Data.Data;
 using ManagerCafe.Data.Models;
+using ManagerCafe.Dtos.UsersDtos.ValidateUserDto;
 using ManagerCafe.Profiles;
 using ManagerCafe.Repositories;
 using ManagerCafe.Services;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using WinFormsAppManagerCafe.History;
 using WinFormsAppManagerCafe.Inventories;
 using WinFormsAppManagerCafe.Logins;
+using WinFormsAppManagerCafe.Logins.Changes;
 using WinFormsAppManagerCafe.Products;
 using WinFormsAppManagerCafe.UserTypes;
 using WinFormsAppManagerCafe.WareHouses;
@@ -60,6 +62,8 @@ namespace WinFormsAppManagerCafe
                services.AddTransient<IUserService, UserService>();
                services.AddTransient<IUserTypeRepository, UserTypeRepository>();
                services.AddTransient<IUserTypeService, UserTypeService>();
+               services.AddTransient<IUserValidate, UserValidate>();
+               services.AddTransient<IMemoryCacheUserService, MemoryCacheUserService>();
                services.AddTransient<HomePage>();
                services.AddTransient<FormProduct>();
                services.AddTransient<FormAddProduct>();
@@ -73,6 +77,9 @@ namespace WinFormsAppManagerCafe
                services.AddTransient<FormRegister>();
                services.AddTransient<FormUserType>();
                services.AddTransient<FormAddUserType>();
+               services.AddTransient<FormAccount>();
+               services.AddTransient<FormInfomation>();
+               services.AddTransient<FormPassword>();
                services.AddAutoMapper(typeof(ProductProfile));
                services.AddAutoMapper(typeof(WareHouseProfile));
                services.AddAutoMapper(typeof(InventoryProfile));

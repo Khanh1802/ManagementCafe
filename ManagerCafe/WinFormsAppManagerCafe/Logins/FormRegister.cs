@@ -24,36 +24,7 @@ namespace WinFormsAppManagerCafe.Logins
             {
                 _isLoadingDone = false;
                 var createUser = new CreateUserDto();
-                if (string.IsNullOrEmpty(TbFullName.Text))
-                {
-                    MessageBox.Show("Full name is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    _isLoadingDone = true;
-                    return;
-                }
-                if (string.IsNullOrEmpty(TbEmail.Text))
-                {
-                    MessageBox.Show("Email is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    _isLoadingDone = true;
-                    return;
-                }
-                if (string.IsNullOrEmpty(TbPhoneNumber.Text))
-                {
-                    MessageBox.Show("Check phone number again", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    _isLoadingDone = true;
-                    return;
-                }
-                if (string.IsNullOrEmpty(TbUserName.Text))
-                {
-                    MessageBox.Show("User name is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    _isLoadingDone = true;
-                    return;
-                }
-                if (string.IsNullOrEmpty(TbPasswork.Text))
-                {
-                    MessageBox.Show("Passwork is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    _isLoadingDone = true;
-                    return;
-                }
+
                 if (CbbUserType.SelectedItem is not UserTypeDto userType)
                 {
                     MessageBox.Show("User type is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -71,6 +42,7 @@ namespace WinFormsAppManagerCafe.Logins
                 createUser.Password = TbPasswork.Text.Trim();
                 try
                 {
+                    createUser.ValidateUser();
                     await _userService.AddAsync(createUser);
                     RefreshWhenComplete();
                     MessageBox.Show("Create USER successfully", "Ok", MessageBoxButtons.OK);

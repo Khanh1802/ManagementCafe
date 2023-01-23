@@ -209,7 +209,7 @@
             // 
             // BtRegister
             // 
-            this.BtRegister.Location = new System.Drawing.Point(117, 406);
+            this.BtRegister.Location = new System.Drawing.Point(487, 406);
             this.BtRegister.Name = "BtRegister";
             this.BtRegister.Size = new System.Drawing.Size(117, 32);
             this.BtRegister.TabIndex = 83;
@@ -219,7 +219,7 @@
             // 
             // BtReturn
             // 
-            this.BtReturn.Location = new System.Drawing.Point(301, 406);
+            this.BtReturn.Location = new System.Drawing.Point(671, 406);
             this.BtReturn.Name = "BtReturn";
             this.BtReturn.Size = new System.Drawing.Size(117, 32);
             this.BtReturn.TabIndex = 84;
@@ -259,9 +259,6 @@
         private Label label1;
         private TextBox TbFullName;
         private Panel panel1;
-        private TextBox TbPasswork;
-        private Label label6;
-        private Button BtCheckUserName;
         private TextBox TbUserName;
         private Label label5;
         private TextBox TbPhoneNumber;
@@ -275,5 +272,8 @@
         private ComboBox CbbUserType;
         private ContextMenuStrip contextMenuStrip1;
         private CheckBox CbPassword;
+        private TextBox TbPasswork;
+        private Label label6;
+        private Button BtCheckUserName;
     }
 }

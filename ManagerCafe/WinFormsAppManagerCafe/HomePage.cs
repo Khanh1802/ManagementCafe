@@ -1,3 +1,4 @@
+using ManagerCafe.Services;
 using Microsoft.Extensions.DependencyInjection;
 using WinFormsAppManagerCafe.History;
 using WinFormsAppManagerCafe.Inventories;
@@ -8,9 +9,11 @@ namespace WinFormsAppManagerCafe
 {
     public partial class HomePage : Form
     {
-        public HomePage()
+        private readonly IMemoryCacheUserService _memoryCacheUserService;
+        public HomePage(IMemoryCacheUserService memoryCacheUserService)
         {
             InitializeComponent();
+            _memoryCacheUserService = memoryCacheUserService;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -60,6 +63,28 @@ namespace WinFormsAppManagerCafe
         {
             var pageUserType = Program.ServiceProvider.GetService<FormUserType>();
             pageUserType.ShowDialog();
+        }
+
+        private void BtLogOut_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void BtPageChangeInfo_Click(object sender, EventArgs e)
+        {
+            var pageAccount = Program.ServiceProvider.GetService<FormAccount>();
+            pageAccount.ShowDialog();
+        }
+
+        private void HomePage_Load(object sender, EventArgs e)
+        {
+            var user = _memoryCacheUserService.UserDtoMemory();
+            if (user == null)
+            {
+                MessageBox.Show("Not found user", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            TbNameUser.Text = $"Hello {user.FullName}";
         }
     }
 }

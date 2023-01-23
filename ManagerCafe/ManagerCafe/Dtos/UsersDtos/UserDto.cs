@@ -1,11 +1,4 @@
-﻿using ManagerCafe.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ManagerCafe.Dtos.UsersDto
+﻿namespace ManagerCafe.Dtos.UsersDto
 {
     public class UserDto
     {

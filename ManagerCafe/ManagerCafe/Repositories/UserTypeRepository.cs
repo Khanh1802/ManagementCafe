@@ -36,7 +36,7 @@ namespace ManagerCafe.Repositories
 
         public async Task<List<UserType>> GetAllAsync()
         {
-            return await _contex.UserTypes.ToListAsync();
+            return (await _contex.UserTypes.Where(x => !x.IsDeleted).ToListAsync());
         }
 
         public async Task<UserType> GetByIdAsync<TKey>(TKey key)

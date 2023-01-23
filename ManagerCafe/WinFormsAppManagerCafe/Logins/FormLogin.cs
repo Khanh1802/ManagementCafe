@@ -1,19 +1,25 @@
-﻿using ManagerCafe.Dtos.UsersDto;
+﻿using AutoMapper;
+using ManagerCafe.Commons;
+using ManagerCafe.Data.Models;
+using ManagerCafe.Dtos.UsersDto;
 using ManagerCafe.Services;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace WinFormsAppManagerCafe.Logins
 {
     public partial class FormLogin : Form
     {
-        private IUserService _userService;
-
-        private string _nameUser = string.Empty;
+        private readonly IUserService _userService;
+        private readonly IMapper _mapper;
+        private readonly IMemoryCache _memoryCache;
         private bool _isLoadingDone = false;
-        public FormLogin(IUserService userService)
+        public FormLogin(IUserService userService, IMapper mapper, IMemoryCache memoryCache)
         {
             InitializeComponent();
             _userService = userService;
+            _mapper = mapper;
+            _memoryCache = memoryCache;
         }
 
         private async void BtLogin_Click(object sender, EventArgs e)
@@ -45,6 +51,12 @@ namespace WinFormsAppManagerCafe.Logins
                         _isLoadingDone = true;
                         return;
                     }
+                    user.LastLoginTime = DateTime.Now;
+                    _memoryCache.Set<User>(AccountCacheKey.User_Key, user, new MemoryCacheEntryOptions()
+                    {
+                        AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(7)
+                    });
+
                     var homePage = Program.ServiceProvider.GetService<HomePage>();
                     homePage.ShowDialog();
                 }
@@ -82,11 +94,13 @@ namespace WinFormsAppManagerCafe.Logins
             RefreshTableLogin();
             _isLoadingDone = true;
         }
+
         private void RefreshPassword()
         {
             TbPassword.UseSystemPasswordChar = true;
             CbPassword.Text = "View";
         }
+
         private void RefreshTableLogin()
         {
             TbPassword.Text = string.Empty;
