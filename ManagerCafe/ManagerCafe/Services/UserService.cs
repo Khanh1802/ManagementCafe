@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ManagerCafe.CacheItems.Users;
 using ManagerCafe.Commons;
 using ManagerCafe.Data.Data;
 using ManagerCafe.Data.Models;
@@ -6,28 +7,25 @@ using ManagerCafe.Dtos.UsersDto;
 using ManagerCafe.Dtos.UsersDtos.ValidateUserDto;
 using ManagerCafe.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
-using System.Transactions;
 
 namespace ManagerCafe.Services
 {
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IUserTypeService _userTypeService;
         private readonly ManagerCafeDbContext _contex;
         private readonly IMapper _mapper;
-        private readonly IMemoryCache _memoryCache;
         private readonly IUserValidate _userValidate;
+        private readonly IUserCacheService _userCacheService;
 
-        public UserService(IUserRepository userRepository, IMapper mapper, ManagerCafeDbContext contex, IUserTypeService userTypeService, IMemoryCache memoryCache, IUserValidate userValidate)
+        public UserService(IUserRepository userRepository,
+            IMapper mapper, IUserValidate userValidate,
+            IUserCacheService userCacheService)
         {
             _userRepository = userRepository;
             _mapper = mapper;
-            _contex = contex;
-            _userTypeService = userTypeService;
-            _memoryCache = memoryCache;
             _userValidate = userValidate;
+            _userCacheService = userCacheService;
         }
 
         public async Task<UserDto> AddAsync(CreateUserDto item)
@@ -119,13 +117,35 @@ namespace ManagerCafe.Services
             }
         }
 
-        public async Task<User> LoginAccountAsync(UserDto item)
+        public Task<User> LoginAccountAsync(UserDto item)
         {
-            item.Password = CommonCreateMD5.Create(item.Password);
-            var account = (await _userRepository.GetQueryableAsync());
-            account = account.Where(x => x.UserName == item.UserName && x.Password == item.Password);
-            var user = await account.SingleOrDefaultAsync();
-            return user;
+            //item.Password = CommonCreateMD5.Create(item.Password);
+            //var account = (await _userRepository.GetQueryableAsync());
+            //account = account.Where(x => x.UserName == item.UserName && x.Password == item.Password);
+            //var user = await account.SingleOrDefaultAsync();
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> LoginAsync(string userName, string password)
+        {
+            var hashingPassword = CommonCreateMD5.Create(password);
+            var user = await (await _userRepository.GetQueryableAsync())
+                .AsNoTracking()
+                .SingleOrDefaultAsync(x => x.UserName == userName && x.Password == hashingPassword);
+
+            if (user != null)
+            {
+                //Update last login
+                user.LastLoginTime = DateTime.Now;
+                await _userRepository.UpdateAsync(user);
+
+                //Add to cache
+                _userCacheService.Set(_mapper.Map<User, UserCacheItem>(user));
+
+                return true;
+            }
+
+            return false;
         }
 
         public async Task<bool> CheckUserNameExistAysnc(string item)

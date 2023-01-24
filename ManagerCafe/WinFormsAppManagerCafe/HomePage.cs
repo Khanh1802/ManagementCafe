@@ -9,11 +9,14 @@ namespace WinFormsAppManagerCafe
 {
     public partial class HomePage : Form
     {
-        private readonly IMemoryCacheUserService _memoryCacheUserService;
-        public HomePage(IMemoryCacheUserService memoryCacheUserService)
+        //private readonly IMemoryCacheUserService _memoryCacheUserService;
+        private readonly IUserCacheService _userCacheService;
+
+        public HomePage(IUserCacheService userCacheService)
         {
+            _userCacheService = userCacheService;
             InitializeComponent();
-            _memoryCacheUserService = memoryCacheUserService;
+            //_memoryCacheUserService = memoryCacheUserService;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -78,12 +81,22 @@ namespace WinFormsAppManagerCafe
 
         private void HomePage_Load(object sender, EventArgs e)
         {
-            var user = _memoryCacheUserService.UserDtoMemory();
-            if (user == null)
+            //var user = _memoryCacheUserService.UserDtoMemory();
+            //if (user == null)
+            //{
+            //    MessageBox.Show("Not found user", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    return;
+            //}
+            //TbNameUser.Text = $"Hello {user.FullName}";
+
+            var user = _userCacheService.GetOrDefault();
+
+            if (user is null)
             {
-                MessageBox.Show("Not found user", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
                 return;
             }
+
             TbNameUser.Text = $"Hello {user.FullName}";
         }
     }
