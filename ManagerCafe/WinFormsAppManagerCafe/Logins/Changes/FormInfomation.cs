@@ -70,9 +70,12 @@ namespace WinFormsAppManagerCafe.Logins.Changes
                 };
                 try
                 {
-                    await _userService.UpdateAsync(update);
-                    MessageBox.Show("Update success", "Ok", MessageBoxButtons.OK);
-                    this.Close();
+                    var updateInfomation = await _userService.UpdateInfomation(update);
+                    if (updateInfomation)
+                    {
+                        MessageBox.Show("Update success", "Ok", MessageBoxButtons.OK);
+                        this.Close();
+                    }
                 }
                 catch (Exception ex)
                 {

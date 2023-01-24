@@ -9,6 +9,7 @@ namespace ManagerCafe.Services
 
         Task<bool> LoginAsync(string userName, string password);
 
-        Task<bool> ChangePassword(string passwordOld,string passwordNew,string passworldNewRepeat);
+        Task<bool> UpdatePassword(string passwordOld,string passwordNew,string passworldNewRepeat);
+        Task<bool> UpdateInfomation(UpdateUserDto item);
     }
 }

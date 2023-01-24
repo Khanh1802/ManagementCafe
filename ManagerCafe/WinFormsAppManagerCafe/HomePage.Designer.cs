@@ -150,10 +150,10 @@
             // 
             this.TbNameUser.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.TbNameUser.Enabled = false;
-            this.TbNameUser.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.TbNameUser.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.TbNameUser.Location = new System.Drawing.Point(895, 12);
             this.TbNameUser.Name = "TbNameUser";
-            this.TbNameUser.Size = new System.Drawing.Size(196, 38);
+            this.TbNameUser.Size = new System.Drawing.Size(196, 31);
             this.TbNameUser.TabIndex = 92;
             // 
             // HomePage

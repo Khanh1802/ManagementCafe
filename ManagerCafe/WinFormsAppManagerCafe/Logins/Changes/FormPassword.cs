@@ -38,7 +38,7 @@ namespace WinFormsAppManagerCafe.Logins.Changes
             try
             {
                 var changePassword =
-                    await _userService.ChangePassword(TbPasswordOld.Text, TbPassWordNew.Text, TbPassWordNewRepeat.Text);
+                    await _userService.UpdatePassword(TbPasswordOld.Text, TbPassWordNew.Text, TbPassWordNewRepeat.Text);
                 if (changePassword)
                 {
                     MessageBox.Show("Update success", "Ok", MessageBoxButtons.OK);
@@ -67,18 +67,14 @@ namespace WinFormsAppManagerCafe.Logins.Changes
 
         private void CbPasswordNew_CheckedChanged(object sender, EventArgs e)
         {
-            if (CbPasswordOld.Checked)
+            if (CbPasswordNew.Checked)
             {
-                TbPassWordNew.UseSystemPasswordChar = false;
-                CbPasswordOld.Text = "Hide";
                 TbPassWordNew.UseSystemPasswordChar = false;
                 TbPassWordNewRepeat.UseSystemPasswordChar = false;
                 CbPasswordNew.Text = "Hide";
             }
             else
             {
-                TbPassWordNew.UseSystemPasswordChar = true;
-                CbPasswordOld.Text = "View";
                 TbPassWordNew.UseSystemPasswordChar = true;
                 TbPassWordNewRepeat.UseSystemPasswordChar = true;
                 CbPasswordNew.Text = "View";

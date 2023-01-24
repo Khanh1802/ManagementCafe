@@ -81,13 +81,6 @@ namespace WinFormsAppManagerCafe
 
         private void HomePage_Load(object sender, EventArgs e)
         {
-            //var user = _memoryCacheUserService.UserDtoMemory();
-            //if (user == null)
-            //{
-            //    MessageBox.Show("Not found user", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    return;
-            //}
-            //TbNameUser.Text = $"Hello {user.FullName}";
 
             var user = _userCacheService.GetOrDefault();
 

@@ -106,7 +106,7 @@ namespace ManagerCafe.Services
                     throw new Exception("Not found User to update");
                 }
                 item.UserName = entity.UserName;
-                if(item.Password == null)
+                if (item.Password == null)
                 {
                     item.Password = entity.Password;
                 }
@@ -137,7 +137,8 @@ namespace ManagerCafe.Services
             {
                 //Update last login
                 user.LastLoginTime = DateTime.Now;
-                await _userRepository.UpdateAsync(user);
+                _contex.Update(user);
+                await _contex.SaveChangesAsync();
 
                 //Add to cache
                 _userCacheService.Set(_mapper.Map<User, UserCacheItem>(user));
@@ -154,7 +155,7 @@ namespace ManagerCafe.Services
             return await query.AnyAsync(x => x.UserName == item);
         }
 
-        public async Task<bool> ChangePassword(string passwordOld, string passwordNew, string passwordNewRepeat)
+        public async Task<bool> UpdatePassword(string passwordOld, string passwordNew, string passwordNewRepeat)
         {
             var user = _userCacheService.GetOrDefault();
             string hashingPasswordOld = CommonCreateMD5.Create(passwordOld);
@@ -171,21 +172,34 @@ namespace ManagerCafe.Services
                 throw new Exception("Password new not same type");
             }
             string hashingPasswordNew = CommonCreateMD5.Create(passwordNew);
-            string hashingPasswordNewRepeat = CommonCreateMD5.Create(passwordNewRepeat);
+            //var update = _mapper.Map<UserCacheItem, User>(user);
 
-            var update = new UpdateUserDto()
-            {
-                Id = account.Id,
-                FullName = account.FullName,
-                Email = account.Email,
-                PhoneNumber = account.PhoneNumber,
-                Password = hashingPasswordNew,
-                UserName = account.UserName,
-                UserTypeId = account.UserTypeId
-            };
+            var transaction = await _contex.Database.BeginTransactionAsync();
             try
             {
-                await UpdateAsync(update);
+                var update = await _userRepository.GetByIdAsync(user.Id);
+                update.Password = hashingPasswordNew;
+                _contex.Update(update);
+                await transaction.CommitAsync();
+                // cache set nhưng bị lỗi nên đã remove
+                await _contex.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<bool> UpdateInfomation(UpdateUserDto item)
+        {
+            var user = _contex.Users.AsNoTracking().Where(x => x.Id == item.Id).SingleOrDefault();
+            item.Password = user.Password;
+            item.UserName = user.UserName;
+            try
+            {
+                await UpdateAsync(item);
                 return true;
             }
             catch (Exception ex)
