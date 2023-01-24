@@ -1,7 +1,4 @@
-﻿using ManagerCafe.Data.Models;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace ManagerCafe.CacheItems.Users
+﻿namespace ManagerCafe.CacheItems.Users
 {
     public class UserCacheItem
     {

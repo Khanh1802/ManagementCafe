@@ -20,12 +20,13 @@ namespace ManagerCafe.Services
 
         public UserService(IUserRepository userRepository,
             IMapper mapper, IUserValidate userValidate,
-            IUserCacheService userCacheService)
+            IUserCacheService userCacheService, ManagerCafeDbContext contex)
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _userValidate = userValidate;
             _userCacheService = userCacheService;
+            _contex = contex;
         }
 
         public async Task<UserDto> AddAsync(CreateUserDto item)
@@ -104,10 +105,15 @@ namespace ManagerCafe.Services
                 {
                     throw new Exception("Not found User to update");
                 }
-
+                item.UserName = entity.UserName;
+                if(item.Password == null)
+                {
+                    item.Password = entity.Password;
+                }
                 var update = _mapper.Map<UpdateUserDto, User>(item, entity);
                 await _userRepository.UpdateAsync(update);
                 await transaction.CommitAsync();
+                _userCacheService.Set(_mapper.Map<User, UserCacheItem>(update));
                 return _mapper.Map<User, UserDto>(update);
             }
             catch (Exception ex)
@@ -117,14 +123,8 @@ namespace ManagerCafe.Services
             }
         }
 
-        public Task<User> LoginAccountAsync(UserDto item)
-        {
-            //item.Password = CommonCreateMD5.Create(item.Password);
-            //var account = (await _userRepository.GetQueryableAsync());
-            //account = account.Where(x => x.UserName == item.UserName && x.Password == item.Password);
-            //var user = await account.SingleOrDefaultAsync();
-            throw new NotImplementedException();
-        }
+
+
 
         public async Task<bool> LoginAsync(string userName, string password)
         {
@@ -152,6 +152,46 @@ namespace ManagerCafe.Services
         {
             var query = await _userRepository.GetQueryableAsync();
             return await query.AnyAsync(x => x.UserName == item);
+        }
+
+        public async Task<bool> ChangePassword(string passwordOld, string passwordNew, string passwordNewRepeat)
+        {
+            var user = _userCacheService.GetOrDefault();
+            string hashingPasswordOld = CommonCreateMD5.Create(passwordOld);
+
+            var account = await (await _userRepository.GetQueryableAsync()).AsNoTracking()
+                .Where(x => x.Id == user.Id && x.Password == hashingPasswordOld)
+                .SingleOrDefaultAsync();
+            if (account == null)
+            {
+                throw new Exception("Password old not correct");
+            }
+            if (passwordNew != passwordNewRepeat)
+            {
+                throw new Exception("Password new not same type");
+            }
+            string hashingPasswordNew = CommonCreateMD5.Create(passwordNew);
+            string hashingPasswordNewRepeat = CommonCreateMD5.Create(passwordNewRepeat);
+
+            var update = new UpdateUserDto()
+            {
+                Id = account.Id,
+                FullName = account.FullName,
+                Email = account.Email,
+                PhoneNumber = account.PhoneNumber,
+                Password = hashingPasswordNew,
+                UserName = account.UserName,
+                UserTypeId = account.UserTypeId
+            };
+            try
+            {
+                await UpdateAsync(update);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

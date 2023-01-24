@@ -1,33 +1,33 @@
 ﻿using AutoMapper;
-using ManagerCafe.Commons;
-using ManagerCafe.Data.Models;
 using ManagerCafe.Dtos.UsersDto;
 using ManagerCafe.Dtos.UsersDtos.ValidateUserDto;
 using ManagerCafe.Dtos.UserTypeDtos;
+using ManagerCafe.Repositories;
 using ManagerCafe.Services;
-using Microsoft.VisualBasic.ApplicationServices;
-using System.Security.Principal;
+using Microsoft.EntityFrameworkCore;
 
 namespace WinFormsAppManagerCafe.Logins.Changes
 {
     public partial class FormInfomation : Form
     {
-        private readonly IMemoryCacheUserService _memoryCacheUserService;
+        private readonly IUserCacheService _userCacheService;
         private readonly IUserTypeService _userTypeService;
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
         private readonly IUserValidate _userValidate;
+        private readonly IUserRepository _userRepository;
 
         private bool _isLoadingDone = false;
         private Guid _idUser;
-        public FormInfomation(IMemoryCacheUserService memoryCacheUserService, IMapper mapper, IUserTypeService userTypeService, IUserService userService, IUserValidate userValidate)
+        public FormInfomation(IMapper mapper, IUserTypeService userTypeService, IUserService userService, IUserValidate userValidate, IUserCacheService userCacheService, IUserRepository userRepository)
         {
             InitializeComponent();
-            _memoryCacheUserService = memoryCacheUserService;
             _mapper = mapper;
             _userTypeService = userTypeService;
             _userService = userService;
             _userValidate = userValidate;
+            _userCacheService = userCacheService;
+            _userRepository = userRepository;
         }
 
         private async Task Combobox()
@@ -39,7 +39,7 @@ namespace WinFormsAppManagerCafe.Logins.Changes
         private async void FormInfomation_Load(object sender, EventArgs e)
         {
             await Combobox();
-            var user = _memoryCacheUserService.UserDtoMemory();
+            var user = _userCacheService.GetOrDefault();
             TbEmail.Text = user.Email;
             TbFullName.Text = user.FullName;
             TbPhoneNumber.Text = user.PhoneNumber;
@@ -58,7 +58,6 @@ namespace WinFormsAppManagerCafe.Logins.Changes
 
         private async void BtChange_Click(object sender, EventArgs e)
         {
-            var user = _memoryCacheUserService.UserDtoMemory();
             if (CbbUserType.SelectedItem is UserTypeDto userType && _isLoadingDone)
             {
                 var update = new UpdateUserDto()
@@ -68,8 +67,6 @@ namespace WinFormsAppManagerCafe.Logins.Changes
                     FullName = TbFullName.Text.Trim(),
                     PhoneNumber = TbPhoneNumber.Text.Trim(),
                     UserTypeId = userType.Id,
-                    UserName = user.UserName,
-                    Password = user.Password
                 };
                 try
                 {
