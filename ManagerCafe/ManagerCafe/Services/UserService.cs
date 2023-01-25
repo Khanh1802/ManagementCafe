@@ -130,7 +130,7 @@ namespace ManagerCafe.Services
         {
             var hashingPassword = CommonCreateMD5.Create(password);
             var user = await (await _userRepository.GetQueryableAsync())
-                .AsNoTracking()
+                //.AsNoTracking()
                 .SingleOrDefaultAsync(x => x.UserName == userName && x.Password == hashingPassword);
 
             if (user != null)
