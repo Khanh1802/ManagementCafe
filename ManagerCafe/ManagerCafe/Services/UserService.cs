@@ -130,7 +130,6 @@ namespace ManagerCafe.Services
         {
             var hashingPassword = CommonCreateMD5.Create(password);
             var user = await (await _userRepository.GetQueryableAsync())
-                .AsNoTracking()
                 .SingleOrDefaultAsync(x => x.UserName == userName && x.Password == hashingPassword);
 
             if (user != null)
@@ -139,7 +138,6 @@ namespace ManagerCafe.Services
                 user.LastLoginTime = DateTime.Now;
                 _contex.Update(user);
                 await _contex.SaveChangesAsync();
-
                 //Add to cache
                 _userCacheService.Set(_mapper.Map<User, UserCacheItem>(user));
 

@@ -144,15 +144,12 @@ namespace WinFormsAppManagerCafe.Inventories
 
         private async Task RefreshCbb()
         {
-            if (_isLoadingDone)
-            {
-                _isLoadingDone = false;
-                CbbProduct.DataSource = await _productService.GetAllAsync();
-                CbbProduct.DisplayMember = "Name";
-                CbbWareHouse.DataSource = await _wareHouseService.GetAllAsync();
-                CbbWareHouse.DisplayMember = "Name";
-                _isLoadingDone = true;
-            }
+            _isLoadingDone = false;
+            CbbProduct.DataSource = await _productService.GetAllAsync();
+            CbbProduct.DisplayMember = "Name";
+            CbbWareHouse.DataSource = await _wareHouseService.GetAllAsync();
+            CbbWareHouse.DisplayMember = "Name";
+            _isLoadingDone = true;
         }
 
         private async void CbbProduct_SelectedIndexChanged(object sender, EventArgs e)

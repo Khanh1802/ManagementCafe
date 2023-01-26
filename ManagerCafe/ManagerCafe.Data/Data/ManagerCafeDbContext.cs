@@ -20,10 +20,11 @@ namespace ManagerCafe.Data.Data
                .SetBasePath(Directory.GetCurrentDirectory())
                .AddJsonFile("appsettings.json")
                .Build();
-
             var connectionString = configuration.GetConnectionString("ManagerCafe");
-            optionsBuilder.UseMySql(connectionString, MySqlServerVersion.LatestSupportedServerVersion);
-            optionsBuilder.LogTo(_logStream.WriteLine, LogLevel.Debug);
+            optionsBuilder.UseSqlServer(connectionString);
+
+            //optionsBuilder.UseMySql(connectionString, MySqlServerVersion.LatestSupportedServerVersion);
+            //optionsBuilder.LogTo(_logStream.WriteLine, LogLevel.Debug);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -36,17 +37,17 @@ namespace ManagerCafe.Data.Data
             new UserTypeEntityTypeConfiguration().Configure(modelBuilder.Entity<UserType>());
             new UserEntityTypeConfiguration().Configure(modelBuilder.Entity<User>());
         }
-        public override void Dispose()
-        {
-            base.Dispose();
-            _logStream.Dispose();
-        }
+        //public override void Dispose()
+        //{
+        //    base.Dispose();
+        //    _logStream.Dispose();
+        //}
 
-        public override async ValueTask DisposeAsync()
-        {
-            await base.DisposeAsync();
-            await _logStream.DisposeAsync();
-        }
+        //public override async ValueTask DisposeAsync()
+        //{
+        //    await base.DisposeAsync();
+        //    await _logStream.DisposeAsync();
+        //}
         public DbSet<Inventory> Invetories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<WareHouse> WareHouses { get; set; }

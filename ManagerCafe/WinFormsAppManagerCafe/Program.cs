@@ -48,7 +48,8 @@ namespace WinFormsAppManagerCafe
                services.AddDbContext<ManagerCafeDbContext>(opts =>
                {
                    var config = context.Configuration.GetConnectionString("ManagerCafe");
-                   opts.UseMySql(config, MySqlServerVersion.LatestSupportedServerVersion);
+                   opts.UseSqlServer(config);
+                 //  opts.UseMySql(config, MySqlServerVersion.LatestSupportedServerVersion);
                });
                services.AddTransient<IProductRepository, ProductRepository>();
                services.AddTransient<IProductService, ProductService>();

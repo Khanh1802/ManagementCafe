@@ -98,11 +98,11 @@ namespace ManagerCafe.Services
 
             if (item.ProductId != null)
             {
-                filter = filter.Where(x => x.WareHouseId == item.WareHouseId);
+                filter = filter.Where(x => x.ProductId == item.ProductId);
             }
             if (item.WareHouseId != null)
             {
-                filter = filter.Where(x => x.ProductId == item.ProductId);
+                filter = filter.Where(x => x.WareHouseId == item.WareHouseId);
             }
 
             var dataGirdView = await filter
@@ -165,7 +165,6 @@ namespace ManagerCafe.Services
         {
             var query = await _inventoryRepository.GetQueryableAsync();
             var filter = query
-                .OrderBy(x => x.CreateTime)
                 .Include(x => x.Product)
                 .Include(x => x.WareHouse)
                 .Where(x => !x.Product.IsDeleted && !x.WareHouse.IsDeleted);

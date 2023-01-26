@@ -13,9 +13,14 @@ namespace ManagerCafe.Data.Data
                 .AddJsonFile("appsettings.json")
                 .Build();
 
+            //var connectionString = configuration.GetConnectionString("ManagerCafe");
+            //var optionsBuilder = new DbContextOptionsBuilder<ManagerCafeDbContext>();
+            //optionsBuilder.UseMySql(connectionString, MySqlServerVersion.LatestSupportedServerVersion);
+            //return new ManagerCafeDbContext(optionsBuilder.Options);
+
             var connectionString = configuration.GetConnectionString("ManagerCafe");
             var optionsBuilder = new DbContextOptionsBuilder<ManagerCafeDbContext>();
-            optionsBuilder.UseMySql(connectionString, MySqlServerVersion.LatestSupportedServerVersion);
+            optionsBuilder.UseSqlServer(connectionString);
             return new ManagerCafeDbContext(optionsBuilder.Options);
         }
     }
