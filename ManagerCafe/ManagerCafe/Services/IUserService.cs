@@ -3,7 +3,7 @@ using ManagerCafe.Dtos.UsersDto;
 
 namespace ManagerCafe.Services
 {
-    public interface IUserService : IGenericService<UserDto, CreateUserDto, UpdateUserDto, FilterUserDto>
+    public interface IUserService : IGenericService<UserDto, CreateUserDto, UpdateUserDto, FilterUserDto,Guid>
     {
         Task<bool> CheckUserNameExistAysnc(string item);
 

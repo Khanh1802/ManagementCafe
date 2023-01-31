@@ -68,7 +68,7 @@
             this.CbbWarehouse.Size = new System.Drawing.Size(290, 28);
             this.CbbWarehouse.TabIndex = 81;
             // 
-            // CbbProduct
+            // CbbOrderDetail
             // 
             this.CbbProduct.FormattingEnabled = true;
             this.CbbProduct.Items.AddRange(new object[] {
@@ -77,7 +77,7 @@
             "Ngày tăng dần",
             "Ngày giảm dần"});
             this.CbbProduct.Location = new System.Drawing.Point(188, 69);
-            this.CbbProduct.Name = "CbbProduct";
+            this.CbbProduct.Name = "CbbOrderDetail";
             this.CbbProduct.Size = new System.Drawing.Size(290, 28);
             this.CbbProduct.TabIndex = 80;
             // 
@@ -145,7 +145,7 @@
             this.BtAdd.Name = "BtAdd";
             this.BtAdd.Size = new System.Drawing.Size(123, 40);
             this.BtAdd.TabIndex = 64;
-            this.BtAdd.Text = "Add";
+            this.BtAdd.Text = "AddAsync";
             this.BtAdd.UseVisualStyleBackColor = false;
             this.BtAdd.Click += new System.EventHandler(this.BtAdd_Click);
             // 

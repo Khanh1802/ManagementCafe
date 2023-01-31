@@ -2,6 +2,7 @@ using ManagerCafe.Services;
 using Microsoft.Extensions.DependencyInjection;
 using WinFormsAppManagerCafe.History;
 using WinFormsAppManagerCafe.Inventories;
+using WinFormsAppManagerCafe.Orders;
 using WinFormsAppManagerCafe.UserTypes;
 using WinFormsAppManagerCafe.WareHouses;
 
@@ -91,6 +92,14 @@ namespace WinFormsAppManagerCafe
             }
 
             TbNameUser.Text = $"Hello {user.FullName}";
+        }
+
+        private void BtOrder_Click(object sender, EventArgs e)
+        {
+            var pageOrder = Program.ServiceProvider.GetService<FormOrder>();
+            this.Hide();
+            pageOrder.ShowDialog();
+            this.Show();
         }
     }
 }

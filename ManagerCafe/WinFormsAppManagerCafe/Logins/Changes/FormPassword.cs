@@ -41,7 +41,7 @@ namespace WinFormsAppManagerCafe.Logins.Changes
                     await _userService.UpdatePassword(TbPasswordOld.Text, TbPassWordNew.Text, TbPassWordNewRepeat.Text);
                 if (changePassword)
                 {
-                    MessageBox.Show("Update success", "Ok", MessageBoxButtons.OK);
+                    MessageBox.Show("Delete success", "Ok", MessageBoxButtons.OK);
                     this.Close();
                 }
             }

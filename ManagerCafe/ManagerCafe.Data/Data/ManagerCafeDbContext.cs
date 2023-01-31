@@ -36,6 +36,8 @@ namespace ManagerCafe.Data.Data
             new InventoryTransactionEntityTypeConfiguration().Configure(modelBuilder.Entity<InventoryTransaction>());
             new UserTypeEntityTypeConfiguration().Configure(modelBuilder.Entity<UserType>());
             new UserEntityTypeConfiguration().Configure(modelBuilder.Entity<User>());
+            new OrderEntityTypeConfiguration().Configure(modelBuilder.Entity<Order>());
+            new OrderDetailEntityTypeConfiguration().Configure(modelBuilder.Entity<OrderDetail>());
         }
         //public override void Dispose()
         //{
@@ -54,5 +56,8 @@ namespace ManagerCafe.Data.Data
         public DbSet<InventoryTransaction> InventoryTransactions { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserType> UserTypes { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
+
     }
 }

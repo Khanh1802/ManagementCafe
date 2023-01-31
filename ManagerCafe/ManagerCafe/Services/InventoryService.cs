@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using ManagerCafe.Commons;
 using ManagerCafe.Data.Data;
-using ManagerCafe.Data.Enums;
 using ManagerCafe.Data.Models;
 using ManagerCafe.Dtos.InventoryDto.InventoryDtos;
 using ManagerCafe.Dtos.InventoryDtos;
 using ManagerCafe.Dtos.InventoryTransactionDtos;
+using ManagerCafe.Dtos.WareHouseDtos;
 using ManagerCafe.Enums;
 using ManagerCafe.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -72,7 +72,7 @@ namespace ManagerCafe.Services
             return _mapper.Map<Inventory, InventoryDto>(entity);
         }
 
-        public async Task DeleteAsync<Tkey>(Tkey key)
+        public async Task DeleteAsync(Guid key)
         {
             var transaction = await _context.Database.BeginTransactionAsync();
             try
@@ -128,7 +128,7 @@ namespace ManagerCafe.Services
             return _mapper.Map<List<Inventory>, List<InventoryDto>>(entites);
         }
 
-        public async Task<InventoryDto> GetByIdAsync<Tkey>(Tkey key)
+        public async Task<InventoryDto> GetByIdAsync(Guid key)
         {
             var entity = await _inventoryRepository.GetByIdAsync(key);
             return _mapper.Map<Inventory, InventoryDto>(entity);
@@ -215,5 +215,29 @@ namespace ManagerCafe.Services
                    .Select(x => x).ToListAsync();
             return _mapper.Map<List<Inventory>, List<InventoryDto>>(await InventoriesDto);
         }
+
+        public async Task<InventoryOrderDetail> GetInventoryOrderDetail(Guid productId)
+        {
+            var queryInventory = await _inventoryRepository.GetQueryableAsync();
+            var inventoryOrderDetails = queryInventory
+                .Include(x => x.Product)
+                .Include(x => x.WareHouse)
+                .Where(x => x.ProductId == productId
+                && !x.Product.IsDeleted
+                && !x.WareHouse.IsDeleted)
+                .GroupBy(x => x.ProductId)
+                .Select(x => new InventoryOrderDetail
+                {
+                    TotalQuatity = x.Sum(x => x.Quatity),
+                    Price = x.FirstOrDefault().Product.PriceSell,
+                    ProductId = x.FirstOrDefault().ProductId,
+                    ProductName = x.FirstOrDefault().Product.Name,
+                    WareHouses = _mapper.Map<List<WareHouse>, List<WareHouseDto>>(x.Select(x => x.WareHouse).ToList())
+                });
+
+            return await inventoryOrderDetails.FirstOrDefaultAsync();
+        }
+
+
     }
 }

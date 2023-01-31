@@ -73,7 +73,7 @@ namespace WinFormsAppManagerCafe.Logins.Changes
                     var updateInfomation = await _userService.UpdateInfomation(update);
                     if (updateInfomation)
                     {
-                        MessageBox.Show("Update success", "Ok", MessageBoxButtons.OK);
+                        MessageBox.Show("Delete success", "Ok", MessageBoxButtons.OK);
                         this.Close();
                     }
                 }

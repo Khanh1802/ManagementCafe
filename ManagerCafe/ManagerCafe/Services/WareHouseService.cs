@@ -44,7 +44,7 @@ namespace ManagerCafe.Services
             }
         }
 
-        public async Task DeleteAsync<Tkey>(Tkey key)
+        public async Task DeleteAsync(Guid key)
         {
             var transaction = await _context.Database.BeginTransactionAsync();
             try
@@ -114,7 +114,7 @@ namespace ManagerCafe.Services
             return _mapper.Map<List<WareHouse>, List<WareHouseDto>>(entites);
         }
 
-        public async Task<WareHouseDto> GetByIdAsync<Tkey>(Tkey key)
+        public async Task<WareHouseDto> GetByIdAsync(Guid key)
         {
             var entity = await _wareHouseRepository.GetByIdAsync(key);
             return _mapper.Map<WareHouse, WareHouseDto>(entity);

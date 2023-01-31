@@ -38,6 +38,7 @@
             this.BtLogOut = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.TbNameUser = new System.Windows.Forms.TextBox();
+            this.BtOrder = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // BtPageProduct
@@ -156,11 +157,24 @@
             this.TbNameUser.Size = new System.Drawing.Size(196, 31);
             this.TbNameUser.TabIndex = 92;
             // 
+            // BtOrder
+            // 
+            this.BtOrder.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.BtOrder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtOrder.Location = new System.Drawing.Point(413, 418);
+            this.BtOrder.Name = "BtOrder";
+            this.BtOrder.Size = new System.Drawing.Size(250, 71);
+            this.BtOrder.TabIndex = 93;
+            this.BtOrder.Text = "Order";
+            this.BtOrder.UseVisualStyleBackColor = true;
+            this.BtOrder.Click += new System.EventHandler(this.BtOrder_Click);
+            // 
             // HomePage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1103, 608);
+            this.Controls.Add(this.BtOrder);
             this.Controls.Add(this.TbNameUser);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.BtLogOut);
@@ -192,5 +206,6 @@
         private Button BtLogOut;
         private Label label1;
         private TextBox TbNameUser;
+        private Button BtOrder;
     }
 }

@@ -1,7 +1,6 @@
 ﻿using ManagerCafe.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Reflection.Emit;
 
 namespace ManagerCafe.Data.Configurations
 {
