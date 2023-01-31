@@ -45,10 +45,10 @@
             this.TbName = new System.Windows.Forms.TextBox();
             this.CbbFilter = new System.Windows.Forms.ComboBox();
             this.BtReversePage = new System.Windows.Forms.Button();
-            this.BtNextPage = new System.Windows.Forms.Button();
             this.TbCurrentPage = new System.Windows.Forms.TextBox();
             this.CbbIndexPage = new System.Windows.Forms.ComboBox();
             this.CbAllResult = new System.Windows.Forms.CheckBox();
+            this.BtNextPage = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.Dtg)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUDPriceSell)).BeginInit();
@@ -105,7 +105,7 @@
             this.BtUpdate.Name = "BtUpdate";
             this.BtUpdate.Size = new System.Drawing.Size(123, 53);
             this.BtUpdate.TabIndex = 61;
-            this.BtUpdate.Text = "Update";
+            this.BtUpdate.Text = "Delete";
             this.BtUpdate.UseVisualStyleBackColor = false;
             this.BtUpdate.Click += new System.EventHandler(this.BtUpdate_Click);
             // 
@@ -120,7 +120,7 @@
             this.BtAdd.Name = "BtAdd";
             this.BtAdd.Size = new System.Drawing.Size(123, 53);
             this.BtAdd.TabIndex = 60;
-            this.BtAdd.Text = "Add";
+            this.BtAdd.Text = "AddAsync";
             this.BtAdd.UseVisualStyleBackColor = false;
             this.BtAdd.Click += new System.EventHandler(this.BtAdd_Click);
             // 
@@ -265,20 +265,6 @@
             this.BtReversePage.UseVisualStyleBackColor = true;
             this.BtReversePage.Click += new System.EventHandler(this.BtReversePage_Click);
             // 
-            // BtNextPage
-            // 
-            this.BtNextPage.Enabled = false;
-            this.BtNextPage.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-            this.BtNextPage.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-            this.BtNextPage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtNextPage.Location = new System.Drawing.Point(795, 618);
-            this.BtNextPage.Name = "BtNextPage";
-            this.BtNextPage.Size = new System.Drawing.Size(123, 35);
-            this.BtNextPage.TabIndex = 70;
-            this.BtNextPage.Text = "Next page";
-            this.BtNextPage.UseVisualStyleBackColor = true;
-            this.BtNextPage.Click += new System.EventHandler(this.BtNextPage_Click);
-            // 
             // TbCurrentPage
             // 
             this.TbCurrentPage.Enabled = false;
@@ -311,6 +297,20 @@
             this.CbAllResult.Text = "All";
             this.CbAllResult.UseVisualStyleBackColor = true;
             this.CbAllResult.CheckedChanged += new System.EventHandler(this.CbAllResult_CheckedChanged);
+            // 
+            // BtNextPage
+            // 
+            this.BtNextPage.Enabled = false;
+            this.BtNextPage.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.BtNextPage.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.BtNextPage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtNextPage.Location = new System.Drawing.Point(795, 618);
+            this.BtNextPage.Name = "BtNextPage";
+            this.BtNextPage.Size = new System.Drawing.Size(123, 35);
+            this.BtNextPage.TabIndex = 70;
+            this.BtNextPage.Text = "Next page";
+            this.BtNextPage.UseVisualStyleBackColor = true;
+            this.BtNextPage.Click += new System.EventHandler(this.BtNextPage_Click);
             // 
             // FormProduct
             // 
@@ -366,9 +366,9 @@
         private TextBox TbName;
         private ComboBox CbbFilter;
         private Button BtReversePage;
-        private Button BtNextPage;
         private TextBox TbCurrentPage;
         private ComboBox CbbIndexPage;
         private CheckBox CbAllResult;
+        private Button BtNextPage;
     }
 }

@@ -121,7 +121,7 @@ namespace WinFormsAppManagerCafe.UserTypes
                     try
                     {
                         await _userTypeService.UpdateAsync(update);
-                        MessageBox.Show("Update successfully", "Done", MessageBoxButtons.OK);
+                        MessageBox.Show("Delete successfully", "Done", MessageBoxButtons.OK);
                     }
                     catch (Exception ex)
                     {
@@ -140,14 +140,14 @@ namespace WinFormsAppManagerCafe.UserTypes
         {
             if (_isLoadingDone)
             {
-                if (_idUserType is not null)
+                if (_idUserType.HasValue)
                 {
                     if (DialogResult.Yes == MessageBox.Show("Do You Want Delete ?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning))
                     {
                         try
                         {
                             _isLoadingDone = false;
-                            await _userTypeService.DeleteAsync(_idUserType);
+                            await _userTypeService.DeleteAsync(_idUserType.Value);
                             MessageBox.Show("Deleted product success", "Done", MessageBoxButtons.OK);
                         }
                         catch (Exception ex)

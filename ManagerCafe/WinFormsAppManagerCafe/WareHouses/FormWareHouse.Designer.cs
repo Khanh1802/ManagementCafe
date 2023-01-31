@@ -93,7 +93,7 @@
             this.BtUpdate.Name = "BtUpdate";
             this.BtUpdate.Size = new System.Drawing.Size(123, 53);
             this.BtUpdate.TabIndex = 72;
-            this.BtUpdate.Text = "Update";
+            this.BtUpdate.Text = "Delete";
             this.BtUpdate.UseVisualStyleBackColor = false;
             this.BtUpdate.Click += new System.EventHandler(this.BtUpdate_Click);
             // 
@@ -108,7 +108,7 @@
             this.BtAdd.Name = "BtAdd";
             this.BtAdd.Size = new System.Drawing.Size(123, 53);
             this.BtAdd.TabIndex = 71;
-            this.BtAdd.Text = "Add";
+            this.BtAdd.Text = "AddAsync";
             this.BtAdd.UseVisualStyleBackColor = false;
             this.BtAdd.Click += new System.EventHandler(this.BtAdd_Click);
             // 

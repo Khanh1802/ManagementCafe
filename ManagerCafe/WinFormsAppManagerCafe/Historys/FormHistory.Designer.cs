@@ -116,13 +116,13 @@
             this.CbbWareHouse.Size = new System.Drawing.Size(151, 28);
             this.CbbWareHouse.TabIndex = 95;
             // 
-            // CbbProduct
+            // CbbOrderDetail
             // 
             this.CbbProduct.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CbbProduct.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CbbProduct.FormattingEnabled = true;
             this.CbbProduct.Location = new System.Drawing.Point(229, 121);
-            this.CbbProduct.Name = "CbbProduct";
+            this.CbbProduct.Name = "CbbOrderDetail";
             this.CbbProduct.Size = new System.Drawing.Size(151, 28);
             this.CbbProduct.TabIndex = 94;
             // 

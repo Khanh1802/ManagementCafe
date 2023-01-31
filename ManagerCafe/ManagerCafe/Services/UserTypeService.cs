@@ -41,7 +41,7 @@ namespace ManagerCafe.Services
             }
         }
 
-        public async Task DeleteAsync<Tkey>(Tkey key)
+        public async Task DeleteAsync(Guid key)
         {
             var transaction = await _context.Database.BeginTransactionAsync();
             try
@@ -80,7 +80,7 @@ namespace ManagerCafe.Services
             return _mapper.Map<List<UserType>, List<UserTypeDto>>(await _userTypeRepository.GetAllAsync());
         }
 
-        public async Task<UserTypeDto> GetByIdAsync<Tkey>(Tkey key)
+        public async Task<UserTypeDto> GetByIdAsync(Guid key)
         {
             var entity = await _userTypeRepository.GetByIdAsync(key);
             return _mapper.Map<UserType, UserTypeDto>(entity);

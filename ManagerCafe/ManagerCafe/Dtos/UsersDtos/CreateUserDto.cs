@@ -20,15 +20,15 @@ namespace ManagerCafe.Dtos.UsersDto
                 throw new Exception("Full name is empty");
             }
 
-            if (string.IsNullOrEmpty(Email))
+            if (!string.IsNullOrEmpty(Email))
             {
-                throw new Exception("Email is empty");
+                if (CheckEmailConvert(Email) == false)
+                {
+                    throw new Exception("Email is deficiency @gmail.com");
+                }
             }
 
-            if (CheckEmailConvert(Email) == false)
-            {
-                throw new Exception("Email is deficiency @gmail.com");
-            }
+            
 
             if (string.IsNullOrEmpty(PhoneNumber))
             {
