@@ -209,12 +209,12 @@
             this.CbbFilter.TabIndex = 93;
             this.CbbFilter.SelectedValueChanged += new System.EventHandler(this.CbbFilter_SelectedValueChanged);
             // 
-            // CbbProduct
+            // CbbOrderDetail
             // 
             this.CbbProduct.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CbbProduct.FormattingEnabled = true;
             this.CbbProduct.Location = new System.Drawing.Point(448, 108);
-            this.CbbProduct.Name = "CbbProduct";
+            this.CbbProduct.Name = "CbbOrderDetail";
             this.CbbProduct.Size = new System.Drawing.Size(151, 28);
             this.CbbProduct.TabIndex = 94;
             // 

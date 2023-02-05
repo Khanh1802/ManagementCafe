@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ManagerCafe.Data.Models;
+using ManagerCafe.Dtos.Orders;
 using ManagerCafe.Dtos.ProductDtos;
 
 namespace ManagerCafe.Profiles
@@ -12,6 +13,8 @@ namespace ManagerCafe.Profiles
             CreateMap<CreateProductDto, Product>();
             CreateMap<UpdateProductDto, Product>();
             CreateMap<FilterProductDto, Product>();
+
+            CreateMap<Product, SearchProductDto>();
         }
     }
 }

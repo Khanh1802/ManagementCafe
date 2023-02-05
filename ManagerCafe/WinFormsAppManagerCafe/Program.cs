@@ -13,6 +13,7 @@ using WinFormsAppManagerCafe.History;
 using WinFormsAppManagerCafe.Inventories;
 using WinFormsAppManagerCafe.Logins;
 using WinFormsAppManagerCafe.Logins.Changes;
+using WinFormsAppManagerCafe.Orders;
 using WinFormsAppManagerCafe.Products;
 using WinFormsAppManagerCafe.UserTypes;
 using WinFormsAppManagerCafe.WareHouses;
@@ -49,7 +50,7 @@ namespace WinFormsAppManagerCafe
                {
                    var config = context.Configuration.GetConnectionString("ManagerCafe");
                    opts.UseSqlServer(config);
-                 //  opts.UseMySql(config, MySqlServerVersion.LatestSupportedServerVersion);
+                   //  opts.UseMySql(config, MySqlServerVersion.LatestSupportedServerVersion);
                });
                services.AddTransient<IProductRepository, ProductRepository>();
                services.AddTransient<IProductService, ProductService>();
@@ -65,7 +66,10 @@ namespace WinFormsAppManagerCafe
                services.AddTransient<IUserTypeService, UserTypeService>();
                services.AddTransient<IUserValidate, UserValidate>();
                services.AddSingleton<IUserCacheService, UserCacheService>();
-               
+               services.AddTransient<IOrderCacheService, OrderCacheService>();
+               services.AddTransient<IOrderDetailCacheService, OrderDetailCacheService>();
+               services.AddTransient<IOrderDetailService, OrderDetailService>();
+
                services.AddTransient<HomePage>();
                services.AddTransient<FormProduct>();
                services.AddTransient<FormAddProduct>();
@@ -82,6 +86,9 @@ namespace WinFormsAppManagerCafe
                services.AddTransient<FormAccount>();
                services.AddTransient<FormInfomation>();
                services.AddTransient<FormPassword>();
+               services.AddTransient<FormOrder>();
+               services.AddTransient<FormOrderDetail>();
+               services.AddTransient<FormCart>();
                services.AddAutoMapper(typeof(ProductProfile));
                services.AddAutoMapper(typeof(WareHouseProfile));
                services.AddAutoMapper(typeof(InventoryProfile));

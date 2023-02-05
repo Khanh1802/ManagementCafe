@@ -63,7 +63,7 @@
             this.BtAdd.Name = "BtAdd";
             this.BtAdd.Size = new System.Drawing.Size(123, 40);
             this.BtAdd.TabIndex = 61;
-            this.BtAdd.Text = "Add";
+            this.BtAdd.Text = "AddAsync";
             this.BtAdd.UseVisualStyleBackColor = false;
             this.BtAdd.Click += new System.EventHandler(this.BtAdd_Click);
             // 

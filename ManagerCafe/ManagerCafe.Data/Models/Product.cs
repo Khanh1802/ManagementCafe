@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ManagerCafe.Data.Models
 {
-    public class Product : IAutoEntity
+    public class Product : IHasAuditedEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

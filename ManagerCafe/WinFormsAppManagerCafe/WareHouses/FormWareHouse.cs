@@ -44,7 +44,7 @@ namespace WinFormsAppManagerCafe.WareHouses
                     {
                         _isLoadingDone = false;
                         await _wareHouseService.UpdateAsync(updateWareHouse);
-                        MessageBox.Show("Update success", "Done", MessageBoxButtons.OK);
+                        MessageBox.Show("Delete success", "Done", MessageBoxButtons.OK);
                     }
                     catch (Exception ex)
                     {
@@ -66,14 +66,14 @@ namespace WinFormsAppManagerCafe.WareHouses
         {
             if (_isLoadingDone)
             {
-                if (_wareHouseId is not null)
+                if (_wareHouseId.HasValue)
                 {
                     if (DialogResult.Yes == MessageBox.Show("Do You Want Delete ?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning))
                     {
                         try
                         {
                             _isLoadingDone = false;
-                            await _wareHouseService.DeleteAsync(_wareHouseId);
+                            await _wareHouseService.DeleteAsync(_wareHouseId.Value);
                             MessageBox.Show("Deleted WareHouse success", "Done", MessageBoxButtons.OK);
                         }
                         catch (Exception ex)
