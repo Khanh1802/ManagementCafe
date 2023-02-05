@@ -51,9 +51,9 @@ namespace WinFormsAppManagerCafe.Inventories
                         && CbbProduct.SelectedItem is ProductDto product && CbbWareHouse.SelectedItem is WareHouseDto warehouse)
                     {
                         var quatity = Convert.ToInt32(TbQuatity.Text);
-                        if (_InventoryId != null)
+                        if (_InventoryId.HasValue)
                         {
-                            var entity = await _inventoryService.GetByIdAsync(_InventoryId);
+                            var entity = await _inventoryService.GetByIdAsync(_InventoryId.Value);
                             if (entity != null)
                             {
                                 var updateInventory = new UpdateInventoryDto()
@@ -309,7 +309,7 @@ namespace WinFormsAppManagerCafe.Inventories
                     try
                     {
                         _isLoadingDone = false;
-                        await _inventoryService.DeleteAsync(_InventoryId);
+                        await _inventoryService.DeleteAsync((Guid)_InventoryId);
                         MessageBox.Show("Deleted inventory success", "Done", MessageBoxButtons.OK);
                     }
                     catch (Exception ex)

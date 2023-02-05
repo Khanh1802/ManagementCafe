@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using ManagerCafe.Commons;
 using ManagerCafe.Data.Data;
 using ManagerCafe.Data.Models;
 using ManagerCafe.Dtos.InventoryDtos;
+using ManagerCafe.Dtos.Orders;
 using ManagerCafe.Dtos.ProductDtos;
 using ManagerCafe.Enums;
 using ManagerCafe.Repositories;
@@ -44,7 +46,7 @@ namespace ManagerCafe.Services
             }
         }
 
-        public async Task DeleteAsync<TKey>(TKey key)
+        public async Task DeleteAsync(Guid key)
         {
             var transaction = await _context.Database.BeginTransactionAsync();
             try
@@ -118,18 +120,22 @@ namespace ManagerCafe.Services
             return _mapper.Map<List<Product>, List<ProductDto>>(entites);
         }
 
-        public async Task<ProductDto> GetByIdAsync<TKey>(TKey key)
+        public async Task<ProductDto> GetByIdAsync(Guid key)
         {
             if (_memoryCache.TryGetValue<Product>(key, out var product))
             {
                 return _mapper.Map<Product, ProductDto>(product);
             }
             var entity = await _productRepository.GetByIdAsync(key);
-            _memoryCache.Set<Product>(key, entity, new MemoryCacheEntryOptions
+            if (!entity.IsDeleted)
             {
-                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(2)
-            });
-            return _mapper.Map<Product, ProductDto>(entity);
+                _memoryCache.Set<Product>(key, entity, new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(2)
+                });
+                return _mapper.Map<Product, ProductDto>(entity);
+            }
+            return null;
         }
 
         public async Task<ProductDto> UpdateAsync(UpdateProductDto item)
@@ -179,6 +185,26 @@ namespace ManagerCafe.Services
                 return new CommonPageDto<ProductDto>(await count, item, _mapper.Map<List<Product>, List<ProductDto>>(await query.ToListAsync()));
             }
             return new CommonPageDto<ProductDto>();
+        }
+
+        //public async Task<List<T>> SearchProductAsync<T>(FilterProductDto filter) where T : class
+        //{
+        //    var query = await _productRepository.GetQueryableAsync();
+        //    return await query.ProjectTo<T>(_mapper.ConfigurationProvider).ToListAsync();
+        //}
+
+        public async Task<CommonPageDto<SearchProductDto>> SearchProductAsync(FilterProductDto filter)
+        {
+            var query = await _productRepository.GetQueryableAsync();
+            var products = query.ProjectTo<SearchProductDto>(_mapper.ConfigurationProvider);
+            if (!string.IsNullOrEmpty(filter.Name))
+            {
+                products = products.Where(x => EF.Functions.Like(x.Name, $"%{filter.Name}%"));
+                return new CommonPageDto<SearchProductDto>
+                    (await products.CountAsync(), filter, await products.Skip(filter.SkipCount).Take(filter.TakeMaxResultCount).ToListAsync());
+            }
+            return new CommonPageDto<SearchProductDto>
+                (await products.CountAsync(), filter, await products.Skip(filter.SkipCount).Take(filter.TakeMaxResultCount).ToListAsync());
         }
     }
 }

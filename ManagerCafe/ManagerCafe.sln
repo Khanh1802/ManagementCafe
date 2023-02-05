@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManagerCafe", "ManagerCafe\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManagerCafe.Data", "ManagerCafe.Data\ManagerCafe.Data.csproj", "{DEC01EBD-224F-462C-918F-32C2DF87F048}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsAppManagerCafe", "WinFormsAppManagerCafe\WinFormsAppManagerCafe.csproj", "{2F04AFB8-A305-441C-A7EF-881B04477862}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinFormsAppManagerCafe", "WinFormsAppManagerCafe\WinFormsAppManagerCafe.csproj", "{2F04AFB8-A305-441C-A7EF-881B04477862}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -63,7 +63,7 @@ namespace WinFormsAppManagerCafe
                 {
                     _isLoadingDone = false;
                     await _productService.UpdateAsync(updateProduct);
-                    MessageBox.Show("Update success", "Done", MessageBoxButtons.OK);
+                    MessageBox.Show("Delete success", "Done", MessageBoxButtons.OK);
                 }
                 catch (Exception ex)
                 {
@@ -80,14 +80,14 @@ namespace WinFormsAppManagerCafe
         {
             if (_isLoadingDone)
             {
-                if (_productId is not null)
+                if (_productId.HasValue)
                 {
                     if (DialogResult.Yes == MessageBox.Show("Do You Want Delete ?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning))
                     {
                         try
                         {
                             _isLoadingDone = false;
-                            await _productService.DeleteAsync(_productId);
+                            await _productService.DeleteAsync(_productId.Value);
                             MessageBox.Show("Deleted product success", "Done", MessageBoxButtons.OK);
                         }
                         catch (Exception ex)

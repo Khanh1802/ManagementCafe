@@ -4,7 +4,7 @@ using ManagerCafe.Data.Interface;
 
 namespace ManagerCafe.Data.Models
 {
-    public class WareHouse : IAutoEntity
+    public class WareHouse : IHasAuditedEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

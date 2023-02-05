@@ -62,7 +62,7 @@ namespace ManagerCafe.Services
             }
         }
 
-        public async Task DeleteAsync<Tkey>(Tkey key)
+        public async Task DeleteAsync(Guid key)
         {
             var transaction = await _contex.Database.BeginTransactionAsync();
             try
@@ -90,7 +90,7 @@ namespace ManagerCafe.Services
             return _mapper.Map<List<User>, List<UserDto>>(await _userRepository.GetAllAsync());
         }
 
-        public async Task<UserDto> GetByIdAsync<Tkey>(Tkey key)
+        public async Task<UserDto> GetByIdAsync(Guid key)
         {
             return _mapper.Map<User, UserDto>(await _userRepository.GetByIdAsync(key));
         }
@@ -123,9 +123,6 @@ namespace ManagerCafe.Services
             }
         }
 
-
-
-
         public async Task<bool> LoginAsync(string userName, string password)
         {
             var hashingPassword = CommonCreateMD5.Create(password);
@@ -134,11 +131,11 @@ namespace ManagerCafe.Services
 
             if (user != null)
             {
-                //Update last login
+                //Delete last login
                 user.LastLoginTime = DateTime.Now;
                 _contex.Update(user);
                 await _contex.SaveChangesAsync();
-                //Add to cache
+                //AddAsync to cache
                 _userCacheService.Set(_mapper.Map<User, UserCacheItem>(user));
 
                 return true;
