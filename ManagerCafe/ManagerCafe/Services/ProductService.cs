@@ -127,11 +127,15 @@ namespace ManagerCafe.Services
                 return _mapper.Map<Product, ProductDto>(product);
             }
             var entity = await _productRepository.GetByIdAsync(key);
-            _memoryCache.Set<Product>(key, entity, new MemoryCacheEntryOptions
+            if (!entity.IsDeleted)
             {
-                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(2)
-            });
-            return _mapper.Map<Product, ProductDto>(entity);
+                _memoryCache.Set<Product>(key, entity, new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(2)
+                });
+                return _mapper.Map<Product, ProductDto>(entity);
+            }
+            return null;
         }
 
         public async Task<ProductDto> UpdateAsync(UpdateProductDto item)

@@ -8,7 +8,7 @@ namespace ManagerCafe.Data.Data
 {
     public class ManagerCafeDbContext : DbContext
     {
-        private readonly StreamWriter _logStream = new StreamWriter("log.txt", append: true);
+        //private readonly StreamWriter _logStream = new StreamWriter("log.txt", append: true);
         public ManagerCafeDbContext(DbContextOptions options) : base(options)
         {
         }
@@ -50,6 +50,7 @@ namespace ManagerCafe.Data.Data
         //    await base.DisposeAsync();
         //    await _logStream.DisposeAsync();
         //}
+        #region DbSet
         public DbSet<Inventory> Invetories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<WareHouse> WareHouses { get; set; }
@@ -58,6 +59,6 @@ namespace ManagerCafe.Data.Data
         public DbSet<UserType> UserTypes { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
-
+        #endregion
     }
 }
